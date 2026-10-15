@@ -27,3 +27,23 @@ Each entry: what was decided, why, and what it affects. Newest at the bottom of 
 - **D1.9 End-to-end subset.** `data/e2e_subset.txt` = all 8 built-in gbnf + the first 2 (by sorted id) of each JSONSchemaBench subset = 28 grammars. Each runs twice with the real model (4 threads, one job): `--mode first` (full mask every step) and `--mode resample` (mirror of `common_sampler_sample`). This measures how often the full mask is actually needed on the default path, which matters because upstream PR #6811 (codepoint cache) was closed in 2024 after the resampling fix (#7424) made the full mask rare end to end.
 - **D1.10 Workload-level metrics.** "Median per-token grammar cost" = median over grammars of each grammar's mean (mask + accept) time per token. "p99" = 99th percentile over all replayed tokens pooled. Both are computed per run; reported as median over runs with [min .. max] and the run count.
 - **D1.11 Duplicate ids in JSONSchemaBench.** The JsonSchemaStore test split has 7 duplicate `unique_id`s; our seeded sample drew three different schemas all named `project-1`. They mapped to the same file names, so the last one written won and the manifest had 3 identical rows. Fixed by keeping one row per name (prepare_workload.py and analyze.py both de-duplicate). The workload is therefore **206 distinct grammars**: 8 built-in .gbnf + 198 schemas (JsonSchemaStore contributes 18, every other subset 20). The baseline run that was already in flight replayed `project-1` three times; analysis drops the duplicate rows.
+
+## Upstream overlap (read-only search of ggml-org/llama.cpp, 2026-10-15)
+
+Searched issues/PRs via github.com pages (no comments, issues or PRs created). Relevant items:
+
+| Item | State | What it does | Overlap with this study |
+|---|---|---|---|
+| #4218 "speed-up grammar sampling" | open (roadmap) | umbrella issue: stack explosion, full-vocab checks, UTF-8 decoding | context for everything below |
+| #4330 pre-computed pieces + reserve (2023) | merged | piece lookup from vocab, `reserve` in decode_utf8 | already in baseline |
+| #7587 cache llama_token_to_piece (2024) | merged | vocab-level piece cache | already in baseline (`token_to_piece` is 0.8% in profile) |
+| #7424 fix resampling regression (2024) | merged | restores "sample first, check chosen token, full mask only on reject" | means the full mask is the slow path, not every step; measured in e2e |
+| #6811 cache decoded token codepoints (2024, ochafik) | **closed, not merged** | per-token codepoint cache (vocab-sized memory, lazy init + mutex) | direct overlap with the decode_utf8 hotspot. Closed because after #7424/#7587 the author "can't measure significant improvements" end to end. Concerns raised: memory (~vocab x 2), lazy-init concurrency. Any decode-related candidate must avoid those concerns and show value on the paths where the full mask does run |
+| #18604 iterative advance_stack + std::set dedup (2026-03) | merged | author measured ~13% slower on test-grammar-integration; unordered_set was slower ("constructing hash keys from pointers"); maintainer: 13% "is fine if it helps us prevent catastrophic times" | the "cheaper de-dup" candidate. Only worth pursuing if advance_stack is a real share on our workload |
+| #26885 single lookup, fewer copies (2026-09) | merged | `seen.insert` instead of find+insert, move into set | already in baseline (current code) |
+| #28371 memoize reject_candidates_for_stack (open since 2026-09-04) | **open**, no maintainer review | persistent memo cache in llama_grammar for candidate lists <= 8 | overlaps with any candidate that caches reject results across steps; skip that idea |
+| #28372 compact candidate array after rejection | closed by author (1-PR limit) | removes rejected tokens from cur_p so later samplers do less work | outside grammar cost (downstream samplers); skip |
+| #30172 binary search in grammar clone (open) | open | clone cost for speculative decoding | not on our measured path; skip |
+| #30117 multi-token matching (open) | open | feature | unrelated |
+| #27675 slow decode with large tool sets | closed, fixed by #27679 | lazy-grammar trigger search | unrelated to mask cost |
+| #9369 refactor llama_vocab / tokenizer construction | **closed (fixed 2024-09)** | the tokenizer-construction overhead suggested as a fallback target in the brief | no longer a valid alternative target |
