@@ -115,6 +115,18 @@ int main(int argc, char ** argv) {
                 const double t0 = now_us();
                 llama_sampler_apply(smpl, &cur_p);
                 const double t1 = now_us();
+                if (step == 0) {
+                    // the llama.cpp wrapper keeps a null matcher when llguidance rejects the schema;
+                    // such a sampler masks nothing, so treat it as unsupported
+                    int n_rejected = 0;
+                    for (int id = 0; id < n_vocab; id++) {
+                        n_rejected += std::isinf(cur[id].logit) ? 1 : 0;
+                    }
+                    if (n_rejected == 0) {
+                        status = "unsupported";
+                        break;
+                    }
+                }
                 if (std::isinf(cur[tok].logit)) {
                     status = "diverged";
                     break;

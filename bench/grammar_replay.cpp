@@ -5,11 +5,13 @@
 //
 // usage: grammar_replay --vocab model.gguf --manifest workload.tsv [--json out.jsonl]
 //                       [--check masks.tsv] [--tokens tokens.tsv] [--filter substr] [--repeat N]
+//                       [--max-steps N]
 //
 // manifest: one line per grammar, tab separated: name <TAB> grammar.gbnf <TAB> trace.txt
 // --json   : one JSON object per grammar (timings, stacks, tokens)
 // --check  : per-step mask hash (FNV-1a over the reject bitmap) for bit-exact A/B comparison
 // --tokens : one row per replayed token: name, step, mask_us, accept_us, n_stacks, n_allowed
+// --max-steps : replay only the first N tokens of each trace (used to keep callgrind runs short)
 // --repeat : replay each grammar N times in-process, report the run with the lowest total
 //            (all repeats must produce identical masks)
 
@@ -20,6 +22,7 @@
 #include <chrono>
 #include <cmath>
 #include <cstdio>
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
@@ -96,7 +99,7 @@ struct replay_result {
     double                total_us    = 0.0;
 };
 
-static replay_result replay_one(const llama_vocab * vocab, const std::string & grammar_str, const std::vector<llama_token> & trace) {
+static replay_result replay_one(const llama_vocab * vocab, const std::string & grammar_str, const std::vector<llama_token> & trace, size_t max_steps) {
     replay_result res;
     const int n_vocab = llama_vocab_n_tokens(vocab);
 
@@ -111,7 +114,7 @@ static replay_result replay_one(const llama_vocab * vocab, const std::string & g
     std::vector<uint8_t> rejected(n_vocab);
     res.peak_stacks = grammar->stacks.size();
 
-    for (size_t step = 0; step < trace.size(); step++) {
+    for (size_t step = 0; step < trace.size() && step < max_steps; step++) {
         for (int id = 0; id < n_vocab; id++) {
             cur[id] = { id, 0.0f, 0.0f };
         }
@@ -170,6 +173,7 @@ static replay_result replay_one(const llama_vocab * vocab, const std::string & g
 int main(int argc, char ** argv) {
     std::string vocab_path, manifest_path, json_path, check_path, tokens_path, filter;
     int repeat = 1;
+    size_t max_steps = SIZE_MAX;
 
     for (int i = 1; i < argc; i++) {
         std::string a = argv[i];
@@ -181,6 +185,7 @@ int main(int argc, char ** argv) {
         else if (a == "--tokens")   tokens_path   = next();
         else if (a == "--filter")   filter        = next();
         else if (a == "--repeat")   repeat        = std::max(1, std::stoi(next()));
+        else if (a == "--max-steps") max_steps    = (size_t) std::stoul(next());
         else { fprintf(stderr, "unknown arg %s\n", a.c_str()); return 2; }
     }
     if (vocab_path.empty() || manifest_path.empty()) {
@@ -227,7 +232,7 @@ int main(int argc, char ** argv) {
 
         replay_result best;
         for (int r = 0; r < repeat; r++) {
-            replay_result res = replay_one(vocab, grammar_str, trace);
+            replay_result res = replay_one(vocab, grammar_str, trace, max_steps);
             if (r > 0 && res.hashes != best.hashes) {
                 fprintf(stderr, "%s: masks differ between repeats\n", name.c_str());
                 return 1;
