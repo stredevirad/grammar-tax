@@ -1,0 +1,8 @@
+{
+  "_schema": "pbj:acme:blog:entity:comment:1-0-0",
+  "_id": "file://comment.json#",
+  "created_at": "20210101000000",
+  "updated_at": "20210101000000",
+  "published_at": "20210101000000",
+  "comment": "This is a comment."
+}

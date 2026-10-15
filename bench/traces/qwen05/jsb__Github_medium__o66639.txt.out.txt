@@ -1,0 +1,54 @@
+{
+ "domains": [
+ {
+ "id": "1",
+ "subtitle": "Subtitle",
+ "title": "Title"
+ },
+ {
+ "id": "2",
+ "subtitle": "Subsubtitle",
+ "title": "Another Title"
+ }
+ ],
+ "steps": [
+ {
+ "domain": {
+ "id": "1",
+ "region": {
+ "type": "independent",
+ "with_domain": "domain1"
+ }
+ },
+ "id": "1",
+ "title": "Title",
+ "type": "process",
+ "predecessors": [
+ {
+ "id": "1",
+ "type": "normal_relationship",
+ "title": "Title"
+ }
+ ]
+ },
+ {
+ "domain": {
+ "id": "2",
+ "region": {
+ "type": "surrogate",
+ "with_domain": "domain2"
+ }
+ },
+ "id": "2",
+ "title": "Title",
+ "type": "process",
+ "predecessors": [
+ {
+ "id": "2",
+ "type": "normal_relationship",
+ "title": "Title"
+ }
+ ]
+ }
+ ]
+}

@@ -1,0 +1,12 @@
+{
+  "builtin": "MODIFIABLE",
+  "feature": "WL",
+  "globalbindtype": "SYSTEM_GLOBAL",
+  "gotopriorityexpression": "RES_DEFAULT",
+  "numpol": 1,
+  "policyname": "tunnelglobal",
+  "policytype": "Advanced Policy",
+  "priority": 1,
+  "state": "ENABLED",
+  "type": "REQ_DEFAULT"
+}

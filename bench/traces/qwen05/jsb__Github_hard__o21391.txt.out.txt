@@ -1,0 +1,33 @@
+{
+  "base_path": "/base_path",
+  "content_id": "12345678-1234-1234-9876-654321019876",
+  "description": "This is the main content provided as HTML with the govspeak markdown it's rendered from. The API is always updated to reflect the most current content and changes.",
+  "details": {
+    "step_by_step_nav": {
+      "introduction": "This is an introduction to the step-by-step navigation.",
+      "steps": [
+        {
+          "contents": [
+            {
+              "contents": [
+                {
+                  "text": "Step 1",
+                  "href": "http://content1.com"
+                },
+                {
+                  "text": "Step 2",
+                  "href": "http://content2.com"
+                },
+                {
+                  "text": "Step 3",
+                  "href": "http://content3.com"
+                }
+              ],
+              "type": "list"
+            },
+            {
+              "contents": [
+                {
+                  "text": "Step 4",
+                  "href": "http://content4.com"
+               

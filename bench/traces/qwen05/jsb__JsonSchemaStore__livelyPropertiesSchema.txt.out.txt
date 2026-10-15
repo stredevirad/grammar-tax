@@ -1,0 +1,49 @@
+{
+  "$schema": {
+    "type": "label"
+  },
+  "title": {
+    "type": "label",
+    "value": "Title"
+  },
+  "description": {
+    "type": "label",
+    "value": "Description"
+  },
+  "type": {
+    "type": "label",
+    "value": "Type"
+  },
+  "oneOf": {
+    "type": "label",
+    "value": "Slider"
+  },
+  "properties": {
+    "type": "label",
+    "value": "Slider"
+  },
+  "oneOf": {
+    "type": "label",
+    "value": "Text Box"
+  },
+  "properties": {
+    "type": "label",
+    "value": "Textbox"
+  },
+  "oneOf": {
+    "type": "label",
+    "value": "Dropdown"
+  },
+  "properties": {
+    "type": "label",
+    "value": "Dropdown"
+  },
+  "oneOf": {
+    "type": "label",
+    "value": "Folder Dropdown"
+  },
+  "properties": {
+    "type": "label",
+    "value": "Folder Dropdown"
+  },
+  "one

@@ -1,0 +1,16 @@
+[
+  {
+   "path": "#/definitions/path",
+   "op": "add",
+   "value": "value1,op1,op2"
+  },
+  {
+   "path": "#/definitions/path",
+   "op": "remove"
+  },
+  {
+   "path": "#/definitions/path",
+   "op": "move",
+   "from": "#/definitions/path"
+  }
+]

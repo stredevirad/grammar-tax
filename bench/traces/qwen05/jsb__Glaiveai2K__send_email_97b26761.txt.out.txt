@@ -1,0 +1,7 @@
+{
+  "message": "This is the content of the email",
+  "subject": "Subject of the email",
+  "to": "recipient@example.com",
+  "bcc": ["bcc1@domain.com", "bcc2@domain.com"],
+  "cc": ["cc1@domain.com", "cc2@domain.com"]
+}

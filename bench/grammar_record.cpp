@@ -1,10 +1,13 @@
 // Record one grammar-constrained generation as a list of token ids.
 //
 // usage: grammar_record -m model.gguf -g grammar.gbnf -p prompt.txt -o trace.txt
-//                       [--seed 1234] [--max-tokens 256] [--max-seconds 60] [-t 4]
+//                       [--seed 1234] [--max-tokens 256] [--max-seconds 60] [-t 4] [--mode first|resample]
 //
-// The grammar mask is applied to the full vocab at every step (grammar first, then
-// top-k 40 / temp 0.7 / seeded dist), so the trace is always grammar-valid.
+// --mode first (default, used for recording): the grammar mask is applied to the full vocab
+// at every step, then top-k 40 / temp 0.7 / seeded dist, so the trace is always grammar-valid.
+// --mode resample: mirrors common_sampler_sample(grammar_first = false): sample with the chain,
+// check only the chosen token against the grammar, and run the full-vocab mask + resample only
+// if it is rejected. Reports how many steps needed the full mask (n_full_mask).
 // Output trace format (text):
 //   line 1: "# key=value ..." metadata (model, seed, n_prompt, n_gen, complete, timings)
 //   line 2: space separated token ids
@@ -45,6 +48,7 @@ int main(int argc, char ** argv) {
     int max_tokens = 256;
     double max_seconds = 60.0;
     int n_threads = 4;
+    bool mode_resample = false;
 
     for (int i = 1; i < argc; i++) {
         std::string a = argv[i];
@@ -57,6 +61,7 @@ int main(int argc, char ** argv) {
         else if (a == "--max-tokens")  max_tokens   = std::stoi(next());
         else if (a == "--max-seconds") max_seconds  = std::stod(next());
         else if (a == "-t")            n_threads    = std::stoi(next());
+        else if (a == "--mode")        mode_resample = next() == "resample";
         else { fprintf(stderr, "unknown arg %s\n", a.c_str()); return 2; }
     }
     if (model_path.empty() || grammar_path.empty() || prompt_path.empty() || out_path.empty()) {
@@ -112,7 +117,8 @@ int main(int argc, char ** argv) {
     llama_sampler_chain_add(chain, llama_sampler_init_dist(seed));
 
     const double t_start = now_ms();
-    double t_decode = 0.0, t_grammar = 0.0, t_prompt = 0.0;
+    double t_decode = 0.0, t_grammar = 0.0, t_prompt = 0.0, t_chain = 0.0;
+    int n_full_mask = 0;
 
     // prompt eval in n_batch chunks
     for (int i = 0; i < n_prompt; i += 512) {
@@ -135,12 +141,45 @@ int main(int argc, char ** argv) {
         }
         llama_token_data_array cur_p = { cur.data(), (size_t) n_vocab, -1, false };
 
-        const double t0 = now_ms();
-        llama_sampler_apply(grmr, &cur_p);
-        t_grammar += now_ms() - t0;
+        llama_token tok;
+        if (!mode_resample) {
+            const double t0 = now_ms();
+            llama_sampler_apply(grmr, &cur_p);
+            t_grammar += now_ms() - t0;
+            n_full_mask++;
 
-        llama_sampler_apply(chain, &cur_p);
-        const llama_token tok = cur_p.data[cur_p.selected].id;
+            const double tc = now_ms();
+            llama_sampler_apply(chain, &cur_p);
+            t_chain += now_ms() - tc;
+            tok = cur_p.data[cur_p.selected].id;
+        } else {
+            const double tc = now_ms();
+            llama_sampler_apply(chain, &cur_p);
+            t_chain += now_ms() - tc;
+            tok = cur_p.data[cur_p.selected].id;
+
+            llama_token_data single = { tok, 1.0f, 0.0f };
+            llama_token_data_array single_p = { &single, 1, -1, false };
+            const double t0 = now_ms();
+            llama_sampler_apply(grmr, &single_p);
+            t_grammar += now_ms() - t0;
+
+            if (single.logit == -INFINITY) {
+                for (int id = 0; id < n_vocab; id++) {
+                    cur[id] = { id, logits[id], 0.0f };
+                }
+                cur_p = { cur.data(), (size_t) n_vocab, -1, false };
+                const double t4 = now_ms();
+                llama_sampler_apply(grmr, &cur_p);
+                t_grammar += now_ms() - t4;
+                n_full_mask++;
+
+                const double tc2 = now_ms();
+                llama_sampler_apply(chain, &cur_p);
+                t_chain += now_ms() - tc2;
+                tok = cur_p.data[cur_p.selected].id;
+            }
+        }
 
         const double t1 = now_ms();
         llama_sampler_accept(grmr, tok);
@@ -174,8 +213,8 @@ int main(int argc, char ** argv) {
 
     FILE * f = fopen(out_path.c_str(), "w");
     if (!f) { fprintf(stderr, "cannot write %s\n", out_path.c_str()); return 1; }
-    fprintf(f, "# model=%s seed=%u n_prompt=%d n_gen=%zu complete=%d timed_out=%d t_prompt_ms=%.1f t_decode_ms=%.1f t_grammar_ms=%.1f\n",
-            model_name, seed, n_prompt, out.size(), complete ? 1 : 0, timed_out ? 1 : 0, t_prompt, t_decode, t_grammar);
+    fprintf(f, "# model=%s seed=%u mode=%s n_prompt=%d n_gen=%zu complete=%d timed_out=%d n_full_mask=%d t_prompt_ms=%.1f t_decode_ms=%.1f t_grammar_ms=%.1f t_chain_ms=%.1f\n",
+            model_name, seed, mode_resample ? "resample" : "first", n_prompt, out.size(), complete ? 1 : 0, timed_out ? 1 : 0, n_full_mask, t_prompt, t_decode, t_grammar, t_chain);
     for (size_t i = 0; i < out.size(); i++) {
         fprintf(f, "%s%d", i ? " " : "", out[i]);
     }
@@ -184,8 +223,8 @@ int main(int argc, char ** argv) {
 
     std::ofstream(out_path + ".out.txt") << text;
 
-    printf("n_prompt=%d n_gen=%zu complete=%d timed_out=%d decode=%.1fms grammar=%.1fms\n",
-           n_prompt, out.size(), complete ? 1 : 0, timed_out ? 1 : 0, t_decode, t_grammar);
+    printf("n_prompt=%d n_gen=%zu complete=%d timed_out=%d n_full_mask=%d decode=%.1fms grammar=%.1fms chain=%.1fms\n",
+           n_prompt, out.size(), complete ? 1 : 0, timed_out ? 1 : 0, n_full_mask, t_decode, t_grammar, t_chain);
 
     llama_sampler_free(chain);
     llama_sampler_free(grmr);

@@ -1,0 +1,60 @@
+{
+  "facet": {
+    "column": {
+      "type": "temporal",
+      "field": "colum",
+      "timeUnit": "day"
+    }
+  },
+  "spec": {
+    "layer": [
+      {
+        "layer": [
+          {
+            "layer": [
+              {
+                "layer": [
+                  {
+                    "layer": [
+                     ],"name": "areaOverlay",
+          "transform": [
+            ],
+          "width": 20
+        },
+        {
+          "layer": [
+            {
+              "layer": [
+                {
+                "layer": [
+                  {
+                    "layer": [
+                     ],"name": "mask",
+          "transform": [
+            ]
+          },
+          {
+          "layer": [
+            {
+              "layer": [
+                {
+              "layer": [
+                {
+                "layer": [
+                  {
+                    "layer": [
+                    ],
+                  "name": "spectrum",
+                  "width": 20
+                },
+              {
+            "layer": [
+              {
+              "layer": [
+                {
+              "layer": [
+                {
+              "layer": [
+                {
+              "layer": [
+                {

@@ -1,0 +1,45 @@
+{
+  "ABI3": {
+    "Template": {
+      "Phase": "extract",
+      "Pattern": "full",
+      "Source": "xsl",
+      "Implementation": "loop",
+      "Version": 1
+    },
+    "Metadata": {
+      "Version": 1
+    }
+  },
+  "Object": {
+    "SourceObject": {
+      "Schema": "Table",
+      "Name": "table1",
+      "FullName": "table1"
+    },
+    "DestinationTable": {
+      "Schema": "Table",
+      "Name": "table2",
+      "FullName": "table2"
+    },
+    "PrimaryKeyColumns": [
+      "Column",
+      "Column",
+      "Column"
+    ]
+  },
+  "Connections": {
+    "Metadata": {
+      "Name": "connection1",
+      "Database": "table1",
+      "ConnectionString": "jdbc:mysql://localhost/table1"
+    },
+    "Log": {
+      "Name": "log1",
+      "Database": "table1",
+      "ConnectionString": "jdbc:mysql://localhost/table1"
+    },
+    "Staging": {
+      "Name": "staging1",
+      "Database": "table2",
+      "ConnectionString

@@ -1,0 +1,8 @@
+{
+  "dimensions": {
+   "base": 10,
+   "height": 5,
+   "radius": 2
+  },
+  "shape": "circle"
+}

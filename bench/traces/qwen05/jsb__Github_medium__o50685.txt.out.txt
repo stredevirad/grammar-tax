@@ -1,0 +1,51 @@
+{
+  "name": "ResourceModel",
+  "plural_form": "Resources",
+  "actions": {
+    "create": true,
+    "read_one": true,
+    "read_many": false,
+    "update": false,
+    "delete": false
+  },
+  "pagination": {
+    "default_page_size": 10,
+    "default_page_number": 1,
+    "enabled": true
+  },
+  "attributes": {
+    "type": "string",
+    "nullable": true,
+    "default": "string"
+  },
+  "meta": {
+    "type": "object",
+    "patternProperties": {
+      ".": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "default": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "relationships": {
+    "many-to-one": {
+      "cardinality": "many-to-one",
+      "host": "

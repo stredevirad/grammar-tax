@@ -1,0 +1,21 @@
+{
+  "array_width": 60,
+  "attr_fn_like_width": 70,
+  "binop_separator": "Front",
+  "blank_lines_lower_bound": 0,
+  "blank_lines_upper_bound": 1,
+  "brace_style": "AlwaysNextLine",
+  "chain_width": 60,
+  "color": "Auto",
+  "combine_control_expr": true,
+  "comment_width": 80,
+  "condense_wildcard_suffixes": true,
+  "control_brace_style": "ClosingNextLine",
+  "disable_all_formatting": false,
+  "edition": "2015",
+  "emit_mode": "Files",
+  "empty_item_single_line": true,
+  "enum_discrim_align_threshold": 0,
+  "error_on_line_overflow": true,
+  "error_on_unformatted": true
+}

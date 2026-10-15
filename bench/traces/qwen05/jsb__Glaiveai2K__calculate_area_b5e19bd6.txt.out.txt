@@ -1,0 +1,9 @@
+{
+  "dimensions": {
+   "base": 5,
+   "height": 10,
+   "radius": 3,
+   "side": 10
+  },
+  "shape": "triangle"
+}

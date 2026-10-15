@@ -1,0 +1,34 @@
+{
+  "$schemaRef": "https://eddn.edcd.io/schemas/shipyard/2#",
+  "header": {
+    "softwareName": "test",
+    "softwareVersion": "1.2.3",
+    "uploaderID": "testuploader",
+    "gatewayTimestamp": "2023-04-15T14:26:00Z"
+  },
+  "message": {
+    "marketId": 1,
+    "ships": [
+      "SideWinder",
+      "Adder",
+      "Anaconda",
+      "Asp",
+      "Asp_Scout CobraMkIII",
+      "CobraMkIV",
+      "Cutter",
+      "DiamondBack",
+      "DiamondBackXL",
+      "Eagle",
+      "Empire_Courier",
+      "Empire_Eagle",
+      "Empire_Trader",
+      "Federation_Corvette",
+      "Federation_Dropship",
+      "Federation_Dropship_MkII",
+      "Federation_Gunship",
+      "FerDeLance",
+      "Hauler",
+      "Independant_Trader",
+      "Orca",
+      "Python",
+      "Type6

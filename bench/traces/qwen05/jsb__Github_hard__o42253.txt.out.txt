@@ -1,0 +1,28 @@
+{
+  "createdTime": "2023-01-01T00:00:00Z",
+  "documentFiles": [
+    {
+      "filename": "file1.pdf",
+      "revisions": [
+        {
+          "addedTime": "2023-01-01T00:00:00Z",
+          "addedBy": "user1@example.com"
+        },
+        {
+          "addedTime": "2023-01-02T00:00:00Z",
+          "addedBy": "user2@example.com"
+        }
+      ]
+    },
+    {
+      "filename": "file2.pdf",
+      "revisions": [
+        {
+          "addedTime": "2023-01-03T00:00:00Z",
+          "addedBy": "user3@example.com"
+        }
+      ]
+    }
+  ],
+  "version": "1.0.0"
+}

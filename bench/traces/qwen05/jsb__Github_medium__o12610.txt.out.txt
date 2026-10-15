@@ -1,0 +1,11 @@
+{
+  "channel": 1,
+  "htmode": "HT20",
+  "hwmode": "11b",
+  "id": "usb-wifi-0",
+  "rx_stbc": 1,
+  "short_gi_20": true,
+  "short_gi_40": false,
+  "short_gi_80": false,
+  "tx_stbc": 0
+}

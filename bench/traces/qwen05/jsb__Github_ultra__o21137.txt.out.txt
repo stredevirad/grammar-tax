@@ -1,0 +1,28 @@
+{
+  "analyticsAvailable": false,
+  "apiAccess": false,
+  "auditInformationProvided": {
+    "assurance": "Service provider assertion",
+    "value": "None"
+  },
+  "changeImpactAssessment": {
+    "assurance": "Service provider assertion",
+    "value": false
+  },
+  "cloudDeploymentModel": {
+    "assurance": "Contractual commitment",
+    "value": "Public cloud"
+  },
+  "dataAtRestProtections": {
+    "assurance": "Service provider assertion",
+    "value": ["CPA Foundation-grade assured components", "FIPS-assured encryption", "Secure containers, racks or cages", "Physical access control"]
+  },
+  "dataBackupRecovery": false,
+  "dataExtractionRemoval": false,
+  "dataManagementLocations": {
+    "assurance": "Contractual commitment",
+    "value": ["UK", "EU", "USA - Safe Harbor", "Other countries with data protection treaties", "Rest of world"]
+  },
+  "dataProtectionBetweenUserAndService": {
+    "assurance": "Independent validation of assertion",
+    "value": ["CPA Foundation VPN Gateway", "VPN using TLS, version 

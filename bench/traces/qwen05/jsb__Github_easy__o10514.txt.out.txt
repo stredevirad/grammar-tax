@@ -1,0 +1,11 @@
+{
+  "Address": {
+   "House": "123 Main St",
+   "PostCode": "12345",
+   "Recipient": "John Doe",
+   "Street": "123 Main St",
+   "Town": "Anytown",
+   "Country": "US",
+   "County": "Any County"
+  }
+}

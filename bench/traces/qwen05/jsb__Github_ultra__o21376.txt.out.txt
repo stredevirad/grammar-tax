@@ -1,0 +1,27 @@
+{
+  "analytics_identifier": "a1b2c3d4e5f6g7h8i9j0",
+  "base_path": "/path/to/document",
+  "content_id": "c8d7e9f0-1234-5678-90ab-ef4321e58092",
+  "description": "Test description",
+  "details": {
+    "body": [
+      {
+        "content": "example content",
+        "content_type": "aaib_report"
+      }
+    ],
+    "metadata": {
+      "business_sizes": [
+        "between-250-and-500"
+      ],
+      "continuation_link": "http://example.com/link"
+    },
+    "max_cache_time": 3600
+  },
+  "document_type": "aaib_report",
+  "email_document_supertype": "aaib_report",
+  "expanded_links": {
+    "finder": [
+      {
+        "base_path": "/*",
+        "content_id": "d7e

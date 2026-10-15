@@ -1,0 +1,2 @@
+# model=qwen2.5-0.5b-instruct-q4_k_m.gguf seed=1234 n_prompt=370 n_gen=3 complete=1 timed_out=0 t_prompt_ms=3963.4 t_decode_ms=301.4 t_grammar_ms=136.0
+1 4913 151643

@@ -1,0 +1,43 @@
+{
+  "base_path": "/path",
+  "details": {
+    "alert_status": ["open", "closed"],
+    "change_description": "changed",
+    "country": {
+      "name": "Australia",
+      "slug": "au",
+      "synonyms": ["Australia"]
+    },
+    "email_signup_link": "http://example.com/signup",
+    "parts": [
+      {
+        "body": [
+          {
+            "content": "This is a test part",
+            "content_type": "text/plain"
+          },
+          {
+            "content": "Another part",
+            "content_type": "text/plain"
+          }
+        ],
+        "slug": "test-part",
+        "title": "Test Part Title"
+      }
+    ],
+    "reviewed_at": "",
+    "summary": [
+      {
+        "content": "This is a summary part",
+        "content_type": "text/plain"
+      }
+    ],
+    "updated_at": "",
+    "image": {
+      "content_type": "image/jpeg",
+      "url": "http://example.com/image.jpg"
+    },
+    "max_cache_time": 3600
+  },
+  "document_type": "travel_advice",
+  "

@@ -1,0 +1,7 @@
+{
+  "departure_date": "2023-01-15",
+  "destination": "New York City",
+  "origin": "Chicago",
+  "passengers": 8,
+  "return_date": "2023-02-15"
+}

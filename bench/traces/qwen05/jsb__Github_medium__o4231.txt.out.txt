@@ -1,0 +1,17 @@
+{
+  "$schema": "https://schema.getstatedata.org/schema/1.0.0/tns.json",
+  "dest": "dist",
+  "lib": {
+    "entryFile": "src/public_api.ts",
+    "externals": {
+      "rxjs": true,
+      "@angular/core": true,
+      "@angular/common": true,
+      "@angular/animations": true
+    },
+    "flatModuleFile": "",
+    "jsx": "react"
+  },
+  "src": "",
+  "workingDirectory": ".ng_build"
+}

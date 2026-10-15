@@ -10,4 +10,7 @@ Current status: **Phase 1 in progress** (recording traces). Stop point requested
 ## Phase 1: harness - IN PROGRESS
 - Done: grammar_record / grammar_replay / schema_to_gbnf tools; workload = 8 built-in .gbnf + 200 JSONSchemaBench schemas (20 x 10 subsets, 0 conversion failures).
 - First smoke numbers (Qwen2.5-0.5B, 151k vocab, 2 threads): json.gbnf grammar ~64 ms/token vs decode ~34 ms/token.
-- Next: finish recording (qwen05, then tinyllama), replay baseline, run_bench.sh, analyze.py, llguidance attempt, results/baseline.md.
+- Recording qwen05 traces: 146/208 done (first background job hit the 30 min limit; resumed, script skips finished traces).
+- Harness verified end to end (run_bench.sh + analyze.py smoke test; masks identical across repeated runs).
+- First callgrind profile (json.gbnf): decode_utf8 + per-token vector alloc/free ~44%, match_char ~26%, reject_candidates_for_stack self ~19%, advance_stack ~1.6%.
+- Next: finish recording, baseline replay x5, e2e run, llguidance attempt, results/baseline.md.

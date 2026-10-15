@@ -1,0 +1,17 @@
+{
+  "title": "Home page schema",
+  "description": "A simple home page with a title and description, including an image and a link.",
+  "order": 1,
+  "content": {
+    "helpTopics": [
+      {
+        "title": "Welcome to the website",
+        "url": "https://example.com"
+      },
+      {
+        "title": "Our services",
+        "url": "https://example.com/services"
+      }
+    ]
+  }
+}

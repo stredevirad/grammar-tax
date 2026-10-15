@@ -1,0 +1,30 @@
+[
+  {
+   "Sample_ID": "IGF1",
+   "Sample_Name": "Sample1",
+   "Sample_Project": "IGF100",
+   "I7_Index_ID": "Sample_Project_Index",
+   "index": "I7_Index_ID",
+   "Sample_Plate": "Plate1",
+   "Sample_Well": "Well1",
+   "Description": "Sample Description 100"
+  },
+  {
+   "Sample_ID": "IGF2",
+   "Sample_Name": "Sample2",
+   "Sample_Project": "IGF100",
+   "I7_Index_ID": "Sample_Project_Index",
+   "index": "I7_Index_ID",
+   "Sample_Plate": "Plate2",
+   "Sample_Well": "Well2",
+   "Description": "Sample Description 100"
+  },
+  {
+   "Sample_ID": "IGF3",
+   "Sample_Name": "Sample3",
+   "Sample_Project": "IGF100",
+   "I7_Index_ID": "Sample_Project_Index",
+   "index": "I7_Index_ID",
+   "Sample_Plate": "Plate3",
+   "Sample_Well": "Well3",
+   "

@@ -1,0 +1,7 @@
+{
+  "id": "12345",
+  "name": "MyAwesomeDockerImage",
+  "author": "JohnDoe",
+  "version": 2,
+  "script": "apt-get update && apt-get install -y python3-pip"
+}

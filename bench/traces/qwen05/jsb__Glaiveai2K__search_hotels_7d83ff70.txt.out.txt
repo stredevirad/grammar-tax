@@ -1,0 +1,9 @@
+{
+ "check_in_date": "2023-01-01",
+ "check_out_date": "2023-01-03",
+ "location": "New York",
+ "price_range": {
+  "max_price": 100,
+  "min_price": 50
+ }
+}

@@ -1,0 +1,6 @@
+{
+  "width": null,
+  "height": null,
+  "touch": null,
+  "size": null
+}

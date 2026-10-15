@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "id": "12345678-1234-1234-abc1-234567812345",
+    "type": "EiffelAnnouncementPublishedEvent",
+    "version": "2.0.0",
+    "time": 1572123456,
+    "tags": ["EiffelAnnouncement", "AnnouncementEvent"],
+    "source": {
+      "domainId": "test123",
+      "host": "test.com",
+      "name": "Eiffel Announcement",
+      "serializer": "pkg:test",
+      "uri": "test.com:80"
+    },
+    "security": {
+      "sdm": {
+        "authorIdentity": "test123",
+        "encryptedDigest": "12345678123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef012345678

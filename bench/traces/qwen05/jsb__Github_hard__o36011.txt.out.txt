@@ -1,0 +1,31 @@
+{
+  "Event": {
+    "id": "12345",
+    "orgc_id": "67890",
+    "org_id": "1234",
+    "date": "2023-01-01",
+    "threat_level_id": "98765",
+    "info": "sample",
+    "published": true,
+    "uuid": "789012345",
+    "distribution": "sample",
+    "proposal_email_lock": true,
+    "locked": true,
+    "publish_timestamp": "2023-01-02",
+    "sharing_group_id": "456789",
+    "disable_correlation": true,
+    "event_creator_email": "creator@example.com",
+    "Org": {
+      "uuid": "12345",
+      "name": "Test Organization"
+    },
+    "Orgc": {
+      "uuid": "67890",
+      "name": "Test Organization"
+    },
+    "SharingGroup": {
+      "uuid": "456789",
+      "name": "Sharing Group"
+    },
+    "Attribute": [
+     

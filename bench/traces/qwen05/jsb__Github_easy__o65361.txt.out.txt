@@ -1,0 +1,8 @@
+{
+  "name": "OpenT2T Error",
+  "statusCode": 500,
+  "message": "Internal server error",
+  "innerErrorMessage": "An error occurred while processing your request",
+  "innerErrorName": "internal error",
+  "innerErrorStack": "Stack trace for the error"
+}

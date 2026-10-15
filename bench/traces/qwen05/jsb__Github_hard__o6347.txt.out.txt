@@ -1,0 +1,31 @@
+{
+ "build": {
+  "artifacts": [
+   {
+    "context": "context",
+    "image": "image",
+    "sync": {}
+   },
+   {
+    "context": "context",
+    "docker": {
+     "dockerfile": "dockerfile",
+     "target": "target"
+    },
+    "image": "image",
+    "sync": {}
+   }
+  ]
+ },
+ "deploy": {
+  "helm": {
+   "releases": [
+    {
+     "imageStrategy": {
+      "helm": "deploy"
+     }
+    }
+   ]
+  }
+ }
+}

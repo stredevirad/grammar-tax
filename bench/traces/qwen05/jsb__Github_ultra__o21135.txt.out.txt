@@ -1,0 +1,32 @@
+{
+ "analyticsAvailable": false,
+ "apiAccess": true,
+ "auditInformationProvided": {
+  "assurance": "Service provider assertion",
+  "value": "Data made available"
+ },
+ "changeImpactAssessment": {
+  "assurance": "Service provider assertion",
+  "value": true
+ },
+ "cloudDeploymentModel": {
+  "assurance": "Service provider assertion",
+  "value": "Public cloud"
+ },
+ "configurationTracking": {
+  "assurance": "Service provider assertion",
+  "value": true
+ },
+ "dataAtRestProtections": {
+  "assurance": "Service provider assertion",
+  "value": ["CPA Foundation-grade assured components", "FIPS-assured encryption", "Secure containers, racks or cages", "Physical access control"]
+ },
+ "dataBackupRecovery": true,
+ "dataExtractionRemoval": false,
+ "dataManagementLocations": {
+  "assurance": "Service provider assertion",
+  "value": ["UK", "EU", "USA - Safe Harbor", "Other countries with data protection treaties", "Rest of world"]
+ },
+ "dataProtectionBetweenServices": {
+  "assurance": "Service provider assertion",
+  "value": ["No encryption", "Encrypted PSN

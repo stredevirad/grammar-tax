@@ -1,0 +1,11 @@
+[
+  {
+   "firstName": "John",
+   "lastName": "Doe",
+   "sport": "football"
+  },
+  {
+   "vehicle": "Tesla",
+   "price": 350000
+  }
+]

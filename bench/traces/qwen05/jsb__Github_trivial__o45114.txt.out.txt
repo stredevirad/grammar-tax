@@ -1,0 +1,9 @@
+[
+  {
+   "id": 1,
+   "count": 5,
+   "binding": "iD",
+   "bound_to": "red",
+   "dyes": [10, 12, 14, 16, 18]
+  }
+]

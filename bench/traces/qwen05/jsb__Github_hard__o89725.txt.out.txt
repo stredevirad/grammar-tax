@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "id": "12345678-1234-1234-9876-123456789012",
+    "type": "EiffelArtifactCreatedEvent",
+    "version": "1.1.0",
+    "time": 1696286400000,
+    "tags": [
+      "Eiffel",
+      "Artifact Created"
+    ],
+    "source": {
+      "domainId": "test-domain",
+      "host": "test-host",
+      "name": "test-name",
+      "serializer": {
+        "groupId": "com.example",
+        "artifactId": "test-artifact",
+        "version": "1.1.0"
+      }
+    },
+    "security": {
+      "sdm": {
+        "authorIdentity": "author-id",
+        "encryptedDigest": "encrypted-digest"
+      }
+    }
+  },
+  "data": {
+    "gav": {
+      "groupId": "test-namespace",
+      "artifactId": "test-artifact",
+      "version": "1.1.0"
+    },
+   

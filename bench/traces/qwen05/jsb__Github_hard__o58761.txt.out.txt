@@ -1,0 +1,38 @@
+{
+  "options": {
+    "bookmarkThumbHeight": 50,
+    "bookmarkThumbWidth": 50,
+    "leftPanelEnabled": true,
+    "limitLocales": false,
+    "minWidthBreakPoint": 1600,
+    "openTemplate": "default",
+    "pessimisticAccessControl": true,
+    "rightPanelEnabled": true,
+    "theme": "light"
+  },
+  "modules": {
+    "embedDialogue": {
+      "options": {
+        "embedTemplate": "default"
+      },
+      "content": {
+        "customSize": "500px",
+        "height": "100px",
+        "instructions": "Click to begin",
+        "title": "Start",
+        "width": "500px"
+      }
+    },
+    "footerPanel": {
+      "options": {
+        "bookmarkEnabled": false,
+        "minimiseButtons": true,
+        "openEnabled": false
+      },
+      "content": {
+        "bookmark": "Click",
+        "download": "Download",
+        "embed": "Link",
+        "exitFullScreen": "Exit fullscreen",
+        "fullScreen": "Full screen",
+        "open":

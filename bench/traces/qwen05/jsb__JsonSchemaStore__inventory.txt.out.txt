@@ -1,0 +1,63 @@
+{
+ "$defs": {
+  "group": {
+   "properties": {
+    "children": {
+     "patternProperties": {
+      "[a-zA-Z-_0-9]": {
+       "$ref": "#/$defs/group"
+      }
+     }
+    },
+    "hosts": {
+     "patternProperties": {
+      "[a-zA-Z.-_0-9]": {
+       "type": [
+        "object",
+        "null"
+       ]
+      }
+     },
+     "type": [
+      "object",
+      "string"
+     ]
+    },
+    "vars": {
+     "type": "object"
+    }
+   },
+   "type": [
+    "object",
+    "null"
+   ]
+  },
+  "special-group": {
+   "additionalProperties": false,
+   "properties": {
+    "children": {
+     "type": [
+      "object",
+      "null"
+     ]
+    },
+    "groups": {
+     "type": [
+      "object",
+      "null"
+     ]
+    },
+    "hosts": {
+     "type": [
+      "object",
+      "null"
+     ]
+    },
+    "vars": {
+     "type": [
+      "object",
+      "null"
+     ]
+    }
+   },
+   "

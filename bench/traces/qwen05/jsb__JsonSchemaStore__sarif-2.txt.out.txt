@@ -1,0 +1,38 @@
+{
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "driver1",
+          "locations": [
+            {
+              "index": -1,
+              "description": "Driver's location",
+              "properties": {
+                "name": "Driver"
+              }
+            }
+          ]
+        },
+        "extensions": [
+          {
+            "name": "extension1",
+            "locations": [
+              {
+                "index": -1,
+                "description": "Extension's location",
+                "properties": {
+                  "name": "Extension"
+                }
+              }
+            ]
+          }
+        ],
+        "properties": {
+          "name": "properatum"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "options": {
+    "leftPanelEnabled": true,
+    "minWidthBreakPoint": 300,
+    "overrideFullScreen": true,
+    "pagingEnabled": true,
+    "pessimisticAccessControl": true,
+    "preserveViewport": true,
+    "rightPanelEnabled": true,
+    "searchWithinEnabled": true,
+    "theme": "Light"
+  },
+  "modules": {
+    "dialogue": {
+      "content": {
+        "close": "ok"
+      }
+    },
+    "downloadDialogue": {
+      "options": {
+        "confinedImageSize": 500
+      },
+      "content": {
+        "currentViewAsJpg": "file1.jpg",
+        "download": "file1.pdf",
+        "editSettings": "file1.txt",
+        "entireDocument": "file1.docx",
+        "entireFileAsOriginal": "file1.docx",
+        "noneAvailable": "file1.docx",
+        "pagingNote": "file1.docx",
+        "preview": "file1.jpg",
+        "title": "file1.pdf",
+        "wholeImageHighRes": "file1.jpg",
+        "wholeImageLowResAs

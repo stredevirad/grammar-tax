@@ -1,0 +1,22 @@
+{
+ "apiVersion": "2.0",
+ "kind": "SkaffoldConfig",
+ "portForward": [
+ {
+ "namespace": "",
+ "port": 8080
+ }
+ ],
+ "profiles": [
+ {
+ "name": "default",
+ "activation": [
+ {
+ "command": "dev",
+ "env": "env: \"ENV=production\"",
+ "kubeContext": "."
+ }
+ ]
+ }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "vendor-name/library",
+  "description": "A vendor-specific package description.",
+  "keywords": ["vendor-name", "library", "composer-plugin"],
+  "homepage": "",
+  "version": "1.0.0",
+  "time": "2023-05-15T12:00:00Z",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "John Doe",
+      "email": "johndoe@example.com"
+    },
+    {
+      "name": "Jane Smith",
+      "email": "janesmith@example.com"
+    }
+  ],
+  "require": {
+    "1.0.0": "*"
+  },
+  "replace": {
+    "1.0.0": "*"
+  },
+  "conflict": {
+    "1.0.0": "*"
+  },
+  "provide": {
+    "1.0.0": "Provides functionality for common libraries."
+  },
+  "require-dev": {
+    "1.0.0": "*"
+  },
+  "suggest": {
+    "1.0.0": "A list of proposed features for popular libraries."
+  },

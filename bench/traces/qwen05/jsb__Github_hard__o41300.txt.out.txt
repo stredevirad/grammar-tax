@@ -1,0 +1,25 @@
+{
+ "config": {
+  "save-on-error": false,
+  "dry-run": false,
+  "fMRIName": "rfMRI_REST1_RL",
+  "BiasCorrection": "SEBased",
+  "MotionCorrection": "FLIRT",
+  "AnatomyRegDOF": 6,
+  "RegName": "Empty"
+ },
+ "inputs": {
+  "StructZip": {
+   "type": "archive"
+  },
+  "fMRITimeSeries": {
+   "type": "nifti"
+  },
+  "fMRIScout": {
+   "type": "nifti"
+  },
+  "GradientCoeff": {},
+  "SpinEchoPositive": {},
+  "SpinEchoNegative": {}
+ }
+ }

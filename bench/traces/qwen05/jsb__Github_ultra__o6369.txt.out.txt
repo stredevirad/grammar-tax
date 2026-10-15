@@ -1,0 +1,37 @@
+{
+ "apiVersion": "0.1",
+ "kind": "SkaffoldConfig",
+ "portForward": [
+ {
+ "namespace": "minikube",
+ "port": 19500
+ }
+ ],
+ "profiles": [
+ {
+ "name": "minikube",
+ "activation": [
+ {
+ "command": "dev",
+ "env": "env: \"minikube\"",
+ "kubeContext": "."
+ }
+ ],
+ "deploy": {
+ "statusCheckDeadlineSeconds": 2000
+ }
+ },
+ {
+ "name": "minikube",
+ "activation": [
+ {
+ "command": "minikube",
+ "env": "minikube"
+ }
+ ],
+ "deploy": {
+ "statusCheckDeadlineSeconds": 2000
+ }
+ }
+ ]
+}

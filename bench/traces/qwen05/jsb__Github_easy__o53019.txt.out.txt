@@ -1,0 +1,7 @@
+{
+  "slot": 1,
+  "type": {
+    "name": "type",
+    "url": "https://schema.jsons.com/description#type"
+  }
+}

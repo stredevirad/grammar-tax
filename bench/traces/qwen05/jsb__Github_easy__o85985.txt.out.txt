@@ -1,0 +1,13 @@
+{
+  "confidence": 0.9,
+  "urls": [
+    {
+      "format": "SXRT",
+      "url": "https://example.com/srt"
+    },
+    {
+      "format": "DFXP",
+      "url": "https://example.com/dxfp"
+    }
+  ]
+}

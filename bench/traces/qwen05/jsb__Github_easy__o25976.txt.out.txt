@@ -1,0 +1,6 @@
+{
+  "value": {
+   "value1": "value1_value",
+   "value2": 42
+  }
+}

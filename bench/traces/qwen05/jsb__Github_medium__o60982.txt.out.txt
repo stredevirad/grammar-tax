@@ -1,0 +1,23 @@
+{
+  "status": "success",
+  "details": {
+    "forks_count": 500,
+    "last_year_commits": {"sum": 1500, "weekly": []},
+    "open_issues_count": 10,
+    "stargazers_count": 200,
+    "subscribers_count": 5,
+    "contributors_count": 10,
+    "topics": ["programming", "code", "software"],
+    "license": {
+      "type": "MIT",
+      "summary": {
+        "description": "A free, open-source software license",
+        "url": "http://www.opensource.org/licenses/mit-license.html"
+      }
+    }
+  },
+  "summary": [
+    "A detailed JSON instance generated from the given JSON schema.",
+    "The schema includes fields for 'forks_count', 'last_year_commits', 'open_issues_count', 'stargazers_count', 'subscribers_count', 'contributors_count', 'topics', 'license', and 'summary'."
+  ]
+}

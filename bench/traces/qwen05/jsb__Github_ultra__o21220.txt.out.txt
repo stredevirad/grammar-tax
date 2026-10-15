@@ -1,0 +1,31 @@
+{
+  "analytics_identifier": "identifier",
+  "base_path": "/path",
+  "content_id": "12345678-1234-1234-8765-432109876543",
+  "description": "This is a short identifier we send to Google Analytics for multi-valued fields.",
+  "details": {
+    "document_noun": "docs",
+    "facets": [
+      {
+        "display_as_result_metadata": true,
+        "filterable": true,
+        "key": "field1",
+        "keys": ["field2", "field3"],
+        "name": "filter1"
+      },
+      {
+        "display_as_result_metadata": true,
+        "filterable": true,
+        "key": "field4",
+        "keys": ["field5"],
+        "name": "filter2"
+      }
+    ]
+  },
+  "document_type": "search",
+  "email_document_supertype": "docuuments",
+  "expanded_links": {
+    "email_alert_signup": [
+      {
+        "base_path": "/my/signup_link",
+       

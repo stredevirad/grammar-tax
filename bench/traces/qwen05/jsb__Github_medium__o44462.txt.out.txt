@@ -1,0 +1,19 @@
+{
+ "sign": ["sign"],
+ "tx": {
+  "fee": 10,
+  "from": ["user1@example.com", "user2@example.com"],
+  "id": "d0d934e4d34e4d34e4d34e4d34e4d34e4d34e4d34e4d34e4d34e4d34e4d34e4d",
+  "msg": "Payment from user1@example.com to user2@example.com",
+  "to": [
+   {
+    "address": "user1@example.com",
+    "amount": 1000
+   },
+   {
+    "address": "user2@example.com",
+    "amount": 2000
+   }
+  ]
+ }
+ }

@@ -1,0 +1,46 @@
+{
+  "name": "example-package",
+  "version": "1.0.0",
+  "description": "A simple package for demonstration purposes.",
+  "keywords": [
+    "example", "package", "test"
+  ],
+  "homepage": "https://example.com",
+  "bugs": {
+    "url": "https://example.com/issues",
+    "email": "info@example.com"
+  },
+  "license": "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://example.com/license"
+    }
+  ],
+  "author": {
+    "name": "John Doe"
+  },
+  "contributors": [
+    {
+      "name": "Jane Smith"
+    }
+  ],
+  "maintainers": [],
+  "files": [
+    "main.js",
+    "bin"
+  ],
+  "main": "main.js",
+  "bin": "bin",
+  "types": "types",
+  "typings": "types",
+  "man": [],
+  "directories": {
+    "bin": "bin",
+    "doc": "doc"
+  },
+  "repository": {
+    "url": "https://example.com"
+  },
+  "scripts": {
+   

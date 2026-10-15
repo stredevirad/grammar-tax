@@ -1,0 +1,11 @@
+{
+  "invoice_number": "123456",
+  "items": [
+    {
+      "description": "Coffee",
+      "quantity": 2,
+      "unit_price": 5
+    }
+  ],
+  "tax_rate": 0.15
+}

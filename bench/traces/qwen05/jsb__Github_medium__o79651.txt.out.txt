@@ -1,0 +1,33 @@
+{
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "description": "Reference of exchanges published",
+ "entries": [
+  {
+   "description": "Description (code:18.104.16.17.3)",
+   "exchange": "exchange1",
+   "name": "Exchange 1",
+   "routingKey": [
+    {
+     "multipleWords": true,
+     "name": "MultipleWords",
+     "required": true,
+     "summary": "Description of multiple words in markdown"
+    }
+   ],
+   "schema": "http://schemas.taskcluster.net/base/v1/schema/1.0",
+   "title": "Exchange 1",
+   "type": "topic-exchange"
+  },
+  {
+   "description": "Description (code:22.214.171.124)",
+   "exchange": "exchange2",
+   "name": "Exchange 2",
+   "routingKey": [
+    {
+     "multipleWords": true,
+     "name": "MultipleWords",
+     "required": true,
+     "summary": "Description of multiple words in markdown"
+    }
+   ],
+   "schema": "http://schemas.task

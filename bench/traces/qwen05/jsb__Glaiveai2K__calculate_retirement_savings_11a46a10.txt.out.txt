@@ -1,0 +1,5 @@
+{
+  "interest_rate": 6.5,
+  "monthly_contributions": 10000,
+  "years_until_retirement": 25
+}

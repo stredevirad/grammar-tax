@@ -1,0 +1,7 @@
+{
+  "url": "https://example.com/act_dump_file",
+  "checksum": "86ef4745f8f9a5008077dcd631399a1b",
+  "size": 123456789,
+  "version": "1.0",
+  "recordType": "activity_dump"
+}

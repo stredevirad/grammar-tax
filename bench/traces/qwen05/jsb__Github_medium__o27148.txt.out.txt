@@ -1,0 +1,15 @@
+{
+  "atlas": "/ndmg_atlases/atlas/MNI152_T1_1mm.nii.gz",
+  "bval_file": "bval_file",
+  "bvec_file": "bvec_file",
+  "mask": "/ndmg_atlases/atlas/MNI152_T1_1mm_brain_mask.nii.gz",
+  "mprage_file": "mprage_file",
+  "outdir": "outdir",
+  "dti_file": "/ndmg_atlases/labels/AAL.nii.gz",
+  "dti_file_minc": "/ndmg_atlases/labels/AAMin.nii.gz",
+  "extra1": "extra1",
+  "extra2": "extra2",
+  "extra3": "extra3",
+  "jhu": "/ndmg_atlases/labels/JHU.nii.gz",
+  "talairach": "/ndmg_atlases/labels/Talairach.nii.gz"
+}

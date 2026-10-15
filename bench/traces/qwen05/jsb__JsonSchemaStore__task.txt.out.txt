@@ -1,0 +1,7 @@
+{
+  "docker": {
+    "image": "https://example.com/image.jpg",
+    "command": "python"
+  },
+  "environments": {
+    		} }

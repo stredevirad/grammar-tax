@@ -1,0 +1,28 @@
+{
+  "base_path": "/",
+  "content_id": "12345678-1234-1234-9876-123456789876",
+  "description": "This is a simple example of a JSON structure conforming to the given schema.",
+  "details": {
+    "document_noun": "documents",
+    "facets": [
+      {
+        "display_as_result_metadata": true,
+        "filterable": true,
+        "key": "field1",
+        "keys": ["key1", "key2"],
+        "name": "field1",
+        "open_value": {"label": "field1", "value": "field1"}
+      }
+    ],
+    "filter": {
+      "facet_groups": [
+        "field1"
+      ]
+    }
+  },
+  "document_type": "finder",
+  "links": {
+    "related": [
+      {
+        "base_path": "/",
+        "content_id": "23456789-1234-1234-8765-

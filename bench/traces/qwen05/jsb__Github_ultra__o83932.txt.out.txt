@@ -1,0 +1,13 @@
+{
+  "mark": "area",
+  "encoding": {
+    "row": {
+      "type": "temporal"
+    },
+    "column": {
+      "type": "temporal"
+    }
+  },
+  "name": "Area",
+  "description": "A mark representing an area in a visualization. The symbol size, or pixel area of the mark."
+}

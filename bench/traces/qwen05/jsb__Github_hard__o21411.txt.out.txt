@@ -1,0 +1,25 @@
+{
+  "base_path": "/docs",
+  "content_id": "12345678-1234-1234-abc1-123456789012",
+  "description": "This is a summary of the change.  Automatically determined by the publishing-api, unless overridden by the publishing application.",
+  "details": {
+    "change_history": [
+      {
+        "note": "Service downtime",
+        "public_timestamp": "2023-01-01T12:00:00Z"
+      }
+    ],
+    "introductory_paragraph": "Start button will lead the user to.",
+    "transaction_start_link": "https://example.com/start"
+  },
+  "document_type": "transaction",
+  "links": {
+    "available_translations": [
+      {
+        "base_path": "/docs",
+        "content_id": "12345678-1234-1234-abc1-123456789012",
+        "locale": "en",
+        "title": "Title"
+      },
+      {
+        "

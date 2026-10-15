@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "id": "12345678-1234-1234-abc1-123456789012",
+    "type": "EiffelTestExecutionRecipeCollectionCreatedEvent",
+    "version": "4.0.0",
+    "time": 1572834428,
+    "tags": [
+      "EiffelTestExecution",
+      "RecipeCollectionCreated"
+    ],
+    "source": {
+      "domainId": "abc1",
+      "host": "abc1",
+      "name": "abc1",
+      "serializer": "pkg:EiffelTestRecipeCollectionCreatedEvent",
+      "uri": "abc1.EiffelTestRecipeCollectionCreatedEvent"
+    },
+    "security": {
+      "authorIdentity": "abc1",
+      "sequenceProtection": [
+        {
+          "sequenceName": "abc1",
+          "position": 1
+        },
+        {
+          "sequenceName": "abc2",
+          "position": 2
+        }
+      ]
+    }
+  },
+  "data": {
+    "selectionStrategy": {
+      "id": "12

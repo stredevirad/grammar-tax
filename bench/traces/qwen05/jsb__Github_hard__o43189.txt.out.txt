@@ -1,0 +1,9 @@
+{
+  "title": "Median Filter",
+  "description": "A command line executable used for filtering medical imaging data.",
+  "version": "1.0",
+  "documentation-url": "http://www.mediainformatics.org/median-filter.html",
+  "license": "GPL",
+  "contributor": "National Alliance for Medical Image Computing NAMIC",
+  "acknowledgements": "This command line executable was developed by the National Alliance for Medical Image Computing NAMIC."
+}

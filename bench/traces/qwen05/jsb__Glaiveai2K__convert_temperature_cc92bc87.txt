@@ -1,0 +1,2 @@
+# model=qwen2.5-0.5b-instruct-q4_k_m.gguf seed=1234 mode=first n_prompt=210 n_gen=26 complete=1 timed_out=0 n_full_mask=26 t_prompt_ms=1682.1 t_decode_ms=1068.4 t_grammar_ms=672.5 t_chain_ms=7.6
+515 330 1499 14832 788 330 34 40247 756 330 34558 788 220 18 15 345 330 983 14832 788 330 37 47910 698 92 151645

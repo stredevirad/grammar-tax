@@ -1,0 +1,11 @@
+{
+  "index_number": 1,
+  "names": {
+    "de": "German",
+    "en": "English"
+  },
+  "descriptions": {
+    "de": "German",
+    "en": "English"
+  }
+}

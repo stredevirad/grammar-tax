@@ -1,0 +1,37 @@
+{
+ "name": "LinkedService",
+ "properties": {
+  "description": "Data factory linkedService properties",
+  "hubName": "http://schema.example.com/linkedServiceHub"
+ },
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "additionalProperties": true,
+ "definitions": {
+  "linkedServiceProperties": {
+   "description": "Data factory linkedService properties",
+   "type": "object",
+   "properties": {
+    "description": {
+     "description": "Data factory linkedService description.",
+     "type": "string"
+    },
+    "hubName": {
+     "description": "The name of the Hub that this linked service belongs to.",
+     "type": "string"
+    }
+   }
+  },
+  "azureStorageLinkedService": {
+   "title": "Microsoft.Azure.Management.DataFactories.Models.AzureStorageLinkedService",
+   "description": "The storage account linkedService.",
+   "type": "object",
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "AzureStorage"
+     ]
+    },
+    "typeProperties": {
+     "description": "Properties specific to this linked service type.",
+     "type": "

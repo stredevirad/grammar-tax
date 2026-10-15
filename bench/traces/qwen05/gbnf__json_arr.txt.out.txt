@@ -1,0 +1,7 @@
+[
+ {"title": "The Hobbit", "author": "J.R.R. Tolkien", "year": 1937, "genres": ["fantasy", "mystery", "history"]},
+ {"title": "Harry Potter and the Sorcerer's Stone", "author": "J.K. Rowling", "year": 1997, "genres": ["fantasy", "young-adult", "science-fiction"]},
+ {"title": "The Lord of the Rings", "author": "J.R.R. Tolkien", "year": 1954, "genres": ["fantasy", "mystery", "history"]},
+ {"title": "To Kill a Mockingbird", "author": "Harper Lee", "year": 1960, "genres": ["fictional", "historical", "mystery", "poetic"]},
+ {"title": "Brave New World", "author": "Author of the novel", "year": 1928, "genres": ["mystery", "fantasy", "history", "science-fiction", "romance", "fictional"]}
+]

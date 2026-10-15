@@ -4,11 +4,12 @@
 // Only the vocab is loaded (vocab_only), so there is no model-inference noise.
 //
 // usage: grammar_replay --vocab model.gguf --manifest workload.tsv [--json out.jsonl]
-//                       [--check masks.tsv] [--filter substr] [--repeat N]
+//                       [--check masks.tsv] [--tokens tokens.tsv] [--filter substr] [--repeat N]
 //
 // manifest: one line per grammar, tab separated: name <TAB> grammar.gbnf <TAB> trace.txt
 // --json   : one JSON object per grammar (timings, stacks, tokens)
 // --check  : per-step mask hash (FNV-1a over the reject bitmap) for bit-exact A/B comparison
+// --tokens : one row per replayed token: name, step, mask_us, accept_us, n_stacks, n_allowed
 // --repeat : replay each grammar N times in-process, report the run with the lowest total
 //            (all repeats must produce identical masks)
 
@@ -90,6 +91,7 @@ struct replay_result {
     std::vector<double>   accept_us;
     std::vector<uint64_t> hashes;
     std::vector<int>      n_allowed;
+    std::vector<size_t>   n_stacks;    // live stacks before each mask
     size_t                peak_stacks = 0;
     double                total_us    = 0.0;
 };
@@ -115,6 +117,7 @@ static replay_result replay_one(const llama_vocab * vocab, const std::string & g
         }
         llama_token_data_array cur_p = { cur.data(), (size_t) n_vocab, -1, false };
 
+        const size_t n_stacks_step = grammar->stacks.size();
         const double t0 = now_us();
         llama_grammar_apply_impl(*grammar, &cur_p);
         const double t1 = now_us();
@@ -155,6 +158,7 @@ static replay_result replay_one(const llama_vocab * vocab, const std::string & g
         res.accept_us.push_back(t3 - t2);
         res.hashes.push_back(h);
         res.n_allowed.push_back(n_allowed);
+        res.n_stacks.push_back(n_stacks_step);
         res.total_us += (t1 - t0) + (t3 - t2);
         res.peak_stacks = std::max(res.peak_stacks, grammar->stacks.size());
     }
@@ -164,7 +168,7 @@ static replay_result replay_one(const llama_vocab * vocab, const std::string & g
 }
 
 int main(int argc, char ** argv) {
-    std::string vocab_path, manifest_path, json_path, check_path, filter;
+    std::string vocab_path, manifest_path, json_path, check_path, tokens_path, filter;
     int repeat = 1;
 
     for (int i = 1; i < argc; i++) {
@@ -174,6 +178,7 @@ int main(int argc, char ** argv) {
         else if (a == "--manifest") manifest_path = next();
         else if (a == "--json")     json_path     = next();
         else if (a == "--check")    check_path    = next();
+        else if (a == "--tokens")   tokens_path   = next();
         else if (a == "--filter")   filter        = next();
         else if (a == "--repeat")   repeat        = std::max(1, std::stoi(next()));
         else { fprintf(stderr, "unknown arg %s\n", a.c_str()); return 2; }
@@ -194,6 +199,7 @@ int main(int argc, char ** argv) {
 
     FILE * fj = json_path.empty()  ? nullptr : fopen(json_path.c_str(), "w");
     FILE * fc = check_path.empty() ? nullptr : fopen(check_path.c_str(), "w");
+    FILE * ft = tokens_path.empty() ? nullptr : fopen(tokens_path.c_str(), "w");
 
     std::ifstream mf(manifest_path);
     std::string line;
@@ -257,6 +263,11 @@ int main(int argc, char ** argv) {
                 n ? sum_acc / n : 0.0, best.peak_stacks);
             fflush(fj);
         }
+        if (ft) {
+            for (size_t i = 0; i < best.accept_us.size(); i++) {
+                fprintf(ft, "%s\t%zu\t%.2f\t%.2f\t%zu\t%d\n", name.c_str(), i, best.mask_us[i], best.accept_us[i], best.n_stacks[i], best.n_allowed[i]);
+            }
+        }
         if (fc) {
             for (size_t i = 0; i < best.hashes.size(); i++) {
                 fprintf(fc, "%s\t%zu\t%d\t%016llx\n", name.c_str(), i, best.n_allowed[i], (unsigned long long) best.hashes[i]);
@@ -264,6 +275,7 @@ int main(int argc, char ** argv) {
         }
     }
 
+    if (ft) fclose(ft);
     if (fj) fclose(fj);
     if (fc) fclose(fc);
     llama_model_free(model);

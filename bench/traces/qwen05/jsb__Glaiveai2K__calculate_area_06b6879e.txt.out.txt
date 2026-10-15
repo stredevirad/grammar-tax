@@ -1,0 +1,8 @@
+{
+ "shape": "triangle",
+ "base": 5,
+ "height": 10,
+ "length": 10,
+ "radius": 3,
+ "width": 10
+}

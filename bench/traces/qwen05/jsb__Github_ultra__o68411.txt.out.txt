@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "koji": {
+    "hub_url": "http://your-koji-hub-url.com",
+    "root_url": "http://your-koji-roots-url.com",
+    "auth": {
+      "proxyuser": "your-proxyuser@your.proxyuser.com"
+    }
+  },
+  "pulp": {
+    "name": "your-pulp-name.com",
+    "auth": {
+      "username": "your-pulp-username.com",
+      "password": "your-pulp-password.com"
+    }
+  },
+  "odcs": {
+    "api_url": "http://your-odcs-api-url.com",
+    "auth": {
+      "ssl_certs_dir": "path/to/certificates"
+    },
+    "signing_intents": [
+      {
+        "name": "your-osbs-client-instance-name",
+        "keys": [
+          "your-osbs-conf-file.key",
+          "your-osbs-conf-file.crt"
+        ]
+      }
+    ],
+    "default_signing_intent": "default-osbs-client-instance-name"
+  },
+  "pull_registries": [
+   

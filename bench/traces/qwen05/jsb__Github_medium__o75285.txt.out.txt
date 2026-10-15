@@ -1,0 +1,15 @@
+{
+  "id": "markdown_prices",
+  "type": "markdown_prices",
+  "attributes": {
+    "price": 100,
+    "start_at": "2020-01-01",
+    "end_at": "2020-01-05"
+  },
+  "relationships": {},
+  "links": {
+    "self": "http://example.com/markdown_prices"
+  },
+  "meta": {
+    }
+  }

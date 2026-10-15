@@ -1,0 +1,42 @@
+{
+  "deploy": {
+   "kustomize": {
+    "path": "deployments/pipeline.yaml"
+   }
+  },
+  "kind": "kind/Deploy",
+  "test": [
+   {
+    "image": "gcr.io/k8s-skaffold/quickstart",
+    "structureTests": [
+     "minikube",
+     "kubeadm",
+     "etcd"
+    ]
+   },
+   {
+    "image": "gcr.io/k8s-skaffold/example",
+    "structureTests": [
+     "minikube",
+     "kubeadm",
+     "etcd"
+    ]
+   },
+   {
+    "image": "gcr.io/k8s-skaffold/quickstart",
+    "structureTests": [
+     "minikube",
+     "kubeadm",
+     "etcd"
+    ]
+   },
+   {
+    "image": "gcr.io/k8s-skaffold/example",
+    "structureTests": [
+     "minikube",
+     "kubeadm",
+     "etcd"
+    ]
+   }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "addvaryheader": "GLOBAL",
+  "builtin": "MODIFIABLE",
+  "cmptype": "compress",
+  "deltatype": "PERURL",
+  "feature": "WebLogging",
+  "isdefault": false,
+  "name": "cmpaction",
+  "newname": "cmpaction_new",
+  "varyheadervalue": "EnableWebLogging"
+}

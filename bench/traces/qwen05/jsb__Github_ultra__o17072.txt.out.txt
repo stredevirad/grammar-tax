@@ -1,0 +1,15 @@
+{
+  "defaultoutputmodule": "Fast",
+  "modules": {
+   "source_module_1": {
+    "type": "Abs",
+    "SourceModule": "Fast",
+    "comment": "source module 1"
+   },
+   "source_module_2": {
+    "type": "Abs",
+    "SourceModule": "Standard",
+    "comment": "source module 2"
+   }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "auth": null,
+  "data": {
+    },
+  "lease_duration": 3600,
+  "lease_id": "my_lease_id",
+  "renewable": false
+}

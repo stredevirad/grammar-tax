@@ -1,0 +1,12 @@
+{
+  "created": "2023-04-01T12:00:00.000Z",
+  "id": 1234,
+  "image": "https://example.com/image.jpg",
+  "modified": "2023-04-01T13:00:00.000Z",
+  "name": "New Pokémon",
+  "pokemon": {
+    "name": "Pikachu",
+    "resource_uri": "https://example.com/pikachu"
+  },
+  "resource_uri": "https://example.com/pokemon"
+}

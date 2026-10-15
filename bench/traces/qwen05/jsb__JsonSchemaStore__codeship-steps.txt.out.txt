@@ -1,0 +1,29 @@
+[
+  {
+   "name": "",
+   "type": "run",
+   "tag": "always",
+   "exclude": "never",
+   "image_name": "your-image",
+   "registry": "dockerHub",
+   "encrypted_dockercfg_path": "path/to/encrypted_dockercfg",
+   "dockercfg_service": "your-service",
+   "on_fail": [
+    {
+     "type": "serial",
+     "command": "your-command",
+     "steps": [
+      {
+       "type": "run",
+       "command": "your-step",
+       "image_name": "your-image",
+       "image_tag": "latest",
+       "registry": "dockerHub"
+      }
+     ],
+     "image_name": "your-image",
+     "registry": "dockerHub"
+    }
+   ]
+  }
+]

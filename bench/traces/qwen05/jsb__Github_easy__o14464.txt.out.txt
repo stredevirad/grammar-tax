@@ -1,0 +1,45 @@
+{
+  "name": "Action Name",
+  "description": "This action type is used to define how projects should be created and managed.",
+  "public": true,
+  "type": "json",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": "string",
+      "description": "string",
+      "public": "boolean",
+      "type": "string",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": "string",
+          "description": "string",
+          "public": "boolean",
+          "type": "string",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": "string",
+              "description": "string",
+              "public": "boolean",
+              "type": "string",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": "string",
+                  "description": "string",
+                  "public": "boolean",
+                  "type": "string",
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                     }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+   

@@ -1,0 +1,18 @@
+{
+  "authors": ["author1", "author2"],
+  "publishExclude": ["*.log", "!*.log"],
+  "compile": ["build/**/*.cs", "build/**/*.cs", "test/**/*.*"],
+  "compileExclude": ["build/**/*.cs"],
+  "compileFiles": ["**/*.cs", "compiler/preprocess/**/*.cs"],
+  "compileBuiltIn": "compiler/shared/**/*.cs",
+  "exclude": ["bin/**/*.*", "obj/**/*.*", "bin/*.*", "obj/*.*"],
+  "excludeBuiltIn": ["compiler/shared/**/*.cs", "compiler/preprocess/**/*.cs", "compiler/shared/*.cs", "compiler/preprocess/*.cs"],
+  "preprocess": "compiler/preprocess/**/*.cs",
+  "preprocessExclude": ["compiler/preprocess/**/*.cs"],
+  "preprocessFiles": ["compiler/preprocess/**/*.cs", "compiler/preprocess/*.cs", "compiler/shared/**/*.cs", "compiler/shared/*.cs"],
+  "resource": "compiler/resources/**/*",
+  "resourceExclude": ["compiler/resources/**/*"],
+  "resourceFiles": ["compiler/resources/**/*"],
+  "shared": "compiler/shared/**/*.cs",
+  "sharedExclude": "compiler/shared/**/*"
+}

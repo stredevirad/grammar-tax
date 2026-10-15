@@ -1,0 +1,10 @@
+{
+  "id": "http://mindsnacks.github.io/Zinc/schemas/v1/catalog.json#",
+  "format": "1",
+  "bundles": {
+    	},
+  "next_version": 1,
+  "versions": [
+    1
+  ]
+}

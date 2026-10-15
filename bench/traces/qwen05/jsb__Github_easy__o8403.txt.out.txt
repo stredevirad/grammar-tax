@@ -1,0 +1,9 @@
+{
+ "actions": [],
+ "channel": "general",
+ "command": "send",
+ "tags": [
+ "inform",
+ "alert"
+ ]
+}

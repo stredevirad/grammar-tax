@@ -1,0 +1,23 @@
+{
+  "defaultConnection": "System.Data.SqlClient",
+  "provider": "MySql.Data.MySqlClient",
+  "generators": [
+    {
+      "name": "CSharp",
+      "options": {
+        "description": "Generators are loosely coupled. Options are passed as a string dictionary. Only strings here sorry."
+      }
+    },
+    {
+      "name": "TsInterfaceFromDto",
+      "options": {
+        "description": "Generators are loosely coupled. Options are passed as a string dictionary. Only strings here sorry."
+      }
+    }
+  ],
+  "connectEditor2DB": true,
+  "helperAssemblies": ["System.Data.SqlClient", "MySql.Data.MySqlClient", "Npgsql", "System.Data.SqlClient"],
+  "makeSelfTest": true,
+  "repoSuffix": "QueryFirst",
+  "dtoSuffix": "QueryFirst"
+}

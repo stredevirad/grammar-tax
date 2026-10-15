@@ -1,0 +1,29 @@
+{
+  "company_number": "123456789",
+  "name": "United States Corporation",
+  "jurisdiction_code": "US",
+  "retrieved_at": "2023-01-01",
+  "current_status": "incorporated",
+  "company_type": "Corporate",
+  "registry_url": "http://corporatesystem.com/US",
+  "website": "http://www.ust.com",
+  "telephone_number": "+1 (123) 456-7890",
+  "fax_number": "+1 (123) 456-7891",
+  "registered_address": {
+    "address": {
+      "street": "123 Main St",
+      "city": "Anytown",
+      "state": "AnyState",
+      "postcode": "AnyPO"
+    }
+  },
+  "headquarters_address": {
+    "address": {
+      "street": "Any City",
+      "city": "AnyCity",
+      "state": "AnyState",
+      "zipcode": "AnyPO"
+    }
+  },
+  "mailing_address": {
+    "email": "company@

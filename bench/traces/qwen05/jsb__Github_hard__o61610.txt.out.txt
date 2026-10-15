@@ -1,0 +1,25 @@
+{
+  "PayloadDescription": "Parental Control Time Limits Payload",
+  "PayloadDisplayName": "Parental Control Time Limits Payload",
+  "PayloadIdentifier": "com.apple.familycontrols.timelimits.v2",
+  "PayloadOrganization": "com.apple.familycontrols",
+  "PayloadType": "com.apple.familycontrols.timelimits.v2",
+  "PayloadUUID": "01234567-89AB-CDEF-0123-456789ABCDEF",
+  "PayloadVersion": 1,
+  "familyControlsEnabled": true,
+  "limits-list": {
+    "weekday-allowance": {
+      "enabled": true,
+      "end": "19:59:59",
+      "rangeType": 2,
+      "secondsPerDay": 1,
+      "start": "0:00:00"
+    },
+    "weekday-curfew": {
+      "enabled": true,
+      "end": "00:00:00",
+      "rangeType": 1,
+      "secondsPerDay": 1,
+      "start": "0:00:00"
+    },
+    "weekend-curfew": {

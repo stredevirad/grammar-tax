@@ -1,0 +1,2 @@
+# model=qwen2.5-0.5b-instruct-q4_k_m.gguf seed=1234 n_prompt=150 n_gen=11 complete=1 timed_out=0 t_prompt_ms=2105.3 t_decode_ms=720.2 t_grammar_ms=342.0
+1 1911 687 16 17 18 19 20 21 1 151645

@@ -1,0 +1,11 @@
+{
+  "billing_address": "123 Main St, Anytown, USA",
+  "customer_name": "John Doe",
+  "items": [
+    {
+      "price": 1.99,
+      "product": "Coffee",
+      "quantity": 5
+    }
+  ]
+}
