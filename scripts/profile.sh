@@ -5,6 +5,7 @@
 #              (needs a GGML_NATIVE=OFF build: valgrind 3.22 cannot decode AVX-512; libllama itself
 #              is compiled without -march=native in both builds, so grammar code is identical)
 #   perf:      cpu-clock sampling (no HW counters in this VM), on the normal native build
+# env MAX_STEPS (default 40): tokens per trace under callgrind (D1.13); perf replays full traces
 # output: results/profile/<LABEL>/{callgrind.out, callgrind_excl.txt, callgrind_incl.txt, perf_report.txt}
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -20,7 +21,7 @@ echo "grammars: $(wc -l < "$OUT/manifest.tsv")"
 
 valgrind --tool=callgrind --callgrind-out-file="$OUT/callgrind.out" \
     --toggle-collect='llama_grammar_apply_impl*' --toggle-collect='llama_grammar_accept_impl*' \
-    "$CG/bin/grammar_replay" --vocab "$VOCAB" --manifest "$OUT/manifest.tsv" > "$OUT/callgrind.log" 2>&1
+    "$CG/bin/grammar_replay" --vocab "$VOCAB" --manifest "$OUT/manifest.tsv" --max-steps "${MAX_STEPS:-40}" > "$OUT/callgrind.log" 2>&1
 callgrind_annotate --inclusive=no  "$OUT/callgrind.out" > "$OUT/callgrind_excl.txt" 2>/dev/null
 callgrind_annotate --inclusive=yes "$OUT/callgrind.out" > "$OUT/callgrind_incl.txt" 2>/dev/null
 callgrind_annotate --tree=calling --inclusive=yes "$OUT/callgrind.out" > "$OUT/callgrind_tree.txt" 2>/dev/null
