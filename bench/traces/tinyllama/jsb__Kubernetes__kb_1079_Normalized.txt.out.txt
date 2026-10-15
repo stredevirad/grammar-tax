@@ -1,0 +1,1 @@
+{"value": "Value is empty when the operator is Exists and the value is empty. Otherwise, value matches the taint value to tolerate. Value is required when the operator is Exists for a category that should tolerate all taints of that category. Value is optional when the operator is Exists and the value is not empty, and the toleration applies to values that have no Effect."}

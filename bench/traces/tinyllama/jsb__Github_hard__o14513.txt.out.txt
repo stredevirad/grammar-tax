@@ -1,0 +1,2 @@
+{"ABI3": {"Template": {"Phase": "extract", "Pattern": "full", "Version": 1}, "Metadata": {"Version": 1}}, "Object": {"PrimaryKeyColumns": [{"Name": "id"} ]}, "Connections": {"Log": {"ConnectionString": "sqlserver://localhost:1433;database=database;" }, "Configuration": {"Database": "database"}, "Helpers": [{"Name": "extract"}, {"Name": "runQuery"}]}
+}

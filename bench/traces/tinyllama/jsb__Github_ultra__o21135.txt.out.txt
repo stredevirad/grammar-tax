@@ -1,0 +1,27 @@
+{"analyticsAvailable": true, "apiAccess": true, "auditInformationProvided": {"assurance": "Service provider assertion", "value": "None" }, "changeImpactAssessment": {"assurance" : "Service provider assertion","value": true}, "cloudDeploymentModel" :{ "assurance" :"Service provider assertion","value": "Community cloud"
+
+  				  		 		  	 	},
+
+"configurationTracking"
+
+:
+
+{
+"assurance":
+
+"Independent validation of assertion",
+
+"value":
+false
+
+      }, "dataAtRestProtections"
+
+:
+
+{
+
+"assurance"
+
+    : "Service provider assertion", "value"
+
+ 

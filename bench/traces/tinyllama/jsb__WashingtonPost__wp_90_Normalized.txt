@@ -1,0 +1,2 @@
+# model=tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf seed=1234 mode=first n_prompt=127 n_gen=6 complete=1 timed_out=0 n_full_mask=6 t_prompt_ms=1536.9 t_decode_ms=279.7 t_grammar_ms=57.6 t_chain_ms=0.3
+1013 12763 29901 426 376 2

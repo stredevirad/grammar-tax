@@ -1,0 +1,14 @@
+{"options": {"bookmarkThumbHeight": 200, "bookmarkThumbWidth": 200, "leftPanelEnabled": true, "limitLocales": true, "minWidthBreakPoint": 600, "openTemplate": "components/templates/generic.hbs", "pessimisticAccessControl": true, "rightPanelEnabled": true, "theme": "components/templates/generic.hbs" }, "modules": {"embedDialogue": {
+  "options": {
+    "embedTemplate": "string:string: "
+    },
+    "content": {
+    "customSize": "string:abefore.minimlazy.> <|userprompt:string: ",
+
+    "height"
+     :
+    	"string:eye ", "instructions"
+
+: "string: thate|:single:minLenus:post> This ><y,eing, <string:string:position: true:yang,post:string: ",
+
+"title": "Can: given: afa: Let in:

@@ -1,0 +1,1 @@
+{"message": "To: <to>,\nSubject: <subject>,\nContent: <message>\n\nThis email is sent to keep you updated on our latest news and promotions.", "subject": "Latest News and Promotions", "to": "you@example.com", "cc": ["example@example.com", "foo@example.com", "bar@example.com"]}

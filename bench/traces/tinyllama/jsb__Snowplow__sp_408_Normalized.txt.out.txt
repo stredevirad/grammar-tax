@@ -1,0 +1,7 @@
+{"deviceClass"
+
+:
+
+"Desktop"
+
+     	  }

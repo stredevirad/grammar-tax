@@ -1,0 +1,1 @@
+{"config":{"basetime":"0","mni":false,"cpus":2,"no_axialize":false,"keep_int":false,"tpattern_gen":false,"native":false,"daw":10},"inputs":{"api_key":{"type":"object"},"functional":{"type":"dicom"},"anatomical":{"type":"nifti"},"slice_timing":{"type":"text"}}}

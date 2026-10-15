@@ -1,0 +1,1 @@
+{"ingressClassName":"https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_networking_v1beta1_IngressSpec"}

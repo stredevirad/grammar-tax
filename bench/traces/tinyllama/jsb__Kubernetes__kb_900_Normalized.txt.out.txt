@@ -1,0 +1,38 @@
+{"items": [
+  {
+    "handler": "runc",
+    "kind": "RuntimeClass",
+    "metadata": {
+      "name": "runc"
+    },
+    "overhead": {
+      "podFixed": {
+        "additionalProperties": "",
+        "descripion": ""
+      }
+    },
+    "scheduling": {
+      "nodeSelector": {
+        "items": ""
+      }
+    }
+  },
+  {
+    "handler": "crictl",
+    "kind": "RuntimeClass",
+    "metadata": {
+      "name": "crictl"
+    },
+    "overhead": {
+      "podFixed": {
+        "additionalProperties": "",
+        "descripion": ""
+      }
+    },
+    "scheduling": {
+      "nodeSelector": {
+        "items": ""
+      }
+    }
+  }
+]}

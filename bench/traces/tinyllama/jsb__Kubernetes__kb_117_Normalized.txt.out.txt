@@ -1,0 +1,1 @@
+{"defaultMode": 0, "items": [{"key": "mykey", "path": "/opt/mykey"}], "name": "myconfigmap", "optional": true}

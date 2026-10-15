@@ -1,0 +1,1 @@
+{"host": "example.com", "index": "my-index", "name": "my-logging-plugin", "nodesWanOnly": true, "port": 5012, "purpose": "FAILED_EVENTS", "type": "string"}

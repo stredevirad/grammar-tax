@@ -1,0 +1,6 @@
+{"defaultoutputmodule": "{\"type\": \"string\", \"title\": \"Inputs schema\", \"descripion\": \"Specifies the input and possible inputs.\"}\n","modules": {"type": {"type": "Multiply", "SourceModule": ["{\n    ","Mandate:clocky;desc\"y,x\""
+    ]},"noisequality": {"type": "NormLPQ" },"module": {"SourceModule": "Unit", "comment": "Module"
+    			 	  	 	 	 	 	}
+         	 	   	 	 	}
+
+       	 	 	 	 	 	 	}

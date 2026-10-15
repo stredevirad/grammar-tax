@@ -1,0 +1,3 @@
+{"name":"Package","description":"A package that provides a useful service or feature.","type":"object","homepage":"https://www.example.org/","version":"1.0.0","authors":[{"name":"Author 1","email":"email1@example.org","homepage":"https://www.example.org/author1"}],"replace":{},"conflict":{},"provide":{},"require-dev":{},"config":{"process-timeout":100,"use-include-path":true,"preferred-install":"auto","notify-on-install":true,"github-protocols":["https","http","github.com"],"github-oauth":{},"gitlab-oauth":{},"gitlab-token":{},"disable-tls":true,"secure-http":true,"cafile":"path/to_cafile.pem","capath":"-----BEGIN CERTIFICATE-----\nMine",
+"cache-files-maxsize"
+: "-----BEGIN:Pub <|encryption|composer:base6

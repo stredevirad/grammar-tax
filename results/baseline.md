@@ -1,6 +1,6 @@
 # Baseline: grammar-constrained sampling cost in llama.cpp (CPU)
 
-Status: replay results final (5 runs). Sections marked FILL (end to end, TinyLlama) are filled when those runs finish.
+Status: final for Phase 1/2.
 
 ## What is measured
 
@@ -25,7 +25,7 @@ runs only when the sampled token is rejected; in speculative-decoding draft samp
 | CPU | Intel Xeon @ 2.80 GHz (cloud VM), 4 vCPU, AVX-512, 15 GB RAM, no HW perf counters |
 | OS / compiler | Linux 6.18 guest, Ubuntu 24.04, GCC 13.3, CMake 3.28 |
 | llama.cpp | `620d2225` (master, 2026-10-15), Release (`-O3`), static, ccache; libllama compiled without `-march`, ggml-cpu with `-march=native` |
-| Vocab / traces | Qwen2.5-0.5B-Instruct Q4_K_M (BPE, 151,936 tokens); TinyLlama-1.1B-Chat Q4_K_M (SPM, 32,000 tokens) FILL if run |
+| Vocab / traces | Qwen2.5-0.5B-Instruct Q4_K_M (BPE, 151,936 tokens); TinyLlama-1.1B-Chat Q4_K_M (SPM, 32,000 tokens), separate traces recorded with that model |
 | Replay | one process at a time (`-j 1`), nothing else running during runs 1-5 |
 
 ## Workload
@@ -117,6 +117,25 @@ quiet machine. Details: [`e2e/base/qwen05_summary.md`](e2e/base/qwen05_summary.m
 
 With this small model and large vocab, **the full mask costs more than the model's forward pass**;
 on the default path it is needed on ~5% of steps, so grammar is ~6% of generation time there.
+
+## Smaller vocab: TinyLlama (32,000 tokens)
+
+Same 206 grammars, traces recorded with TinyLlama itself (21,202 tokens), 3 replay runs, quiet
+machine. Full tables: [`baseline-tinyllama/summary.md`](baseline-tinyllama/summary.md).
+
+| metric | TinyLlama (32k vocab) | Qwen2.5 (152k vocab) | ratio |
+|---|---|---|---|
+| median per-token grammar cost | **5.5 ms** [5.2 .. 5.7] | 31.3 ms | 5.6x |
+| pooled p99 | **14.9 ms** [14.9 .. 15.0] | 199 ms | 13x |
+| vocab size | 32,000 | 151,936 | 4.7x |
+
+The median scales a bit faster than the vocab size (5.6x for 4.7x), consistent with the
+memory-bound sweep: 32k candidates x 32 bytes = 1 MB fits in L2, 152k (4.8 MB) does not. The p99 gap
+is larger because the TinyLlama generations hit fewer high-stack positions (Github_ultra/o46322
+peaks at 480 stacks and stops after 82 tokens). The worst grammars are the same kinds:
+`english.gbnf` (13.6 ms mean) and the optional-property / large-enum schemas (o46322, project-1,
+mason-registry). 32 of the 206 grammars ended differently (EOG vs 256-token cap) under the two models,
+although the totals happen to match (161 / 45).
 
 ## Reference ceiling: llguidance
 

@@ -1,0 +1,1 @@
+{"additional_properties": {"$ref": "#/definition/trait_additional_properties_json"}, "category": "staff", "mode": "custom", "name": "Reuters", "subcategory": "freelance - signed"}

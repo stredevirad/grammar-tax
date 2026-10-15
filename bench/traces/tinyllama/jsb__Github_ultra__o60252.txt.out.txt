@@ -1,0 +1,1 @@
+{"user": {"email": "insert_your_email_here", "login": "insert_your_login_here", "role": "user"}}

@@ -1,0 +1,1 @@
+{"id": "markdown_price.json", "type": "markdown_prices", "attributes": {"price": 1000, "start_at": "2022-10-01", "end_at": "2023-01-01"}, "relationships": {}, "links": {}, "meta": {}}

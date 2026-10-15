@@ -1,0 +1,1 @@
+{"dimensions": {"base": 10, "height": 5, "radius": 4}, "shape": "circle"}

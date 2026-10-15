@@ -1,0 +1,1 @@
+{"kind":"ClusterRole","metadata":{"creationTimestamp":"2021-09-20T17:59:31Z","name":"<|user|>"},"rules":[{"verbs":["get","list","watch","delete","create","update","patch"],"nonResourceURLs":["/"],"resources":["<|assistant|>"]}]}

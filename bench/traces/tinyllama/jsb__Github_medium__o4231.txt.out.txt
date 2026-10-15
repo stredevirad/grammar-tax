@@ -1,0 +1,1 @@
+{"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#", "dest": "{{ dest }}-out", "lib": {"entryFile": "src/public_api.ts", "externals": {"rxjs": true, "@angular/common": true}, "flatModuleFile": "flat_module.js", "jsx": "preserve"}, "workingDirectory": "builds"}

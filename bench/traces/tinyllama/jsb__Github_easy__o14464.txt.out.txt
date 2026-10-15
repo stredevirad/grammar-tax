@@ -1,0 +1,4 @@
+{"name": "Purchase",
+ "description": "A purchase action type. It is for internal use only. It has a public flag for all employees to access it.",
+ "type": "string",
+ "schema": {"$ref": "#/definitions/purchase"}}

@@ -1,0 +1,19 @@
+{"version":"2.1.0","runs":[{"tool":{
+   "driver":{
+      "name":"Driver",
+      "version":"1.0.1",
+      "locations":[
+         {"uri":"file:///path/to/driver.jar", "index":0, "properties":{}},
+         {"uri":"file:///path/to/driver.jar", "index":1, "properties":{}},
+         {"uri":"file:///path/to/driver.jar", "index":2, "properties":{}},
+      {"uri":"file:///path/to/driver.jar", "index":3, "properties":{}},
+      {"uri":"file:///path/to/driver.jar", "index":4, "properties":{}}
+     ]
+   },
+   "properties":{
+      "name":"my_first_property",
+      "value":"my_first_value"
+   }
+},
+      "artifacts":[
+         {"description":"test_artifact1", "lastModifiedTimeU

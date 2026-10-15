@@ -1,0 +1,1 @@
+{"auth":null,"data":{},"lease_duration":1,"lease_id":"789","renewable":true}

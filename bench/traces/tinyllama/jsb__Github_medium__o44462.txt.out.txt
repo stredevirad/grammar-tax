@@ -1,0 +1,9 @@
+{"sign": [
+  "string"
+],
+"tx": {"fee": 1, "from": ["string"], "id": "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef", "msg": "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef", "to": [
+  {"address": "string", "amount": 1}
+]
+}
+
+}

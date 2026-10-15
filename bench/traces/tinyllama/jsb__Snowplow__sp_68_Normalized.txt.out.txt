@@ -1,0 +1,4 @@
+{"attributes": {"type": [{"type": "object", "maxLenth": 64}, "null"]}, "cpuPlatform": "nvidia-tesla-p105", "hostname": "gce-test-hostname", "id": "gce-test-id", "image": "gce-test-image", "machineType": "nvidia-tesla-m60", "name": "gce-test-name", "tags": [
+   "gce-test-tag1",
+   "gce-test-tag2"
+ ], "zone": "us-central1-a"}

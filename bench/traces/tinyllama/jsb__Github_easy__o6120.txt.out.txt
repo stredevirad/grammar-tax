@@ -1,0 +1,1 @@
+{"name": "value", "type": "string", "pattern": "^\b[a-z](?:[a-z\u0300-\u037f]\b|\b(e[eiuo]|uix|i[xX])\b|[^0-9a-fA-F]){1,2}\b$"}

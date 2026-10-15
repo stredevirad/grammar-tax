@@ -1,0 +1,1 @@
+{"title":"Grabbag","additionalProperties":{},"desc":"A grab-bag object for non-validatable data.","type":"object"}

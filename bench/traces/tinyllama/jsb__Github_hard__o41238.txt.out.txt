@@ -1,0 +1,1 @@
+{"config":{"Generate_Bids":true,"Generate_json":true,"Generate_Raw":true,"Generate_QA":true,"Process_Data":true,"Missing_Data":"gap_fill","Interpolation_Method":"fill","Fill_Value":0,"gear-log-level":"INFO","Dry-Run":false},"inputs":{"DICOM_ARCHIVE":{"type":"dicom"}}}

@@ -1,0 +1,19 @@
+{"meta": {
+  "id": "425c344e-c770-4848-95dd-4855603ab6f6",
+  "type": "EiffelTestExecutionRecipeCollectionCreatedEvent",
+  "version": "4.0.0",
+  "time": 1570569801000,
+  "tags": [
+    "EiffelTestExecutionRecipeCollectionCreatedEvent"
+  ],
+  "security": {
+    "authorIdentity": "EiffeL"
+  }
+},
+"data": {
+  "selectionStrategy": {
+    "id": "selectionStrategy",
+    "tracker": "EiffeL",
+    "uri": "https://eiffelel.fr.europa.eu:443/api/events/425c344e-c770-4848-95dd-4855603ab6f6"
+  },
+  "batchesUri": "api/events/42f2b25

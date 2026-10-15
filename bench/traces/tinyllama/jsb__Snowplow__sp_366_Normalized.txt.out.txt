@@ -1,0 +1,5 @@
+{"database": "test", "host": "localhost", "name": "test", "password": {
+  "ec2ParameterStore": {
+    "parameterName": "password"
+  }
+}, "port": 5432, "purpose": "ENRICHED_EVENTS", "schema": "SnowplowPostgreSQLStorageConfiguration", "sslMode": "VERIFY_CA", "username": "postgres"}

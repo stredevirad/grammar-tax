@@ -1,0 +1,1 @@
+{"$schema": "http://json-schema.org/draft-04/schema#", "description": "Reference of exchanges published", "entries": [], "exchangePrefix": "exchangePrefix", "title": "Exchange Reference File", "version": 0}

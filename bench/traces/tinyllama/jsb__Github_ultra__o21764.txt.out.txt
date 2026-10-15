@@ -1,0 +1,32 @@
+{"encoding": {
+    "y": {
+      "type": "quantitative",
+      "aggregate": "sum",
+      "field": "value"
+    },
+    "y2": {
+      "type": "quantitative",
+      "aggregate": "sum",
+      "field": "value2"
+    }
+  },"mark": "rect",
+  "selection": {
+    "x1": {
+      "type": "interval",
+      "fields": ["x1"]
+    },
+    "x2": {
+      "type": "interval",
+      "fields": ["x2"]
+    },
+    "y": {
+      "type": "interval",
+      "fields": ["y", "y2"]
+    },
+    "y2": {
+      "type": "interval",
+      "fields": ["y", "y2"]
+    }
+  },
+  "width": 1000
+}

@@ -1,0 +1,1 @@
+{"spec":{"jobTemplate":{"spec":{"template":{"spec":{"containers":[{"name":"example","command":["/bin/sh","-c","echo hello world"]}]}}}},"schedule":"20 16 * * 1-5","successfulJobsHistoryLimit":3,"suspend":true},"status":{"active":[{"uid":"d635300f-251e-11e9-a0e8-9f21d9e88d64"}],"lastScheduleTime":"2019-08-29T09:12:35Z"}}

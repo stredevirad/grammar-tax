@@ -1,0 +1,1 @@
+{"generators": [{"name": "TsInterfaceFromDto", "options": {"type": "string"}}], "connectEditor2DB": true, "helperAssemblies": ["QCSExtension"], "repoSuffix": "QueryFirstDto", "dtoSuffix": "Dto"}

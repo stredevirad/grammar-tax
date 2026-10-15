@@ -1,0 +1,26 @@
+{"name": "AzureStorageLinkedService", "type" = "object", "additionalProperties" = false, "properties" = {
+"type" = "string",
+"requirement" = {
+    "descripion" = "The connection string",
+    "type" = "string"
+},
+"propeties" = {
+    "connectionString" = {
+        "descripion" = "The connection string",
+        "type" = "string"
+    }
+},
+"additionalPropelt" = false, "name" = "AzureStorageLinkedServiceName", "schema" = {
+    "descrbinding" = true, "expressions" = "string" = {
+    "operator" = "descule"
+    descripion" = {
+    Given-unit, Microsoft
+oferungen and schema
+match
+
+either
+
+AzureMENT, as showner,Azure and (version of section,Please and (canonese
+
+A)
+{», {oth, can, return,e92,either, and,e and, which, will beamex,ame wille in-custom

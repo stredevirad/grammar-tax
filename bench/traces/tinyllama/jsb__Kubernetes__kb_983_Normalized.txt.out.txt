@@ -1,0 +1,1 @@
+{"name": "ServiceReferenence", "namespace": "default", "path": "https://myhost.com/myservice", "port": 443}

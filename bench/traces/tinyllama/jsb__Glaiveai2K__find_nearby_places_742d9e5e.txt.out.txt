@@ -1,0 +1,1 @@
+{"latitude": 37.7788, "longitude": -122.3949, "radius": 3000, "types": ["food", "bars"]}

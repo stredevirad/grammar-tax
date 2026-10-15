@@ -1,0 +1,1 @@
+{"created": "2022-01-01T00:00:00.000Z", "id": 1, "image": "https://example.com/image.png", "modified": "2022-01-02T00:00:00.000Z", "name": "Pokémon Red and Blue", "pokemon": {"name": "Mr. Mime", "resource_uri": "https://example.com/pokemon/mime.json"}, "resource_uri": "https://example.com/pokemon/bulbasaur.json"}

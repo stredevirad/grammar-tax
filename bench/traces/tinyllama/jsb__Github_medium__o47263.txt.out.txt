@@ -1,0 +1,12 @@
+[{
+  "Sample_ID": "IGF1R2",
+  "Sample_Name": "Sample1",
+  "Sample_Project": "IGF-1",
+  "I7_Index_ID": "IGF1R2",
+  "index": "112",
+  "I5_Index_ID": "IGF1R2",
+  "index2": "112",
+  "Sample_Plate": "A3",
+  "Sample_Well": "A1",
+  "Description": "Sample1 from IGF-1 project for 112 index"
+}]

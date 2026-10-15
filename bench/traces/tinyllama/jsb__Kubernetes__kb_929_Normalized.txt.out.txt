@@ -1,0 +1,1 @@
+{"operator": "Exists", "scopeName": "Scope1", "values": ["Value1", "Value2"]}

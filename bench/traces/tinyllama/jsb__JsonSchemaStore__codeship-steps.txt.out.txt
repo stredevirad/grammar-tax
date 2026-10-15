@@ -1,0 +1,19 @@
+[{
+  "command": "bash -c 'echo Hello, World!'"
+}, {
+  "command": "ls",
+  "image_name": "myregistry.default.jfrog.io/myartifactory/myapp:latest",
+  "image_tag": "latest",
+  "registry": "myregistry.default.jfrog.io",
+  "on_fail": [{
+    "command": "echo $1 $2",
+    "image_name": "myregistry.default.jfrog.io/myapp:latest",
+    "image_tag": "latest",
+    "registry": "myregistry.default.jfrog.io",
+    "encrypted_dockercfg_path": "/var/run/docker.sock",
+    "dockercfg_service": "default",
+    "on_fail": [{
+      "command": "echo $1 $2",
+      "image_name": "myregistry.default.jfrog.io/myapp:latest",
+      "image_tag": "latest",
+      "registry": "myreg

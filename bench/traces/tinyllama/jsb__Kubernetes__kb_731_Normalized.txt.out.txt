@@ -1,0 +1,1 @@
+{"currentAverageValue": 1000, "metricName": "transactions-processed-per-second", "selector": { "matchLabels": {"app": "example", "role": "frontend" } } }

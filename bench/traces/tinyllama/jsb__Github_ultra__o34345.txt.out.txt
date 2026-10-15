@@ -1,0 +1,25 @@
+{"options": {
+  "leftPanelEnabled": true,
+  "minWidthBreakPoint": 1200,
+  "overrideFullScreen": true,
+  "pagingEnabled": false,
+  "pessimisticAccessControl": false,
+  "preserveViewport": true,
+  "rightPanelEnabled": false,
+  "searchWithinEnabled": true,
+  "theme": "darken-blue"
+}, "modules": {
+  "dialogue": {
+    "content": {
+      "close": "true"
+    }
+    },
+    "downloadDialogue": {
+      "options": {
+        "confinedImageSize": 1
+       	       	 	 	},
+        "content": {"currentViewAsJpg"
+
+        : "image.","download"
+        :
+    "header.pending,p and:image,sete, presenter, a20:Image:display: <| <|:json:Image:Image:user, [product:image,one:image and:assusch: Canvas,

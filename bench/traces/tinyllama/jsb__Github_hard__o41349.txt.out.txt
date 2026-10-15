@@ -1,0 +1,1 @@
+{"config":{"cost":"mutualinfo","nocleanup":true,"verbose":true},"inputs":{"infile":{"type":"nifti"},"template":{"type":"nifti"},"facemask":{"type":"nifti"}}}

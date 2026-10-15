@@ -1,0 +1,28 @@
+[
+{
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "year": 1925,
+    "genres": ["Fiction", "Romance", "Literature"]
+},
+{
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "year": 1960,
+    "genres": ["Fiction", "Literature"]
+},
+{
+    "title": "Moby-Dick",
+    "author": "Herman Melville",
+    "year": 1851,
+    "genres": ["Fiction", "Literature", "Nature"]
+},
+{
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "year": 1951,
+    "genres": ["Fiction", "Literature", "Sci-Fi"]
+},
+{
+    "title": "The Alchemist",
+    "author": "Paolo Coelho",

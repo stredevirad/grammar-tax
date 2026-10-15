@@ -1,0 +1,10 @@
+{"mark": "circle", "encoding": { "row": {"type": "nominal", "value": 1}, "column": {"type": "nominal", "value": 0}, "x2": {"type": "nominal", "value": 1}, "y2": {"type": "nominal", "value": 1}, "color": {"field": "nominal", "value": 1}, "detail": { "type": "nominal", "title": "nominal"
+ 																			}
+        }, "data": {"format": {
+        "mesh"
+        :
+        "me,sort, omission,sort, oneoffer:ring, nominal,declaration: Ex </:type, custom, positive, order:name, personal:title: "
+ 		}
+     			 	}
+
+      }

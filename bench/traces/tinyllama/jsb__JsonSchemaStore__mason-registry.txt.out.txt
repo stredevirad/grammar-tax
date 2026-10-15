@@ -1,0 +1,8 @@
+{
+"name"
+
+                    :"B,add<AppsLB1",
+"description"
+                    :"TO,B,TB,L,B,B,B,TSBSPIPP,BBPbBBBBBSPEsBSoBCBBBBMBBbBBBBBBSerBBBBSIBOsBPower,BBSOPBBBDBPBPBbPBBBSPBBB,BBBBBMy,BBBBbB,bBB_Bserb,BBBBBBBB,ser-A,B,A,bBPB,BBBBBJSONBBBBID_bB,Property,Prop,pBprop,BSPBBSO-bbLProp,B_B_SBB","homepage"
+:",b","licenses"
+:["blessing","BUSL-1.1","

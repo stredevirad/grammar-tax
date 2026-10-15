@@ -1,0 +1,1 @@
+{"actions":["POST", "GET", "PUT", "DELETE"], "channel": "default", "command": "create", "tags":["user", "admin"]}

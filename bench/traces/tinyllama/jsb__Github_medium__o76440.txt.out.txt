@@ -1,0 +1,3 @@
+{"_metadata": {"status": {"code": 200, "message": "Spider ran without errors."}, "crawlTime": {"started": "2020-11-15T00:00:00.000Z", "durationInMs": 1000}, "spider": {"name": "example", "version": "sha256:41158e19a9f3c665659c44a56713c67d56b75489e1133f4776a9b6921e7b232e"}, "crawlArgs": [
+  "sha256:41158e19a9f3c665659c44a56713c67d56b75489e1133f4776a9b6921e7b232e"
+]}, "status": {"code": 200, "message

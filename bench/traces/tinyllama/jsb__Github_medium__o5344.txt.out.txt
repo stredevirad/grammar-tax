@@ -1,0 +1,3 @@
+{"meta": { "id": "12345678-9012-3456-9012-34567890abc1","type": "EiffelAnnouncementPublishedEvent","version": "2.0.0","time": 1611293368587,"tags": [
+    "EiffelAnnouncementPublishedEvent-1"
+],"source":{"domainId":"default","host":"default","name":"default","serializer":"pkg:eiffelevents/so12345678-9012-3456-9012-34567890abc1","uri":"https://eiffelevents.com/event/default/12345678-9012-3456-9012-34567890abc1"}}, "data": {"heading":"Default Event","body":"This is the default event body.","severity":"MINOR"},"links":[{"type":"

@@ -1,0 +1,1 @@
+{"url": "http://example.com/activity.dump", "checksum": "c59ba55c40f45ca1d822c4bcd990be1f17820a5f", "size": 512000, "version": "1.0", "recordType": "10000" }

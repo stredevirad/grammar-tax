@@ -1,0 +1,1 @@
+{"id": "234", "name": "my-image", "author": "denis", "version": 1, "script": "echo 'hello world!'"}

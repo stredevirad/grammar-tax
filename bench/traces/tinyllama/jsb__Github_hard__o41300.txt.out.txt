@@ -1,0 +1,1 @@
+{"config":{"save-on-error":true,"dry-run":true,"fMRIName": "rfMRI_REST1_RL","BiasCorrection":"NONE","MotionCorrection":"FLIRT","AnatomyRegDOF":6,"RegName":"Empty"},"inputs":{"StructZip":{"type":"archive"},"fMRITimeSeries":{"type":"nifti"}}}

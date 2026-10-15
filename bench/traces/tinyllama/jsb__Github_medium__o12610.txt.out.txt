@@ -1,0 +1,1 @@
+{"channel": 165, "htmode": "HT40+", "hwmode": "11g", "id": "pci-wifi-1", "rx_stbc": 1, "short_gi_20": true, "short_gi_40": true, "short_gi_80": true, "tx_stbc": 1}

@@ -1,0 +1,1 @@
+{"invoice_number": "123456789", "items": [{"description": "Product 1", "quantity": 1, "unit_price": 50}, {"description": "Product 2", "quantity": 2, "unit_price": 30}, {"description": "Product 3", "quantity": 3, "unit_price": 20}], "tax_rate": 10}

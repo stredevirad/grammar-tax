@@ -1,0 +1,15 @@
+{"environments":{},"rest":{
+  "method":"POST",
+  "path":"/task",
+  "resource":"task",
+  "retryFailures":false,
+  "urlParams":{
+    "id":"id",
+    "version":"version",
+    "subscriptionName":"subscriptionName",
+    "user":"user",
+    "requester":"requester",
+    "requesters":"requesters"
+  }
+  }
+}

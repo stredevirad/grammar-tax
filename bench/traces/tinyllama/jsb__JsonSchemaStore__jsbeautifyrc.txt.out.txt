@@ -1,0 +1,40 @@
+{"indent_size"
+    :
+       3,
+        "indent_char"
+        :
+      "c",
+    "eol":
+      "assumingse|hint:display,declaration: ",
+      "indent_with_tabs": true, "end_with_newline":
+true,
+"preserve_newlines"
+:
+true, "max_preserve_newlines"
+:
+3,
+
+"brace_style"
+
+:
+
+"end-expand,preserve-inline",
+"wrap_line_length"
+
+:
+
+2,
+
+"selector_separator_newline"
+
+   :
+
+false,
+
+        "newline_between_rules"
+
+      :
+
+true,
+
+"space_around

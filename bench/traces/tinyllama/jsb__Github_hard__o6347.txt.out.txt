@@ -1,0 +1,34 @@
+{"deploy": {
+  "kubectl": {
+    "manifests": [
+      "recommended",
+      "default"
+    ],
+    "remoteManifests": [
+      "kubectl"
+    ]
+  }
+  },
+  "kind": "string",
+  "profiles": [
+    {
+      "name": "kubernetes",
+      "test"
+    :
+
+ 	 		 	 												[
+			{
+			 
+																				}
+
+	 																		]
+			  }
+							 											 ],
+      "test":
+[
+
+
+
+       	 				 	]
+
+  }

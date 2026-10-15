@@ -1,0 +1,8 @@
+{"name":"npm-package-manifest-example","version":"0.0.1","description":"Npm package manifest example","keywords":["test","example","npm","package","manifest"],"homepage":"https://example.com","bugs":{"url":"https://github.com/example/bugs"},"license":"MIT","licenses":[{"type":"mit","url":"https://opensource.org/licenses/MIT"}],"author":{"name":"author","email":"email@example.com"},"contributors":[{"name":"contributor1","url":"https://example.com/contributor1"},{"name":"contributor2","email":"email@example.com"}],"maintainers":[{"name":"took","email":"email@example.com"}],"files":[],"main": "./index.js","bin":{"bin":
+    "type"
+    },"types":
+    "string","typings": "string","man":["string,any","string: "
+
+    			    	 	 	 	 ],
+        "directories": {
+    },"reposit

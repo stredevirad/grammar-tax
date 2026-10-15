@@ -1,0 +1,13 @@
+{"incomeTaxOnPayPensionsProfitAtART"
+
+:
+
+0.0,
+    "partnerships"
+
+      	 	 	:
+   50, "propertyFinanceTaxDeduction"
+
+:
+0.000
+    }

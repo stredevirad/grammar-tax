@@ -1,0 +1,2 @@
+{"title": "Rigid body registration", "description": "Rigid body registration uses template matching to find the positions of the objects relative to a template. The template can be modified using parametrizations. The registration can be performed in 3D or 2D mode, and the resulting transform can be used to move the objects to a new position."
+     }

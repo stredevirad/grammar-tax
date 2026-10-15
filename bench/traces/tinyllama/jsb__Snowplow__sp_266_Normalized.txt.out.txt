@@ -1,0 +1,1 @@
+{"previousSessionId": null,"sessionId": "1234567890","sessionIndex": 1,"storageMechanism": "FLASH_LSO","userId": "00000000000000000000000000000001"}
