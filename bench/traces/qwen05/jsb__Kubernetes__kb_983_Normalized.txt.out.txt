@@ -1,0 +1,6 @@
+{
+  "name": "exampleService",
+  "namespace": "default",
+  "path": null,
+  "port": 443
+}

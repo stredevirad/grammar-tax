@@ -1,0 +1,7 @@
+{
+  "additional_properties": {},
+  "category": "other",
+  "mode": "custom",
+  "name": "Reuters",
+  "subcategory": "freelance - signed"
+}

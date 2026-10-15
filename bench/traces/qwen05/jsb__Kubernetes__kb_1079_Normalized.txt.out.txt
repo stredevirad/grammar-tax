@@ -1,0 +1,7 @@
+{
+ "effect": "",
+ "key": "",
+ "operator": "equal",
+ "tolerationSeconds": 0,
+ "value": ""
+}

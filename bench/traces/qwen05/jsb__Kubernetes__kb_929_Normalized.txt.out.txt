@@ -1,0 +1,5 @@
+{
+ "operator": "In",
+ "scopeName": "All",
+ "values": ["Value1", "Value2"]
+}

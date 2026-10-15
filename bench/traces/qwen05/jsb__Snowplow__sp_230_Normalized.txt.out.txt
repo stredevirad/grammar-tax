@@ -1,0 +1,8 @@
+{
+  "created_at": "2023-01-01T12:00:00Z",
+  "jobflow_id": "job-123",
+  "name": "my-job",
+  "state": "RUNNING",
+  "ended_at": null,
+  "last_state_change_reason": null
+}

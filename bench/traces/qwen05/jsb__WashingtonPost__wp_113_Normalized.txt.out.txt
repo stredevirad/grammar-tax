@@ -1,0 +1,9 @@
+{
+  "referent": {
+    "id": "12345",
+    "provider": "https://example.com/section",
+    "type": "section",
+    "website": "https://example.com/section"
+  },
+  "type": "reference"
+}

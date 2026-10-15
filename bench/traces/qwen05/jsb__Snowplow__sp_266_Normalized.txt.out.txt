@@ -1,0 +1,7 @@
+{
+  "previousSessionId": null,
+  "sessionId": "123456789012",
+  "sessionIndex": 0,
+  "storageMechanism": "LOCAL_STORAGE",
+  "userId": "123456789012"
+}

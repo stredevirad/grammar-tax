@@ -1,0 +1,16 @@
+{
+ "id": 1,
+ "name": "SampleData",
+ "description": "A sample object with multiple properties",
+ "additionalProperties": true,
+ "properties": {
+ "name": {
+ "title": "Name",
+ "type": "string"
+ },
+ "age": {
+ "title": "Age",
+ "type": "integer"
+ }
+ }
+}

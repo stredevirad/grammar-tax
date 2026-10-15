@@ -1,0 +1,7 @@
+{
+  "id": "1",
+  "name": "Tracking",
+  "description": "This instance details tracking information, which may be implementation-dependent",
+  "title": "Tracking",
+  "type": "array"
+}

@@ -1,0 +1,24 @@
+{
+  "attributes": {
+    "cpuPlatform": "x86_64",
+    "hostname": "test-hostname",
+    "id": "123456789",
+    "image": "test-image",
+    "machineType": "test-machine",
+    "name": "test-name",
+    "tags": [
+      "test-key1", "test-key2"
+    ],
+    "zone": "us-central1-a"
+  },
+  "cpuPlatform": "x86_64",
+  "hostname": "test-hostname",
+  "id": "123456789",
+  "image": "test-image",
+  "machineType": "test-machine",
+  "name": "test-name",
+  "tags": [
+    "test-key1", "test-key2"
+  ],
+  "zone": "us-central1-a"
+}

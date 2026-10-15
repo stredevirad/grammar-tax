@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "handler": "RuntimeClass",
+      "kind": "RuntimeClass",
+      "overhead": {
+        "podFixed": {
+          "apiVersion": "node.k8s.io/runtime-class/v1beta1",
+          "handler": "https://git.k8s.io/enhancements/keps/sig-node/runtime-class.md#overhead",
+          "kind": "RuntimeClass",
+          "metadata": "https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+        }
+      },
+      "scheduling": {
+        "nodeSelector": {}
+      }
+    }
+  ]
+}

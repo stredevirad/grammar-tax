@@ -1,0 +1,16 @@
+{
+  "browser": null,
+  "browserVersion": null,
+  "device": null,
+  "deviceType": null,
+  "ip": "127.0.0.1",
+  "locationCity": null,
+  "locationCountry": null,
+  "locationRegion": null,
+  "mobile": false,
+  "mobileId": null,
+  "os": "Windows",
+  "platformId": "com.optimizely",
+  "platformVersion": null,
+  "referrer": "http://www.example.com"
+}

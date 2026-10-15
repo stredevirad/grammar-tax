@@ -1,0 +1,28 @@
+{
+  "additionalProperties": true,
+  "description": "Schema for a SendGrid group resubscribe event. Property descriptions derived from the SendGrid documentation: https://sendgrid.com/docs/for-developers/tracking-events/event/",
+  "properties": {
+   "asm_group_id": {
+    "description": "The ID of the unsubscribe group the recipient\u2019s email address is included in. ASM IDs correspond to the ID that is returned when you create an unsubscribe group.",
+    "maximum": 32767,
+    "minimum": 0,
+    "type": "integer"
+   },
+   "category": {
+    "items": {
+     "type": "string"
+    },
+    "description": "Categories are custom tags that you set for the purpose of organizing your emails. Categories can be set as an array or string, and they will be returned as such when posted in your event endpoint.",
+    "type": [
+     "array",
+     "string"
+    ]
+   },
+   "email": {
+    "_format": "email",
+    "description": "The email address of the recipient",
+    "type": "string"
+   },
+   "ip": {
+    "_format": "ipv4",
+    "

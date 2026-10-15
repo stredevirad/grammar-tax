@@ -1,0 +1,10 @@
+[
+  {
+   "site": "Facebook",
+   "url": "https://www.facebook.com/"
+  },
+  {
+   "site": "Twitter",
+   "url": "https://www.twitter.com/"
+  }
+]

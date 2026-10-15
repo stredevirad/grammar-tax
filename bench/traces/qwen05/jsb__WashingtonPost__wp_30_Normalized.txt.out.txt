@@ -1,0 +1,10 @@
+{
+  "numeric_rating": 3,
+  "additional_properties": {},
+  "alignment": "right",
+  "channels": ["right"],
+  "max": 10,
+  "min": 1,
+  "subtype": "numeric_rating",
+  "type": "numeric_rating"
+}

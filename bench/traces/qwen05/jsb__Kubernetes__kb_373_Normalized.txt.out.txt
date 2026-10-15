@@ -1,0 +1,9 @@
+{
+  "ranges": [
+    {
+      "max": 10,
+      "min": 0
+    }
+  ],
+  "rule": "MustRunAs"
+}

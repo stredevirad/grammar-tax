@@ -1,0 +1,11 @@
+{
+  "backend": {
+    "resource": {
+      "kind": "https://kubernetes.io/docs/tasks/access-application-cluster/hosts/",
+      "name": "host1"
+    },
+    "serviceName": "api1",
+    "servicePort": "80"
+  },
+  "ingressClassName": "https://kubernetes.io/docs/concepts/services-networking/ingress/"
+}

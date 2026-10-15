@@ -1,0 +1,22 @@
+{
+  "_id": "123456789",
+  "app_name": "ABC",
+  "body": {
+    "type": "image",
+    "version": "0.10.9",
+    "display_date": "2023-10-05T14:05:05Z",
+    "source": {
+      "source_type": "public",
+      "system": "https://example.com/some-uri"
+    },
+    "subheadlines": {
+      "basic": "this is a basic image"
+    }
+  },
+  "date": "2023-10-05T14:05:05Z",
+  "display_date": "2023-10-05T14:05:05Z",
+  "operation": "insert",
+  "organization_id": "123456",
+  "priority": "standard",
+  "publish_date": "2023-10-05T14:05:05Z",
+  "submit_date": "2023-10-06T14:

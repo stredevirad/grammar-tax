@@ -1,0 +1,1 @@
+"{\n \"category\": \"photograph\",\n \"description\": \"A photograph\",\n \"title\": \"Photograph\"\n}"

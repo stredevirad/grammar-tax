@@ -1,0 +1,27 @@
+{
+  "body": {
+    "type": "content-operation",
+    "version": "0.10.9",
+    "operation": "insert-story",
+    "id": "10123",
+    "organization_id": "12345",
+    "created_date_time": "2023-10-12T15:23:45Z",
+    "published": true,
+    "trigger": {
+      "app_name": "some-app",
+      "id": "123",
+      "priority": true,
+      "type": "story"
+    },
+    "created_date_time_date": "2023-10-12T15:23:45Z"
+  },
+  "branch": "story",
+  "created": true,
+  "date": "2023-10-12T15:23:45Z",
+  "id": "10123",
+  "operation": "insert-story",
+  "organization_id": "12345",
+  "published": true,
+  "trigger": {
+    "app_name": "some-app",
+    "id": "1

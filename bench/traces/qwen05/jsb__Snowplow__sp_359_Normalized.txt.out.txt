@@ -1,0 +1,8 @@
+{
+  "accessKeyId": "1234567890123456",
+  "awsRegion": "us-east-1",
+  "dynamodbTable": "users",
+  "name": "Snowplow User",
+  "purpose": "DUPLICATE_TRACKING",
+  "secretAccessKey": "abc1234"
+}

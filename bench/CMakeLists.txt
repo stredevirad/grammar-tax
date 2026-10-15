@@ -31,3 +31,8 @@ target_link_libraries(grammar_record PRIVATE llama)
 
 add_executable(schema_to_gbnf schema_to_gbnf.cpp)
 target_link_libraries(schema_to_gbnf PRIVATE llama-common)
+
+if (LLAMA_LLGUIDANCE)
+    add_executable(llg_replay llg_replay.cpp)
+    target_link_libraries(llg_replay PRIVATE llama-common)
+endif()

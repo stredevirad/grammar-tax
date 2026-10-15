@@ -1,0 +1,32 @@
+{
+  "name": "IBM Zapp Document",
+  "description": "JSON schema for zapp.json and zapp.yaml files. Version 1.0.0 -- Licensed Materials - Property of IBM - (c) Copyright IBM Corporation 2022. All Rights Reserved.",
+  "groupId": "com.ibm.wazi",
+  "artifactId": "service",
+  "parentId": "com.ibm.wazi.parent",
+  "keywords": ["Z", "Project", "ZApp", "Zazzle", "Tooling"],
+  "homepage": "https://www.ibm.com/wazi",
+  "license": "MIT",
+  "author": {
+    "name": "Your Name",
+    "email": "youremail@example.com"
+  },
+  "contributors": ["Other Contributors"],
+  "propertyGroups": [
+    {
+      "name": "sample-local",
+      "language": "cobol",
+      "compilerOptions": "cobol",
+      "libraries": [
+        {
+          "name": "syslib",
+          "type": "local",
+          "locations": [
+            "src/lib/mylib.c",
+            "src/lib/mylib.h"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "

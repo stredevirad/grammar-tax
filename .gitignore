@@ -5,3 +5,4 @@ __pycache__/
 *.pyc
 callgrind.out.*
 perf.data*
+callgrind.out

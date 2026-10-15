@@ -1,0 +1,16 @@
+{
+  "http": {
+    "paths": [
+      {
+        "backend": {
+          "resource": {
+            "kind": "Ingress",
+            "name": "example-ingress",
+            "apiGroup": "https://kubernetes.io/docs/apiextensions/v1beta1/"
+          },
+          "servicePort": "80"
+        }
+      }
+    ]
+  }
+}

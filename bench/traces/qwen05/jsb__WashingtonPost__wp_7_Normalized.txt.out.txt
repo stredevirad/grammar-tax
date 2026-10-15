@@ -1,0 +1,15 @@
+{
+  "_id": "1",
+  "app_name": "content-api",
+  "body": {
+    "type": "gallery",
+    "version": "0.10.9"
+  },
+  "date": "2023-01-01T12:00:00Z",
+  "operation": "insert",
+  "organization_id": "123",
+  "priority": "standard",
+  "submit_date": "2023-01-02T12:00:00Z",
+  "type": "gallery-operation",
+  "version": "0.10.9"
+}

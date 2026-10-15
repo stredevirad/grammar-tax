@@ -1,0 +1,9 @@
+{
+  "name": "Site",
+  "type": "site",
+  "version": "0.10.9",
+  "additional_properties": {},
+  "description": "A hierarchical section or 'site' in a taxonomy. In the Arc ecosystem, these are stored in the arc-site-service.",
+  "path": "/",
+  "primary": true
+}

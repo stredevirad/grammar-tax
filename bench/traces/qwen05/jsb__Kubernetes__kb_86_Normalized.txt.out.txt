@@ -1,0 +1,34 @@
+{
+  "aggregationRule": {
+    "clusterRoleSelectors": [
+      {
+        "matchExpressions": [
+          {
+            "key": "role.annotations",
+            "operator": "In",
+            "values": [
+              "kubernetes.io/role/clusterrole"
+            ]
+          },
+          {
+            "key": "role.metadata.namespace",
+            "operator": "Equal",
+            "values": ["default"]
+          }
+        ],
+        "matchLabels": {
+          "key": "namespace",
+          "operator": "In",
+          "values": "default"
+        }
+      }
+    ]
+  },
+  "rules": [
+    {
+      "verbs": [
+        "add"
+      ]
+    }
+  ]
+}

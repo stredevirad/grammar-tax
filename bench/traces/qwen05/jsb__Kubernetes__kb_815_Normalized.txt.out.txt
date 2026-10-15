@@ -1,0 +1,7 @@
+{
+  "status": {
+    "replicas": 0,
+    "availableReplicas": 1,
+    "readyReplicas": 0
+  }
+}

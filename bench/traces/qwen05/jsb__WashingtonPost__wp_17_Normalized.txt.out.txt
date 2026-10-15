@@ -1,0 +1,37 @@
+{
+  "type": "story",
+  "version": "0.10.9",
+  "address": {
+    "street_address": "123 Main St"
+  },
+  "alignment": "left",
+  "canonical_url": "https://example.com/2022-01-01",
+  "channels": [
+    "twitch",
+    "discord"
+  ],
+  "comments": {
+    "body": "This is a helpful comment!"
+  },
+  "content_aliases": [
+    "video",
+    "audio"
+  ],
+  "content_restrictions": {
+    "content_code": "12345678901234567890"
+  },
+  "created_date": "2022-01-01T00:00:00Z",
+  "credits": {
+    "by": [
+      {
+        "name": "John Doe",
+        "type": "author"
+      },
+      {
+        "name": "Jane Smith",
+        "type": "author"
+      }
+    ]
+  },
+  "description": {
+    "basic": "An audio content created by John Doe for

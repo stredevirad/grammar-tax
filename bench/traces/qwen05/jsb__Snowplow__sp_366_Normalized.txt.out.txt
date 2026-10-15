@@ -1,0 +1,11 @@
+{
+  "database": "your_database_name",
+  "host": "your_host",
+  "name": "your_database_name",
+  "password": "your_password",
+  "port": 1521,
+  "purpose": "ENRICHED_EVENTS",
+  "schema": "your_schema",
+  "sslMode": "REQUIRE",
+  "username": "your_username"
+}

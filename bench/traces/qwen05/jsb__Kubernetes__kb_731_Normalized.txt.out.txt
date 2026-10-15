@@ -1,0 +1,16 @@
+{
+  "currentAverageValue": "https://example.com/transaction-processed-per-second",
+  "metricName": "transactions-processed-per-second",
+  "selector": {
+    "matchExpressions": [
+      {
+        "key": "status",
+        "operator": "In",
+        "values": ["PENDING"]
+      }
+    ],
+    "matchLabels": {
+      "category": "transactions"
+    }
+  }
+}

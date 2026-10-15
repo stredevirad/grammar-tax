@@ -1,0 +1,9 @@
+{
+  "host": "localhost",
+  "index": "my_index",
+  "name": "my_dataset",
+  "nodesWanOnly": true,
+  "port": 9200,
+  "purpose": "FAILED_EVENTS",
+  "type": "Elasticsearch"
+}

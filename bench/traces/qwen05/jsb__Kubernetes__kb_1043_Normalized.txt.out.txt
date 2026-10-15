@@ -1,0 +1,22 @@
+{
+  "spec": {
+    "group": [
+      "*"
+    ],
+    "resourceAttributes": {
+      "group": "User",
+      "name": "User",
+      "namespace": "namespace",
+      "resource": "User",
+      "subresource": "User",
+      "verb": "get",
+      "version": "1"
+    },
+    "uid": "string",
+    "user": "string"
+  },
+  "status": {
+    "allowed": false,
+    "reason": "RBAC can be missing a role, but enough roles are still present and bound to reason about the request."
+  }
+}

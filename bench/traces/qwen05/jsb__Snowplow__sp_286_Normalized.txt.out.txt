@@ -1,0 +1,6 @@
+{
+ "elementId": "myElement",
+ "formId": "myForm",
+ "nodeName": "INPUT",
+ "value": "myValue"
+}

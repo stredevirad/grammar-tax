@@ -1,0 +1,23 @@
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "$ref": "#/definitions/strmprivacy.api.entities.v1.AzureBlobStorageContainerLocation",
+ "definitions": {
+  "client_secret_credential": {
+   "type": "object",
+   "properties": {
+    "clientSecretCredential": {
+     "$ref": "#/definitions/strmprivacy.api.entities.v1.AzureBlobStorageContainerLocation/definitions/azure_blob_storage_container_location_client_secret_credential"
+    },
+    "containerName": {
+     "$ref": "#/definitions/strmprivacy.api.entities.v1.AzureBlobStorageContainerLocation/definitions/azure_blob_storage_container_location_container_name"
+    },
+    "storageAccountUri": {
+     "$ref": "#/definitions/strmprivacy.api.entities.v1.AzureBlobStorageContainerLocation/definitions/azure_blob_storage_container_location_storage_account_uri"
+    }
+   },
+   "patternProperties": {
+    "^client_secret_credential$": {
+     "$ref": "#/definitions/strmprivacy.api.entities.v1.AzureBlobStorageContainerLocation/definitions/azure_blob_storage_container_location_client_secret_credential"
+    },
+    "^container_name$": {
+     "$ref": "#/definitions/strmprivacy.api.entities

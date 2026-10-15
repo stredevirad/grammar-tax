@@ -1,0 +1,42 @@
+{
+  "enabled": true,
+  "name": "my_enrichment",
+  "parameters": {
+   "cache": {
+    "size": 1024,
+    "ttl": 10000
+   },
+   "database": {
+    "postgresql": {
+     "database": "mydb",
+     "host": "localhost",
+     "password": "mypassword",
+     "port": 5432,
+     "sslMode": true,
+     "username": "myuser"
+    }
+   },
+   "inputs": [
+    {
+     "placeholder": 2,
+     "pojo": {
+      "field": "myfield"
+     }
+    },
+    {
+     "placeholder": 2,
+     "pojo": {
+      "field": "myfield"
+     }
+    }
+   ],
+   "output": {
+      "expectedRows": "EXACTLY_ONE",
+      "json": {
+         "describes": "ALL_ROWS",
+         "propertyNames": "AS_IS",
+         "schema": "iglu:mydb/1/2/3-2-30"
+      }
+   },
+   "query": {
+      "sql": "select * from users where id = ?
