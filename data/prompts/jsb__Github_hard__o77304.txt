@@ -1,0 +1,217 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "title": "JSON schema for NPM package.json files",
+ "definitions": {
+  "person": {
+   "description": "A person who has been involved in creating or maintaining this package",
+   "type": [
+    "object",
+    "string"
+   ],
+   "required": [
+    "name"
+   ],
+   "properties": {
+    "name": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string",
+     "format": "uri"
+    },
+    "email": {
+     "type": "string",
+     "format": "email"
+    }
+   }
+  },
+  "bundledDependency": {
+   "description": "Array of package names that will be bundled when publishing the package.",
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "dependency": {
+   "description": "Dependencies are specified with a simple hash of package name to version range. The version range is a string which has one or more space-separated descriptors. Dependencies can also be identified with a tarball or git URL.",
+   "type": "object",
+   "additionalProperties": {
+    "type": "string"
+   }
+  },
+  "scriptsInstallAfter": {
+   "description": "Run AFTER the package is installed",
+   "type": "string"
+  },
+  "scriptsPublishAfter": {
+   "description": "Run AFTER the package is published",
+   "type": "string"
+  },
+  "scriptsRestart": {
+   "description": "Run by the 'npm restart' command. Note: 'npm restart' will run the stop and start scripts if no restart script is provided.",
+   "type": "string"
+  },
+  "scriptsStart": {
+   "description": "Run by the 'npm start' command",
+   "type": "string"
+  },
+  "scriptsStop": {
+   "description": "Run by the 'npm stop' command",
+   "type": "string"
+  },
+  "scriptsTest": {
+   "description": "Run by the 'npm test' command",
+   "type": "string"
+  },
+  "scriptsUninstallBefore": {
+   "description": "Run BEFORE the package is uninstalled",
+   "type": "string"
+  },
+  "scriptsVersionBefore": {
+   "description": "Run BEFORE bump the package version",
+   "type": "string"
+  },
+  "coreProperties": {
+   "type": "object",
+   "patternProperties": {
+    "^_": {
+     "description": "Any property starting with _ is valid.",
+     "additionalProperties": true,
+     "additionalItems": true
+    }
+   },
+   "properties": {
+    "name": {
+     "description": "The name of the package.",
+     "type": "string",
+     "maxLength": 214,
+     "minLength": 1,
+     "pattern": "^(?:@[a-z0-9-~][a-z0-9-._~]*/)?[a-z0-9-~][a-z0-9-._~]*$"
+    },
+    "version": {
+     "description": "Version must be parseable by node-semver, which is bundled with npm as a dependency.",
+     "type": "string"
+    },
+    "description": {
+     "description": "This helps people discover your package, as it's listed in 'npm search'.",
+     "type": "string"
+    },
+    "keywords": {
+     "description": "This helps people discover your package as it's listed in 'npm search'.",
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "homepage": {
+     "description": "The url to the project homepage.",
+     "type": "string",
+     "format": "uri"
+    },
+    "bugs": {
+     "description": "The url to your project's issue tracker and / or the email address to which issues should be reported. These are helpful for people who encounter issues with your package.",
+     "type": [
+      "object",
+      "string"
+     ],
+     "properties": {
+      "url": {
+       "type": "string",
+       "description": "The url to your project's issue tracker.",
+       "format": "uri"
+      },
+      "email": {
+       "type": "string",
+       "description": "The email address to which issues should be reported.",
+       "format": "email"
+      }
+     }
+    },
+    "license": {
+     "type": "string",
+     "description": "You should specify a license for your package so that people know how they are permitted to use it, and any restrictions you're placing on it."
+    },
+    "licenses": {
+     "description": "You should specify a license for your package so that people know how they are permitted to use it, and any restrictions you're placing on it.",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "type": "string"
+       },
+       "url": {
+        "type": "string",
+        "format": "uri"
+       }
+      }
+     }
+    },
+    "author": {
+     "$ref": "#/definitions/person"
+    },
+    "contributors": {
+     "description": "A list of people who contributed to this package.",
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/person"
+     }
+    },
+    "maintainers": {
+     "description": "A list of people who maintains this package.",
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/person"
+     }
+    },
+    "files": {
+     "description": "The 'files' field is an array of files to include in your project. If you name a folder in the array, then it will also include the files inside that folder.",
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "main": {
+     "description": "The main field is a module ID that is the primary entry point to your program.",
+     "type": "string"
+    },
+    "bin": {
+     "type": [
+      "string",
+      "object"
+     ],
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "types": {
+     "description": "Set the types property to point to your bundled declaration file",
+     "type": "string"
+    },
+    "typings": {
+     "description": "Note that the \"typings\" field is synonymous with \"types\", and could be used as well.",
+     "type": "string"
+    },
+    "man": {
+     "type": [
+      "array",
+      "string"
+     ],
+     "description": "Specify either a single file or an array of filenames to put in place for the man program to find.",
+     "items": {
+      "type": "string"
+     }
+    },
+    "directories": {
+     "type": "object",
+     "properties": {
+      "bin": {
+       "description": "If you specify a 'bin' directory, then all the files in that folder will be used as the 'bin' hash.",
+       "type": "string"
+      },
+      "doc": {
+ 
+... (truncated)

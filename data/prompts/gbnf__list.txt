@@ -1,0 +1,1 @@
+Write a shopping list for a week of dinners, one item per line starting with '- '.

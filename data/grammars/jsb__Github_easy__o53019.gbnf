@@ -1,0 +1,13 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+integer ::= ("-"? integral-part)
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+root ::= "{" space  (slot-kv slot-rest | type-kv )? space "}"
+slot-kv ::= "\"slot\"" space ":" space integer
+slot-rest ::= ( "," space type-kv )?
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+type ::= "{" space  (type-name-kv type-name-rest | type-url-kv )? space "}"
+type-kv ::= "\"type\"" space ":" space type
+type-name-kv ::= "\"name\"" space ":" space string
+type-name-rest ::= ( "," space type-url-kv )?
+type-url-kv ::= "\"url\"" space ":" space string

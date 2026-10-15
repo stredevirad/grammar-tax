@@ -1,0 +1,253 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "type": "object",
+ "title": "ModuleGroup schema",
+ "description": "Specifies a group of libnoise and Wangscape modules with output and possible inputs.",
+ "properties": {
+  "defaultoutputmodule": {
+   "type": "string",
+   "title": "ModuleGroup defaultoutputmodule schema",
+   "description": "Specifies which of the keys in 'modules' contains the module which should be used for the module group's output."
+  },
+  "inputmodules": {
+   "type": "array",
+   "title": "ModuleGroup inputmodules schema",
+   "description": "Specifies which of the keys in Modules, if any, contain modules which should be used to relay the module group's external input modules.",
+   "items": {
+    "type": "string",
+    "title": "Specifies a key in Modules which contains a module that should be used to relay one of the module group's external input modules. The module referred to must be of a type with at least one source module, and only the first will be used."
+   }
+  },
+  "modules": {
+   "type": "object",
+   "title": "ModuleGroup modules schema",
+   "description": "Specifies the names, types, and attributes of a group of libnoise and Wangscape modules.",
+   "additionalProperties": {
+    "oneOf": [
+     {
+      "$ref": "#/definitions/abs"
+     },
+     {
+      "$ref": "#/definitions/add"
+     },
+     {
+      "$ref": "#/definitions/billow"
+     },
+     {
+      "$ref": "#/definitions/bitmap"
+     },
+     {
+      "$ref": "#/definitions/blend"
+     },
+     {
+      "$ref": "#/definitions/cache"
+     },
+     {
+      "$ref": "#/definitions/checkerboard"
+     },
+     {
+      "$ref": "#/definitions/clamp"
+     },
+     {
+      "$ref": "#/definitions/const"
+     },
+     {
+      "$ref": "#/definitions/corner_combiner_base"
+     },
+     {
+      "$ref": "#/definitions/curve"
+     },
+     {
+      "$ref": "#/definitions/cylinders"
+     },
+     {
+      "$ref": "#/definitions/displace"
+     },
+     {
+      "$ref": "#/definitions/divide"
+     },
+     {
+      "$ref": "#/definitions/exponent"
+     },
+     {
+      "$ref": "#/definitions/exp"
+     },
+     {
+      "$ref": "#/definitions/forward"
+     },
+     {
+      "$ref": "#/definitions/gradient_x"
+     },
+     {
+      "$ref": "#/definitions/gradient_y"
+     },
+     {
+      "$ref": "#/definitions/gradient_z"
+     },
+     {
+      "$ref": "#/definitions/invert"
+     },
+     {
+      "$ref": "#/definitions/logarithm"
+     },
+     {
+      "$ref": "#/definitions/max"
+     },
+     {
+      "$ref": "#/definitions/min"
+     },
+     {
+      "$ref": "#/definitions/multiply"
+     },
+     {
+      "$ref": "#/definitions/norm_lp_q"
+     },
+     {
+      "$ref": "#/definitions/perlin"
+     },
+     {
+      "$ref": "#/definitions/power"
+     },
+     {
+      "$ref": "#/definitions/pow"
+     },
+     {
+      "$ref": "#/definitions/quadrant_selector"
+     },
+     {
+      "$ref": "#/definitions/reciprocal"
+     },
+     {
+      "$ref": "#/definitions/ridged_multi"
+     },
+     {
+      "$ref": "#/definitions/rotate_point"
+     },
+     {
+      "$ref": "#/definitions/scale_bias"
+     },
+     {
+      "$ref": "#/definitions/scale_point"
+     },
+     {
+      "$ref": "#/definitions/select"
+     },
+     {
+      "$ref": "#/definitions/spheres"
+     },
+     {
+      "$ref": "#/definitions/terrace"
+     },
+     {
+      "$ref": "#/definitions/translate_point"
+     },
+     {
+      "$ref": "#/definitions/turbulence"
+     },
+     {
+      "$ref": "#/definitions/voronoi"
+     }
+    ]
+   }
+  }
+ },
+ "required": [
+  "defaultoutputmodule",
+  "modules"
+ ],
+ "definitions": {
+  "source_module_1": {
+   "oneOf": [
+    {
+     "type": "string",
+     "title": "Module SourceModule schema",
+     "description": "Specifies which of the keys in this module group contains the module that should be used as this module's source module."
+    },
+    {
+     "type": "array",
+     "title": "Module SourceModules schema",
+     "description": "Specifies an array of keys in this module group which contain the modules that should be used as this module's source modules.",
+     "minLength": 1,
+     "maxLength": 1,
+     "items": {
+      "type": "string",
+      "title": "Module SourceModules item schema",
+      "description": "Specifies a key in this module group which contains a module that should be used as one of this module's source modules."
+     }
+    }
+   ]
+  },
+  "source_module_2": {
+   "type": "array",
+   "title": "Module SourceModules schema",
+   "description": "Specifies an array of keys in this module group which contain the modules that should be used as this module's source modules.",
+   "minLength": 2,
+   "maxLength": 2,
+   "items": {
+    "type": "string",
+    "title": "Module SourceModules item schema",
+    "description": "Specifies a key in this module group which contains a module that should be used as one of this module's source modules."
+   }
+  },
+  "noise_quality": {
+   "oneOf": [
+    {
+     "type": "string",
+     "enum": [
+      "Fast",
+      "Standard",
+      "Best"
+     ]
+    },
+    {
+     "type": "number",
+     "enum": [
+      0,
+      1,
+      2
+     ]
+    }
+   ]
+  },
+  "comment": {
+   "type": "string",
+   "title": "Module comment schema",
+   "description": "Specifies a comment in a module for documentation purposes."
+  },
+  "abs": {
+   "type": "object",
+   "title": "Abs module schema",
+   "description": "Specifies an Abs module and its attributes.",
+   "additionalProperties": false,
+   "properties": {
+    "type": {
+     "type": "string",
+     "title": "Module type schema",
+     "description": "Specifies that this module is of type Abs.",
+     "pattern": "^Abs$"
+    },
+    "SourceModule": {
+     "$ref": "#/definitions/source_module_1"
+    },
+    "comment": {
+     "$ref": "#/definitions/comment"
+    }
+   },
+   "required": [
+    "type",
+    "SourceModule"
+   ]
+  },
+  "add": {
+   "type": "object",
+   "title": "Add module schema",
+   "description": "Specifies an Add module and its attributes.",
+   "additionalProperties": false,
+   "properties": {
+    "type": {
+     "type": "string",
+    
+... (truncated)

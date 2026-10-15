@@ -1,0 +1,4 @@
+root ::= "{" space  (type-kv )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+type ::= ("\"minecraft:blasting\"" | "\"minecraft:campfire_cooking\"" | "\"minecraft:crafting_shaped\"" | "\"minecraft:crafting_shapeless\"" | "\"minecraft:smelting\"" | "\"minecraft:smithing\"" | "\"minecraft:smoking\"" | "\"minecraft:stonecutting\"")
+type-kv ::= "\"type\"" space ":" space type

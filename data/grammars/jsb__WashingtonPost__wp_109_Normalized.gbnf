@@ -1,0 +1,13 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+decimal-part ::= [0-9]{1,16}
+frequency-kv ::= "\"frequency\"" space ":" space integer
+frequency-rest ::= ( "," space tag-kv )?
+integer ::= ("-"? integral-part)
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+keyword-kv ::= "\"keyword\"" space ":" space string
+number ::= ("-"? integral-part) ("." decimal-part)? ([eE] [-+]? integral-part)?
+root ::= "{" space keyword-kv "," space score-kv ( "," space ( frequency-kv frequency-rest | tag-kv ) )? space "}"
+score-kv ::= "\"score\"" space ":" space number
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+tag-kv ::= "\"tag\"" space ":" space string

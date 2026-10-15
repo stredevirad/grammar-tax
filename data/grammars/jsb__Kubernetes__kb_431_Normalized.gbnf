@@ -1,0 +1,9 @@
+integer ::= ("-"? integral-part)
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+max ::= integer | null
+max-kv ::= "\"max\"" space ":" space max
+min ::= integer | null
+min-kv ::= "\"min\"" space ":" space min
+null ::= "null"
+root ::= "{" space max-kv "," space min-kv space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}

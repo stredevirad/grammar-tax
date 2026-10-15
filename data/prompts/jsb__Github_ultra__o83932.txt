@@ -1,0 +1,200 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "oneOf": [
+  {
+   "$ref": "#/definitions/ExtendedUnitSpec",
+   "description": "Schema for a unit Vega-Lite specification, with the syntactic sugar extensions:\n\n- `row` and `column` are included in the encoding.\n\n- (Future) label, box plot\n\n\n\nNote: the spec could contain facet."
+  },
+  {
+   "$ref": "#/definitions/FacetSpec"
+  },
+  {
+   "$ref": "#/definitions/LayerSpec"
+  }
+ ],
+ "definitions": {
+  "ExtendedUnitSpec": {
+   "type": "object",
+   "properties": {
+    "width": {
+     "type": "number"
+    },
+    "height": {
+     "type": "number"
+    },
+    "mark": {
+     "$ref": "#/definitions/Mark",
+     "description": "The mark type.\n\nOne of `\"bar\"`, `\"circle\"`, `\"square\"`, `\"tick\"`, `\"line\"`,\n\n`\"area\"`, `\"point\"`, `\"rule\"`, and `\"text\"`."
+    },
+    "encoding": {
+     "$ref": "#/definitions/Encoding",
+     "description": "A key-value mapping between encoding channels and definition of fields."
+    },
+    "name": {
+     "description": "Name of the visualization for later reference.",
+     "type": "string"
+    },
+    "description": {
+     "description": "An optional description of this mark for commenting purpose.\n\nThis property has no effect on the output visualization.",
+     "type": "string"
+    },
+    "data": {
+     "$ref": "#/definitions/Data",
+     "description": "An object describing the data source"
+    },
+    "transform": {
+     "$ref": "#/definitions/Transform",
+     "description": "An object describing filter and new field calculation."
+    },
+    "config": {
+     "$ref": "#/definitions/Config",
+     "description": "Configuration object"
+    }
+   },
+   "required": [
+    "mark"
+   ]
+  },
+  "Mark": {
+   "type": "string",
+   "enum": [
+    "area",
+    "bar",
+    "line",
+    "point",
+    "text",
+    "tick",
+    "rule",
+    "circle",
+    "square",
+    "errorBar"
+   ]
+  },
+  "Encoding": {
+   "type": "object",
+   "properties": {
+    "row": {
+     "$ref": "#/definitions/PositionChannelDef",
+     "description": "Vertical facets for trellis plots."
+    },
+    "column": {
+     "$ref": "#/definitions/PositionChannelDef",
+     "description": "Horizontal facets for trellis plots."
+    },
+    "x": {
+     "$ref": "#/definitions/PositionChannelDef",
+     "description": "X coordinates for `point`, `circle`, `square`,\n\n`line`, `rule`, `text`, and `tick`\n\n(or to width and height for `bar` and `area` marks)."
+    },
+    "y": {
+     "$ref": "#/definitions/PositionChannelDef",
+     "description": "Y coordinates for `point`, `circle`, `square`,\n\n`line`, `rule`, `text`, and `tick`\n\n(or to width and height for `bar` and `area` marks)."
+    },
+    "x2": {
+     "$ref": "#/definitions/FieldDef",
+     "description": "X2 coordinates for ranged `bar`, `rule`, `area`"
+    },
+    "y2": {
+     "$ref": "#/definitions/FieldDef",
+     "description": "Y2 coordinates for ranged `bar`, `rule`, `area`"
+    },
+    "color": {
+     "$ref": "#/definitions/ChannelDefWithLegend",
+     "description": "Color of the marks \u2013 either fill or stroke color based on mark type.\n\n(By default, fill color for `area`, `bar`, `tick`, `text`, `circle`, and `square` /\n\nstroke color for `line` and `point`.)"
+    },
+    "opacity": {
+     "$ref": "#/definitions/ChannelDefWithLegend",
+     "description": "Opacity of the marks \u2013 either can be a value or in a range."
+    },
+    "size": {
+     "$ref": "#/definitions/ChannelDefWithLegend",
+     "description": "Size of the mark.\n\n- For `point`, `square` and `circle`\n\n\u2013 the symbol size, or pixel area of the mark.\n\n- For `bar` and `tick` \u2013 the bar and tick's size.\n\n- For `text` \u2013 the text's font size.\n\n- Size is currently unsupported for `line` and `area`."
+    },
+    "shape": {
+     "$ref": "#/definitions/ChannelDefWithLegend",
+     "description": "The symbol's shape (only for `point` marks). The supported values are\n\n`\"circle\"` (default), `\"square\"`, `\"cross\"`, `\"diamond\"`, `\"triangle-up\"`,\n\nor `\"triangle-down\"`, or else a custom SVG path string."
+    },
+    "detail": {
+     "description": "Additional levels of detail for grouping data in aggregate views and\n\nin line and area marks without mapping data to a specific visual channel.",
+     "oneOf": [
+      {
+       "$ref": "#/definitions/FieldDef",
+       "description": "Interface for any kind of FieldDef;\n\nFor simplicity, we do not declare multiple interfaces of FieldDef like\n\nwe do for JSON schema."
+      },
+      {
+       "type": "array",
+       "items": {
+        "$ref": "#/definitions/FieldDef",
+        "description": "Interface for any kind of FieldDef;\n\nFor simplicity, we do not declare multiple interfaces of FieldDef like\n\nwe do for JSON schema."
+       }
+      }
+     ]
+    },
+    "text": {
+     "$ref": "#/definitions/FieldDef",
+     "description": "Text of the `text` mark."
+    },
+    "label": {
+     "$ref": "#/definitions/FieldDef"
+    },
+    "path": {
+     "description": "Order of data points in line marks.",
+     "oneOf": [
+      {
+       "$ref": "#/definitions/OrderChannelDef"
+      },
+      {
+       "type": "array",
+       "items": {
+        "$ref": "#/definitions/OrderChannelDef"
+       }
+      }
+     ]
+    },
+    "order": {
+     "description": "Layer order for non-stacked marks, or stack order for stacked marks.",
+     "oneOf": [
+      {
+       "$ref": "#/definitions/OrderChannelDef"
+      },
+      {
+       "type": "array",
+       "items": {
+        "$ref": "#/definitions/OrderChannelDef"
+       }
+      }
+     ]
+    }
+   }
+  },
+  "PositionChannelDef": {
+   "type": "object",
+   "properties": {
+    "axis": {
+     "oneOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "$ref": "#/definitions/Axis"
+      }
+     ]
+    },
+    "scale": {
+     "$ref": "#/definitions/Scale"
+    },
+    "sort": {
+     "oneOf": [
+      {
+       "$ref": "#/definitions/SortField"
+      },
+      {
+       "$ref": "#/definitions/SortOrder"
+      }
+     ]
+    },
+    "field": {
+     "description": "Name of the field from which to pull a data value.",
+     "type
+... (truncated)

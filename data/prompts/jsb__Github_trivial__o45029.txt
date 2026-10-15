@@ -1,0 +1,185 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "additionalProperties": true,
+ "definitions": {},
+ "description": "order_update_v1",
+ "links": [
+  {
+   "description": "order_update_v1",
+   "href": "/order_update_v1",
+   "method": "post",
+   "rel": "instances",
+   "schema": {
+    "allOf": [
+     {
+      "properties": {
+       "action": {
+        "description": "Action Name name",
+        "example": "catalog_get_config",
+        "type": "string"
+       },
+       "channel_info": {
+        "properties": {
+         "id": {
+          "description": "channel id",
+          "example": 21,
+          "type": "integer"
+         }
+        },
+        "type": "object"
+       },
+       "client_id": {
+        "description": "RetailOPS client id",
+        "example": 497,
+        "type": "integer"
+       },
+       "integration_auth_token": {
+        "description": "Randomly generated authorization token, for authenticating genuine RetailOps- originated requests.",
+        "example": "2KuxqV9rsAtAM78i47CITMvtnflUapNmgGJAvWiHqgUrk1xkeDNWlM3EsrmJEtmV",
+        "type": "string"
+       },
+       "version": {
+        "description": "Action Version",
+        "example": 1,
+        "type": "integer"
+       }
+      },
+      "required": [
+       "action",
+       "version",
+       "client_id",
+       "channel_info"
+      ],
+      "type": "object"
+     },
+     {
+      "properties": {
+       "order": {
+        "properties": {
+         "channel_order_refnum": {
+          "description": "channel reference number for order",
+          "type": "string"
+         },
+         "grand_total": {
+          "description": "RetailOps current order grand total",
+          "type": "number"
+         },
+         "order_items": {
+          "description": "List of order line items",
+          "items": {
+           "properties": {
+            "apportioned_ship_amt": {
+             "description": "Apportioned ship amount",
+             "type": "number"
+            },
+            "channel_item_refnum": {
+             "description": "channel reference number for order",
+             "type": "string"
+            },
+            "direct_ship_amt": {
+             "description": "Direct ship amount",
+             "type": "number"
+            },
+            "estimated_cost": {
+             "description": "Estimated item cost",
+             "type": "number"
+            },
+            "estimated_extended_cost": {
+             "description": "Estimated extended cost of item",
+             "type": "number"
+            },
+            "estimated_ship_date": {
+             "description": "estimated ship date of item",
+             "example": "2016-04-08T21:13:11Z",
+             "type": "string"
+            },
+            "estimated_unit_cost": {
+             "description": "Estimated unit cost of item",
+             "type": "number"
+            },
+            "order_item_id": {
+             "description": "Retail Ops order item ID",
+             "type": "integer"
+            },
+            "quantity": {
+             "description": "Order quantity of item",
+             "type": "integer"
+            },
+            "removed": {
+             "description": "boolean indicator of whether the item was removed from the order.",
+             "type": "boolean"
+            },
+            "sku": {
+             "description": "SKU specified by the order item",
+             "type": "string"
+            },
+            "unit_price": {
+             "description": "base unit price of item",
+             "type": "number"
+            }
+           },
+           "type": "object"
+          },
+          "type": "array"
+         },
+         "retailops_order_id": {
+          "description": "RetailOps Order ID",
+          "type": "integer"
+         },
+         "shipments": {
+          "description": "List of all fulfilled shipments for this order. Each RetailOps shipment corresponds to one portion of the order routing plan, usually one per each facility or vendor. Each fulfilled shipment will contain one or more packages",
+          "items": {
+           "properties": {
+            "packages": {
+             "items": {
+              "description": "a package included in shipment",
+              "properties": {
+               "carrier_class_name": {
+                "description": "Ship Carrier's Class Name",
+                "example": "Ground",
+                "type": "string"
+               },
+               "carrier_name": {
+                "description": "Ship Carrier Name",
+                "example": "UPS",
+                "type": "string"
+               },
+               "channel_ship_code": {
+                "description": "Code which has been configured for this channel to represent the above carrier/class. EG: 'UPS Ground' -> 'UPSGRND' or 'U,GRD'",
+                "type": "string"
+               },
+               "date_shipped": {
+                "description": "Date the package was shipped",
+                "example": "2016-04-08T21:13:11Z",
+                "type": "string"
+               },
+               "package_items": {
+                "items": {
+                 "properties": {
+                  "channel_item_refnum": {
+                   "description": "Channel reference number for this item",
+                   "type": "string"
+                  },
+                  "quantity": {
+                   "description": "Quantity of the referenced items which was included in this package",
+                   "type": "integer"
+                  },
+                  "retailops_order_item_id": {
+                   "description": "RetailOps Order Item ID",
+                   "type": "integer"
+                  },
+                  "retailops_shipment_item_id": {
+                   "description": "RetailOps Shipment Item ID",
+                   "type": "integer"
+                  },
+                  "sku": {
+                   "description": "SKU Number of the item",
+                   "type": "string"
+                  }
+                 },
+                 "type": "object"
+                },
+                "type": "
+... (truncated)

@@ -1,0 +1,341 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "additionalProperties": false,
+ "definitions": {
+  "config": {
+   "additionalProperties": false,
+   "id": "#/definitions/config",
+   "patternProperties": {
+    "^x-": {}
+   },
+   "properties": {
+    "external": {
+     "properties": {
+      "name": {
+       "type": "string"
+      }
+     },
+     "type": [
+      "boolean",
+      "object"
+     ]
+    },
+    "file": {
+     "type": "string"
+    },
+    "labels": {
+     "$ref": "#/definitions/list_or_dict"
+    },
+    "name": {
+     "type": "string"
+    },
+    "template_driver": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "constraints": {
+   "service": {
+    "anyOf": [
+     {
+      "required": [
+       "build"
+      ]
+     },
+     {
+      "required": [
+       "image"
+      ]
+     }
+    ],
+    "id": "#/definitions/constraints/service",
+    "properties": {
+     "build": {
+      "required": [
+       "context"
+      ]
+     }
+    }
+   }
+  },
+  "deployment": {
+   "additionalProperties": false,
+   "id": "#/definitions/deployment",
+   "properties": {
+    "endpoint_mode": {
+     "type": "string"
+    },
+    "labels": {
+     "$ref": "#/definitions/list_or_dict"
+    },
+    "mode": {
+     "type": "string"
+    },
+    "placement": {
+     "additionalProperties": false,
+     "properties": {
+      "constraints": {
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      },
+      "max_replicas_per_node": {
+       "type": "integer"
+      },
+      "preferences": {
+       "items": {
+        "additionalProperties": false,
+        "properties": {
+         "spread": {
+          "type": "string"
+         }
+        },
+        "type": "object"
+       },
+       "type": "array"
+      }
+     },
+     "type": "object"
+    },
+    "replicas": {
+     "type": "integer"
+    },
+    "resources": {
+     "additionalProperties": false,
+     "properties": {
+      "limits": {
+       "additionalProperties": false,
+       "properties": {
+        "cpus": {
+         "type": "string"
+        },
+        "memory": {
+         "type": "string"
+        },
+        "pids": {
+         "type": "integer"
+        }
+       },
+       "type": "object"
+      },
+      "reservations": {
+       "additionalProperties": false,
+       "properties": {
+        "cpus": {
+         "type": "string"
+        },
+        "generic_resources": {
+         "$ref": "#/definitions/generic_resources"
+        },
+        "memory": {
+         "type": "string"
+        }
+       },
+       "type": "object"
+      }
+     },
+     "type": "object"
+    },
+    "restart_policy": {
+     "additionalProperties": false,
+     "properties": {
+      "condition": {
+       "type": "string"
+      },
+      "delay": {
+       "_format": "duration",
+       "type": "string"
+      },
+      "max_attempts": {
+       "type": "integer"
+      },
+      "window": {
+       "_format": "duration",
+       "type": "string"
+      }
+     },
+     "type": "object"
+    },
+    "rollback_config": {
+     "additionalProperties": false,
+     "properties": {
+      "delay": {
+       "_format": "duration",
+       "type": "string"
+      },
+      "failure_action": {
+       "type": "string"
+      },
+      "max_failure_ratio": {
+       "type": "number"
+      },
+      "monitor": {
+       "_format": "duration",
+       "type": "string"
+      },
+      "order": {
+       "enum": [
+        "start-first",
+        "stop-first"
+       ],
+       "type": "string"
+      },
+      "parallelism": {
+       "type": "integer"
+      }
+     },
+     "type": "object"
+    },
+    "update_config": {
+     "additionalProperties": false,
+     "properties": {
+      "delay": {
+       "_format": "duration",
+       "type": "string"
+      },
+      "failure_action": {
+       "type": "string"
+      },
+      "max_failure_ratio": {
+       "type": "number"
+      },
+      "monitor": {
+       "_format": "duration",
+       "type": "string"
+      },
+      "order": {
+       "enum": [
+        "start-first",
+        "stop-first"
+       ],
+       "type": "string"
+      },
+      "parallelism": {
+       "type": "integer"
+      }
+     },
+     "type": "object"
+    }
+   },
+   "type": [
+    "object",
+    "null"
+   ]
+  },
+  "generic_resources": {
+   "id": "#/definitions/generic_resources",
+   "items": {
+    "additionalProperties": false,
+    "properties": {
+     "discrete_resource_spec": {
+      "additionalProperties": false,
+      "properties": {
+       "kind": {
+        "type": "string"
+       },
+       "value": {
+        "type": "number"
+       }
+      },
+      "type": "object"
+     }
+    },
+    "type": "object"
+   },
+   "type": "array"
+  },
+  "healthcheck": {
+   "additionalProperties": false,
+   "id": "#/definitions/healthcheck",
+   "properties": {
+    "disable": {
+     "type": "boolean"
+    },
+    "interval": {
+     "_format": "duration",
+     "type": "string"
+    },
+    "retries": {
+     "type": "number"
+    },
+    "start_period": {
+     "_format": "duration",
+     "type": "string"
+    },
+    "test": {
+     "oneOf": [
+      {
+       "type": "string"
+      },
+      {
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      }
+     ]
+    },
+    "timeout": {
+     "_format": "duration",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "list_of_strings": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array",
+   "_uniqueItems": true
+  },
+  "list_or_dict": {
+   "oneOf": [
+    {
+     "additionalProperties": false,
+     "patternProperties": {
+      ".+": {
+       "type": [
+        "string",
+        "number",
+        "null"
+       ]
+      }
+     },
+     "type": "object"
+    },
+    {
+     "items": {
+      "type": "string"
+     },
+     "type": "array",
+     "_uniqueItems": true
+    }
+   ]
+  },
+  "network": {
+   "additionalProperties": false,
+   "id": "#/definitions/network",
+   "patternProperties": {
+    "^x-": {}
+   },
+   "properties": {
+    "attachable": {
+     "type": "boolean"
+    },
+    "driver": {
+     "type": "string"
+    },
+    "driver_opts": {
+     "patternProperties": {
+      "^.+$": {
+       "type": [
+        "string",
+        "number"
+       ]
+    
+... (truncated)

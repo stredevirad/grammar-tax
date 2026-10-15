@@ -1,0 +1,13 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+decimal-part ::= [0-9]{1,16}
+integer ::= ("-"? integral-part)
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+latitude-kv ::= "\"latitude\"" space ":" space number
+longitude-kv ::= "\"longitude\"" space ":" space number
+number ::= ("-"? integral-part) ("." decimal-part)? ([eE] [-+]? integral-part)?
+radius-kv ::= "\"radius\"" space ":" space integer
+root ::= "{" space latitude-kv "," space longitude-kv "," space radius-kv ( "," space ( types-kv ) )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+types ::= "[" space (string ("," space string)*)? space "]"
+types-kv ::= "\"types\"" space ":" space types

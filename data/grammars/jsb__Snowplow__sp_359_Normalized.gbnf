@@ -1,0 +1,12 @@
+accessKeyId-kv ::= "\"accessKeyId\"" space ":" space string
+awsRegion-kv ::= "\"awsRegion\"" space ":" space string
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+dynamodbTable-kv ::= "\"dynamodbTable\"" space ":" space string
+id-kv ::= "\"id\"" space ":" space string
+name-kv ::= "\"name\"" space ":" space string
+purpose ::= ("\"DUPLICATE_TRACKING\"")
+purpose-kv ::= "\"purpose\"" space ":" space purpose
+root ::= "{" space accessKeyId-kv "," space awsRegion-kv "," space dynamodbTable-kv "," space name-kv "," space purpose-kv "," space secretAccessKey-kv ( "," space ( id-kv ) )? space "}"
+secretAccessKey-kv ::= "\"secretAccessKey\"" space ":" space string
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

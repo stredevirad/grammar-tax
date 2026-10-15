@@ -1,0 +1,12 @@
+author-kv ::= "\"author\"" space ":" space string
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+id-kv ::= "\"id\"" space ":" space string
+integer ::= ("-"? integral-part)
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+name-kv ::= "\"name\"" space ":" space string
+root ::= "{" space id-kv "," space name-kv "," space author-kv ( "," space ( version-kv version-rest | script-kv ) )? space "}"
+script-kv ::= "\"script\"" space ":" space string
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+version-kv ::= "\"version\"" space ":" space integer
+version-rest ::= ( "," space script-kv )?

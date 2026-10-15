@@ -1,0 +1,17 @@
+array ::= "[" space ( value ("," space value)* )? space "]"
+boolean ::= ("true" | "false")
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+decimal-part ::= [0-9]{1,16}
+featureTypes ::= "{" space "}"
+featureTypes-kv ::= "\"featureTypes\"" space ":" space featureTypes
+featureTypes-rest ::= ( "," space propertyTypeData-kv )?
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+null ::= "null"
+number ::= ("-"? integral-part) ("." decimal-part)? ([eE] [-+]? integral-part)?
+object ::= "{" space ( string ":" space value ("," space string ":" space value)* )? space "}"
+propertyTypeData ::= object
+propertyTypeData-kv ::= "\"propertyTypeData\"" space ":" space propertyTypeData
+root ::= "{" space  (featureTypes-kv featureTypes-rest | propertyTypeData-kv )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+value ::= object | array | string | number | boolean | null

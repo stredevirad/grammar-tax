@@ -1,0 +1,19 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-04/schema",
+ "category": {
+  "description": "The machine-readable enumeration of valid image types.",
+  "enum": [
+   "photograph",
+   "graphic",
+   "illustration",
+   "thumbnail"
+  ],
+  "type": "string"
+ },
+ "description": "A more specific category for an image.",
+ "title": "Image Type",
+ "type": "string"
+}

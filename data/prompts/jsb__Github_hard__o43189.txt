@@ -1,0 +1,176 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-07/schema",
+ "type": "object",
+ "required": [
+  "title",
+  "description"
+ ],
+ "definitions": {
+  "xyz": {
+   "type": "object",
+   "required": [
+    "x",
+    "y",
+    "z"
+   ],
+   "properties": {
+    "x": {
+     "type": "number"
+    },
+    "y": {
+     "type": "number"
+    },
+    "z": {
+     "type": "number"
+    }
+   }
+  },
+  "coordinateSystem": {
+   "type": "string",
+   "description": "Specifies the coordinate system. If unspecified, the executing module is free to interpret the coordinates in the most appropriate way. For more information about the different systems, see\n<a href=\"http://www.slicer.org/slicerWiki/index.php/Coordinate_systems\">Coordinate Systems</a>.<ul>  <li><b>ras</b> (Right, Anterior, Superior) coordinate system.</li>      <li><b>ijk</b> image coordinate system.</li><li><b>lps</b> (Left, Posterior, Superior) coordinate system.</li></ul>",
+   "enum": [
+    "lps",
+    "ijk",
+    "ras"
+   ]
+  },
+  "fileExtensions": {
+   "type": "string",
+   "pattern": "(?:(?:\\.[^,\\s]|[^,\\.\\s\\*])[^,\\s]*)(?:,\\s*(?:\\.[^,\\s]|[^,\\.\\s\\*])[^,\\s]*)*",
+   "description": "fileExtensions can contain a list of comma separated file extensions for optional use by the GUI."
+  },
+  "reference": {
+   "oneOf": [
+    {
+     "type": "string",
+     "description": " The attribute reference can mean different things based on the parameter type. If the parameter is a transform and the reference is transformable, then the transform hierarchy of the reference is manipulated such that the reference is under the transform. If the parameter is an image or a model, then the parameter is placed in subject hierarchy at the same level as the reference (note: not available in Slicer3). If the parameter is an image, reference will be used to initialize lookup table of the output image (note: not available in Slicer4)."
+    },
+    {
+     "type": "object",
+     "description": "A forward reference from the parameter to another parameter \"bar\" with the reference role \"foo\".",
+     "required": [
+      "value"
+     ],
+     "properties": {
+      "value": {
+       "type": "string"
+      },
+      "role": {
+       "type": "string"
+      },
+      "parameter": {
+       "type": "string"
+      }
+     }
+    }
+   ]
+  }
+ },
+ "properties": {
+  "category": {
+   "type": "string",
+   "description": "Classifies the executable (e.g. Filtering, Segmentation). Category can be a dot separated string. Multiple categories can be given and should be separated by a semicolon."
+  },
+  "title": {
+   "type": "string",
+   "description": "A word or two describing the executable (e.g. Median Filter, Anisotropic Diffusion"
+  },
+  "description": {
+   "type": "string",
+   "description": "A long description of the executable. Any double quotes will be converted to single quotes."
+  },
+  "version": {
+   "type": "string",
+   "description": "The version of the command line executable. A suggested format is:\n\nmajor.minor.patch.build.status\n\nwhere status is\n\nvc: version controlled (pre-alpha), build can be a serial revision number, if any (like svn might have).\na: alpha\nb: beta\nrc: release candidate\nfcs: first customer ship"
+  },
+  "documentation-url": {
+   "type": "string",
+   "description": "The location of extended documentation for the executable, (e.g. http://www.na-mic.org/foo.html)."
+  },
+  "license": {
+   "type": "string",
+   "description": "The type of license or a url containing the license, (e.g. Berkeley, Apache, http://www.slicer.org/copyright/copyright.txt)."
+  },
+  "contributor": {
+   "type": "string",
+   "description": "The author(s) of the command line executable (e.g. Pieper, Jim Miller)."
+  },
+  "acknowledgements": {
+   "type": "string",
+   "description": " Acknowledgements for funding agency, employer, colleague, (e.g. This work is part of the National Alliance for Medical Image Computing NAMIC), funded by the National Institutes of Health through the NIH Roadmap for Medical Research, Grant U54 EB005149)."
+  },
+  "parameter_groups": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "description": "Starts a group of parameters.",
+    "required": [
+     "label",
+     "description",
+     "parameters"
+    ],
+    "properties": {
+     "advanced": {
+      "type": "boolean"
+     },
+     "label": {
+      "type": "string",
+      "description": "A short string that summarizes a parameter group, (e.g. I/O, Diffusion)"
+     },
+     "description": {
+      "type": "string",
+      "description": "A short description of the parameter group, (e.g. Input/Output Parameters, Anitostropic Diffusion Parameters). Any double quotes will be converted to single quotes."
+     },
+     "parameters": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "required": [
+        "type",
+        "label",
+        "description"
+       ],
+       "properties": {
+        "type": {
+         "type": "string",
+         "enum": [
+          "string",
+          "boolean",
+          "integer",
+          "float",
+          "double",
+          "integer-vector",
+          "float-vector",
+          "double-vector",
+          "string-vector",
+          "integer-enumeration",
+          "float-enumeration",
+          "double-enumeration",
+          "string-enumeration",
+          "file",
+          "directory",
+          "image",
+          "geometry",
+          "point",
+          "pointfile",
+          "region",
+          "table",
+          "transform"
+         ]
+        },
+        "description": {
+         "type": "string",
+         "description": "A brief description of the parameter. Any double quotes will be converted to single quotes."
+        },
+        "label": {
+         "type": "string",
+         "description": "A label for parameter (e.g. Dicom Directory, Conductance)."
+        },
+        "name": {
+         "type": "string",
+         "pattern": "[_a-zA-Z][_a-zA-Z0-9]*",
+         "description": "required if longflag is not specified)\nThe name of a command line argument. If name is not spec
+... (truncated)

@@ -1,0 +1,191 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "title": "IBM Zapp Document",
+ "description": "JSON schema for zapp.json and zapp.yaml files. Version 1.0.0 -- Licensed Materials - Property of IBM - (c) Copyright IBM Corporation 2022. All Rights Reserved.",
+ "type": "object",
+ "definitions": {
+  "coreProperties": {
+   "type": "object",
+   "required": [
+    "name"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "name": {
+     "description": "The name of the Z Project.",
+     "type": "string",
+     "maxLength": 214,
+     "minLength": 1
+    },
+    "description": {
+     "description": "This helps people understand your project as it would be used by tools.",
+     "type": "string"
+    },
+    "version": {
+     "description": "Version is a string and it must be parsable for managing dependencies.",
+     "type": "string",
+     "default": "1.0.0"
+    },
+    "groupId": {
+     "description": "Defines a group name that is shared for each application part in case of applications composed of multiple parts. Allows to uniquely identify the parts by concatenating with the artifact id. For example a groupId `com.ibm.wazi` with an artifactId `service` would create the unique application identifier `com.ibm.wazi.service`.",
+     "type": "string",
+     "examples": [
+      "com.ibm.wazi",
+      "payments"
+     ]
+    },
+    "artifactId": {
+     "description": "Define id of the application artifact. Use it in combination with a groupId for multi-part applications.",
+     "type": "string",
+     "default": "",
+     "examples": [
+      "sam"
+     ]
+    },
+    "parentId": {
+     "description": "In case of a multi-part application defines the name of the parent application part. This zapp will inherit properties such as propertyGroups defined in the parent.",
+     "type": "string",
+     "default": "",
+     "examples": [
+      "com.ibm.wazi.parent"
+     ]
+    },
+    "keywords": {
+     "description": "This helps people discover your project.",
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "homepage": {
+     "description": "The url to the project homepage.",
+     "type": "string",
+     "oneOf": [
+      {
+       "format": "uri"
+      },
+      {
+       "enum": [
+        "."
+       ]
+      }
+     ]
+    },
+    "license": {
+     "type": "string",
+     "description": "You should specify a license for your package so that people know how they are permitted to use it and any restrictions you're placing on it."
+    },
+    "author": {
+     "$ref": "#/definitions/person"
+    },
+    "contributors": {
+     "description": "A list of people who contributed to this package.",
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/person"
+     },
+     "minItems": 1
+    },
+    "maintainers": {
+     "description": "A list of people who maintain this package.",
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/person"
+     },
+     "minItems": 1
+    },
+    "propertyGroups": {
+     "description": "A list properties defining path names for resolving dependencies.",
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/propertyGroupItem"
+     },
+     "minItems": 1
+    },
+    "profiles": {
+     "description": "Profiles are additional groups of properties that should only should become valid under specific conditions such as running in a build job or as part of a debug session.",
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/profile"
+     },
+     "minItems": 1
+    }
+   }
+  },
+  "propertyGroupItem": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "name"
+   ],
+   "properties": {
+    "name": {
+     "type": "string",
+     "description": "The name of the property group, which is used in hovers and error messages.",
+     "examples": [
+      "sample-local"
+     ]
+    },
+    "language": {
+     "type": "string",
+     "enum": [
+      "cobol",
+      "pl1",
+      "hlasm",
+      "rexx",
+      "jcl"
+     ],
+     "description": "Limits the property group to one specific language."
+    },
+    "compilerOptions": {
+     "type": "string",
+     "description": "Global compiler options separated by a comma that impact the parsing of the programs for the editor. Requires that you specify a language. If there are multiple Property Groups for a language with compiler option then they will be concatenated."
+    },
+    "libraries": {
+     "type": "array",
+     "description": "An array of potential library locations defining the search order for include files. Libraries with the name 'syslib' will be handled as default include locations. The list can contain many entries of the type 'local' or 'mvs'. It can contain items of the same type twice in case, for example, you want to search in remote locations first, then some local location, and if still not found more remote locations.",
+     "items": {
+      "$ref": "#/definitions/libraryItem"
+     },
+     "minItems": 1
+    }
+   }
+  },
+  "libraryItem": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "name",
+    "type",
+    "locations"
+   ],
+   "properties": {
+    "name": {
+     "type": "string",
+     "description": "Name of the library. The default name should be `syslib` if using unamed libraries.",
+     "default": "syslib",
+     "examples": [
+      "syslib",
+      "currencylib"
+     ]
+    },
+    "type": {
+     "type": "string",
+     "enum": [
+      "mvs",
+      "local"
+     ],
+     "description": "The type of the property group defining where dependencies should be located. Allowed values are 'local' for using a local workspace and 'mvs' for dependencies located in MVS Datasets.",
+     "default": "local",
+     "examples": [
+      "local",
+      "mvs"
+     ]
+    },
+    "locations": {
+     "type": "array",
+     "description": "An array of include file locations. For 'local' libraries values can be absolute and relative filename paths using GLOB patterns. For 'mvs' libraries value can be data set names. GLOB patterns for dat sets are currently not s
+... (truncated)

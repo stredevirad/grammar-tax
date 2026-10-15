@@ -1,0 +1,14 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+date ::= [0-9]{4} "-" ( "0" [1-9] | "1" [0-2] ) "-" ( "0" [1-9] | [1-2] [0-9] | "3" [0-1] )
+date-range ::= "{" space date-range-end-date-kv "," space date-range-start-date-kv space "}"
+date-range-end-date ::= date-string
+date-range-end-date-kv ::= "\"end_date\"" space ":" space date-range-end-date
+date-range-kv ::= "\"date_range\"" space ":" space date-range
+date-range-start-date ::= date-string
+date-range-start-date-kv ::= "\"start_date\"" space ":" space date-range-start-date
+date-string ::= "\"" date "\""
+keywords ::= "[" space (string ("," space string)*)? space "]"
+keywords-kv ::= "\"keywords\"" space ":" space keywords
+root ::= "{" space date-range-kv "," space keywords-kv space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

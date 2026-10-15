@@ -1,0 +1,330 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-04/schema",
+ "description": "AnyChart 7 JSON schema",
+ "type": "object",
+ "properties": {
+  "chart": {
+   "type": "object",
+   "allOf": [
+    {
+     "$ref": "#/definitions/anychart.core.VisualBase"
+    },
+    {
+     "$ref": "#/definitions/anychart.core.VisualBaseWithBounds"
+    },
+    {
+     "$ref": "#/definitions/anychart.core.Chart"
+    }
+   ],
+   "oneOf": [
+    {
+     "$ref": "#/definitions/anychart.charts.Bullet"
+    },
+    {
+     "$ref": "#/definitions/anychart.charts.Cartesian"
+    },
+    {
+     "$ref": "#/definitions/anychart.charts.Funnel"
+    },
+    {
+     "$ref": "#/definitions/anychart.charts.Pie"
+    },
+    {
+     "$ref": "#/definitions/anychart.charts.Polar"
+    },
+    {
+     "$ref": "#/definitions/anychart.charts.Pyramid"
+    },
+    {
+     "$ref": "#/definitions/anychart.charts.Radar"
+    },
+    {
+     "$ref": "#/definitions/anychart.charts.Scatter"
+    },
+    {
+     "$ref": "#/definitions/anychart.charts.Sparkline"
+    },
+    {
+     "$ref": "#/definitions/anychart.charts.HeatMap"
+    },
+    {
+     "$ref": "#/definitions/anychart.charts.TreeMap"
+    }
+   ],
+   "properties": {
+    "container": {
+     "type": "string"
+    },
+    "defaultSeriesType": {
+     "type": "string"
+    }
+   }
+  },
+  "gauge": {
+   "type": "object",
+   "allOf": [
+    {
+     "$ref": "#/definitions/anychart.core.VisualBase"
+    },
+    {
+     "$ref": "#/definitions/anychart.core.VisualBaseWithBounds"
+    },
+    {
+     "$ref": "#/definitions/anychart.core.Chart"
+    },
+    {
+     "$ref": "#/definitions/anychart.core.SeparateChart"
+    }
+   ],
+   "oneOf": [
+    {
+     "$ref": "#/definitions/anychart.charts.CircularGauge"
+    }
+   ],
+   "properties": {
+    "container": {
+     "type": "string"
+    }
+   }
+  },
+  "gantt": {
+   "type": "object",
+   "allOf": [
+    {
+     "$ref": "#/definitions/anychart.core.VisualBase"
+    },
+    {
+     "$ref": "#/definitions/anychart.core.VisualBaseWithBounds"
+    },
+    {
+     "$ref": "#/definitions/anychart.core.Chart"
+    },
+    {
+     "$ref": "#/definitions/anychart.core.SeparateChart"
+    }
+   ],
+   "oneOf": [
+    {
+     "$ref": "#/definitions/anychart.gantt.Resource"
+    },
+    {
+     "$ref": "#/definitions/anychart.gantt.Project"
+    }
+   ],
+   "properties": {
+    "container": {
+     "type": "string"
+    }
+   }
+  },
+  "map": {
+   "type": "object",
+   "allOf": [
+    {
+     "$ref": "#/definitions/anychart.core.VisualBase"
+    },
+    {
+     "$ref": "#/definitions/anychart.core.VisualBaseWithBounds"
+    },
+    {
+     "$ref": "#/definitions/anychart.core.Chart"
+    },
+    {
+     "$ref": "#/definitions/anychart.core.SeparateChart"
+    }
+   ],
+   "oneOf": [
+    {
+     "$ref": "#/definitions/anychart.charts.Map"
+    }
+   ],
+   "properties": {
+    "container": {
+     "type": "string"
+    },
+    "defaultSeriesType": {
+     "type": "string"
+    }
+   }
+  }
+ },
+ "definitions": {
+  "anychart.core.VisualBase": {
+   "type": "object",
+   "properties": {
+    "enabled": {
+     "type": "boolean"
+    },
+    "zIndex": {
+     "type": "number"
+    }
+   }
+  },
+  "anychart.core.VisualBaseWithBounds": {
+   "type": "object",
+   "properties": {
+    "bounds": {
+     "$ref": "#/definitions/anychart.core.utils.Bounds"
+    }
+   }
+  },
+  "anychart.core.Chart": {
+   "type": "object",
+   "properties": {
+    "background": {
+     "oneOf": [
+      {
+       "$ref": "#/definitions/disable"
+      },
+      {
+       "$ref": "#/definitions/anychart.core.ui.Background"
+      }
+     ]
+    },
+    "margin": {
+     "$ref": "#/definitions/anychart.core.utils.Space"
+    },
+    "padding": {
+     "$ref": "#/definitions/anychart.core.utils.Space"
+    },
+    "title": {
+     "oneOf": [
+      {
+       "type": "string"
+      },
+      {
+       "$ref": "#/definitions/disable"
+      },
+      {
+       "$ref": "#/definitions/anychart.core.ui.Title"
+      }
+     ]
+    },
+    "legend": {
+     "oneOf": [
+      {
+       "$ref": "#/definitions/disable"
+      },
+      {
+       "$ref": "#/definitions/anychart.core.ui.Legend"
+      }
+     ]
+    },
+    "chartLabels": {
+     "type": "array",
+     "items": {
+      "oneOf": [
+       {
+        "$ref": "#/definitions/disable"
+       },
+       {
+        "$ref": "#/definitions/anychart.core.ui.Label"
+       }
+      ]
+     }
+    },
+    "credits": {
+     "oneOf": [
+      {
+       "$ref": "#/definitions/disable"
+      },
+      {
+       "$ref": "#/definitions/anychart.core.ui.Credits"
+      }
+     ]
+    },
+    "animation": {
+     "oneOf": [
+      {
+       "$ref": "#/definitions/disable"
+      },
+      {
+       "$ref": "#/definitions/anychart.core.utils.Animation"
+      }
+     ]
+    },
+    "tooltip": {
+     "oneOf": [
+      {
+       "$ref": "#/definitions/disable"
+      },
+      {
+       "$ref": "#/definitions/anychart.core.ui.ChartTooltip"
+      }
+     ]
+    },
+    "interactivity": {
+     "$ref": "#/definitions/anychart.core.utils.Interactivity"
+    },
+    "contextMenu": {
+     "oneOf": [
+      {
+       "$ref": "#/definitions/disable"
+      },
+      {
+       "$ref": "#/definitions/anychart.ui.ContextMenu"
+      }
+     ]
+    }
+   }
+  },
+  "anychart.core.SeparateChart": {
+   "type": "object",
+   "properties": {
+    "legend": {
+     "oneOf": [
+      {
+       "$ref": "#/definitions/disable"
+      },
+      {
+       "$ref": "#/definitions/anychart.core.ui.Legend"
+      }
+     ]
+    },
+    "credits": {
+     "oneOf": [
+      {
+       "$ref": "#/definitions/disable"
+      },
+      {
+       "$ref": "#/definitions/anychart.core.ui.Credits"
+      }
+     ]
+    }
+   }
+  },
+  "anychart.charts.Cartesian": {
+   "type": "object",
+   "allOf": [
+    {
+     "$ref": "#/definitions/anychart.core.SeparateChart"
+    }
+   ],
+   "properties": {
+    "type": {
+     "enum": [
+      "cartesian",
+      "cartesian3d",
+      "area",
+      "area3d",
+      "bar",
+      "bar3d",
+      "box",
+      "bubble",
+      "column",
+      "column3d",
+      "financial",
+      "line",
+      "marker"
+     ]
+    },
+    "grids": {
+     "type": "array",
+     "items": {
+      "oneOf": [
+       {
+        "$ref": "#/
+... (truncated)

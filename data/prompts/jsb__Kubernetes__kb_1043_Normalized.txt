@@ -1,0 +1,123 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "definitions": {
+  "https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_authorization_v1beta1_NonResourceAttributes": {
+   "description": "NonResourceAttributes includes the authorization attributes available for non-resource requests to the Authorizer interface",
+   "properties": {
+    "path": {
+     "description": "Path is the URL path of the request",
+     "type": "string"
+    },
+    "verb": {
+     "description": "Verb is the standard HTTP verb",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_authorization_v1beta1_ResourceAttributes": {
+   "description": "ResourceAttributes includes the authorization attributes available for resource requests to the Authorizer interface",
+   "properties": {
+    "group": {
+     "description": "Group is the API Group of the Resource.  \"*\" means all.",
+     "type": "string"
+    },
+    "name": {
+     "description": "Name is the name of the resource being requested for a \"get\" or deleted for a \"delete\". \"\" (empty) means all.",
+     "type": "string"
+    },
+    "namespace": {
+     "description": "Namespace is the namespace of the action being requested.  Currently, there is no distinction between no namespace and all namespaces \"\" (empty) is defaulted for LocalSubjectAccessReviews \"\" (empty) is empty for cluster-scoped resources \"\" (empty) means \"all\" for namespace scoped resources from a SubjectAccessReview or SelfSubjectAccessReview",
+     "type": "string"
+    },
+    "resource": {
+     "description": "Resource is one of the existing resource types.  \"*\" means all.",
+     "type": "string"
+    },
+    "subresource": {
+     "description": "Subresource is one of the existing resource types.  \"\" means none.",
+     "type": "string"
+    },
+    "verb": {
+     "description": "Verb is a kubernetes resource API verb, like: get, list, watch, create, update, delete, proxy.  \"*\" means all.",
+     "type": "string"
+    },
+    "version": {
+     "description": "Version is the API Version of the Resource.  \"*\" means all.",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_authorization_v1beta1_SubjectAccessReviewSpec": {
+   "description": "SubjectAccessReviewSpec is a description of the access request.  Exactly one of ResourceAuthorizationAttributes and NonResourceAuthorizationAttributes must be set",
+   "properties": {
+    "extra": {
+     "additionalProperties": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array"
+     },
+     "description": "Extra corresponds to the user.Info.GetExtra() method from the authenticator.  Since that is input to the authorizer it needs a reflection here.",
+     "type": "object"
+    },
+    "group": {
+     "description": "Groups is the groups you're testing for.",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "nonResourceAttributes": {
+     "$ref": "#/definitions/https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_authorization_v1beta1_NonResourceAttributes",
+     "description": "NonResourceAttributes describes information for a non-resource access request"
+    },
+    "resourceAttributes": {
+     "$ref": "#/definitions/https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_authorization_v1beta1_ResourceAttributes",
+     "description": "ResourceAuthorizationAttributes describes information for a resource access request"
+    },
+    "uid": {
+     "description": "UID information about the requesting user.",
+     "type": "string"
+    },
+    "user": {
+     "description": "User is the user you're testing for. If you specify \"User\" but not \"Group\", then is it interpreted as \"What if User were not a member of any groups",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_authorization_v1beta1_SubjectAccessReviewStatus": {
+   "description": "SubjectAccessReviewStatus",
+   "properties": {
+    "allowed": {
+     "description": "Allowed is required. True if the action would be allowed, false otherwise.",
+     "type": "boolean"
+    },
+    "denied": {
+     "description": "Denied is optional. True if the action would be denied, otherwise false. If both allowed is false and denied is false, then the authorizer has no opinion on whether to authorize the action. Denied may not be true if Allowed is true.",
+     "type": "boolean"
+    },
+    "evaluationError": {
+     "description": "EvaluationError is an indication that some error occurred during the authorization check. It is entirely possible to get an error and be able to continue determine authorization status in spite of it. For instance, RBAC can be missing a role, but enough roles are still present and bound to reason about the request.",
+     "type": "string"
+    },
+    "reason": {
+     "description": "Reason is optional.  It indicates why a request was allowed or denied.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "allowed"
+   ],
+   "type": "object"
+  },
+  "https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_apimachinery_pkg_apis_meta_v1_FieldsV1": {
+   "description": "FieldsV1 stores a set of fields in a data structure like a Trie, in JSON format.\n\nEach key is either a '.' representing the field itself, and will always map to an empty set, or a string representing a sub-field or item. The string will follow one of these four formats: 'f:<name>', where <name> is the name of a field in a struct, or key in a map 'v:<value>', where <value> is the exact json formatted value of a list item 'i:<index>', where <index> is position of a item in a list 'k:<keys>', where <keys> is a map of  a list item's key fields to their unique values If a key maps to an empty Fields value, the field that key represents is part of the set.\n\nThe exact format is defined in sigs.k8s.io/structured-merge-diff",
+   "type": "object"
+  },
+  "https:__kube
+... (truncated)

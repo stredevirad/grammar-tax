@@ -1,0 +1,8 @@
+root ::= "{" space value-kv space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+value- ::= value-0 | value-1 | value-2 | value-3
+value-0 ::= ("false")
+value-1 ::= ("0")
+value-2 ::= ("100")
+value-3 ::= ("\"foo\"")
+value-kv ::= "\"value\"" space ":" space value-

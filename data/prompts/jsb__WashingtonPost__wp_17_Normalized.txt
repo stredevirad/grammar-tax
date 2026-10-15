@@ -1,0 +1,230 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-04/schema",
+ "additionalProperties": false,
+ "definitions": {
+  "audio_json": {
+   "$schema": "http://json-schema.org/draft-04/schema#",
+   "additionalProperties": false,
+   "description": "Audio Content",
+   "oneOf": [
+    {
+     "required": [
+      "streams"
+     ]
+    },
+    {
+     "required": [
+      "source_url"
+     ]
+    }
+   ],
+   "properties": {
+    "_id": {
+     "$ref": "#/definitions/traits_trait_id_json"
+    },
+    "additional_properties": {
+     "$ref": "#/definitions/traits_trait_additional_properties_json"
+    },
+    "address": {
+     "$ref": "#/definitions/traits_trait_address_json"
+    },
+    "alignment": {
+     "$ref": "#/definitions/traits_trait_alignment_json"
+    },
+    "autoplay": {
+     "description": "Whether to autoplay is enabled.",
+     "type": "boolean"
+    },
+    "canonical_url": {
+     "$ref": "#/definitions/traits_trait_canonical_url_json"
+    },
+    "channels": {
+     "$ref": "#/definitions/traits_trait_channel_json"
+    },
+    "comments": {
+     "$ref": "#/definitions/traits_trait_comments_json"
+    },
+    "content_aliases": {
+     "$ref": "#/definitions/traits_trait_content_aliases_json"
+    },
+    "content_restrictions": {
+     "$ref": "#/definitions/traits_trait_content_restrictions_json"
+    },
+    "controls": {
+     "description": "Whether controls are enabled.",
+     "type": "boolean"
+    },
+    "copyright": {
+     "$ref": "#/definitions/traits_trait_copyright_json"
+    },
+    "created_date": {
+     "$ref": "#/definitions/traits_trait_created_date_json"
+    },
+    "credits": {
+     "$ref": "#/definitions/traits_trait_credits_json"
+    },
+    "description": {
+     "$ref": "#/definitions/traits_trait_description_json"
+    },
+    "display_date": {
+     "$ref": "#/definitions/traits_trait_display_date_json"
+    },
+    "distributor": {
+     "$ref": "#/definitions/traits_trait_distributor_json"
+    },
+    "editor_note": {
+     "$ref": "#/definitions/traits_trait_editor_note_json"
+    },
+    "first_publish_date": {
+     "$ref": "#/definitions/traits_trait_first_publish_date_json"
+    },
+    "geo": {
+     "$ref": "#/definitions/traits_trait_geo_json"
+    },
+    "headlines": {
+     "$ref": "#/definitions/traits_trait_headlines_json"
+    },
+    "label": {
+     "$ref": "#/definitions/traits_trait_label_json"
+    },
+    "language": {
+     "$ref": "#/definitions/traits_trait_locale_json"
+    },
+    "last_updated_date": {
+     "$ref": "#/definitions/traits_trait_last_updated_date_json"
+    },
+    "location": {
+     "$ref": "#/definitions/traits_trait_location_json"
+    },
+    "loop": {
+     "description": "Whether looping is enabled.",
+     "type": "boolean"
+    },
+    "mimetype": {
+     "description": "(Deprecated.) Mime type of audio source file. Use 'streams' instead.",
+     "type": "string"
+    },
+    "owner": {
+     "$ref": "#/definitions/traits_trait_owner_json"
+    },
+    "pitches": {
+     "$ref": "#/definitions/traits_trait_pitches_json"
+    },
+    "planning": {
+     "$ref": "#/definitions/traits_trait_planning_json"
+    },
+    "preload": {
+     "description": "Whether preload is enabled.",
+     "type": "boolean"
+    },
+    "promo_items": {
+     "$ref": "#/definitions/traits_trait_promo_items_json"
+    },
+    "publish_date": {
+     "$ref": "#/definitions/traits_trait_publish_date_json"
+    },
+    "related_content": {
+     "$ref": "#/definitions/traits_trait_related_content_json"
+    },
+    "revision": {
+     "$ref": "#/definitions/traits_trait_revision_json"
+    },
+    "short_url": {
+     "$ref": "#/definitions/traits_trait_short_url_json"
+    },
+    "slug": {
+     "$ref": "#/definitions/traits_trait_slug_json"
+    },
+    "source": {
+     "$ref": "#/definitions/traits_trait_source_json"
+    },
+    "source_url": {
+     "description": "(Deprecated.) The audio source file. Use 'streams' instead.",
+     "type": "string"
+    },
+    "status": {
+     "$ref": "#/definitions/traits_trait_status_json"
+    },
+    "streams": {
+     "description": "The different streams this audio can play in.",
+     "items": {
+      "$ref": "#/definitions/utils_audio_stream_json"
+     },
+     "minItems": 1,
+     "type": "array"
+    },
+    "subheadlines": {
+     "$ref": "#/definitions/traits_trait_subheadlines_json"
+    },
+    "subtype": {
+     "$ref": "#/definitions/traits_trait_subtype_json"
+    },
+    "syndication": {
+     "$ref": "#/definitions/traits_trait_syndication_json"
+    },
+    "taxonomy": {
+     "$ref": "#/definitions/traits_trait_taxonomy_json"
+    },
+    "tracking": {
+     "$ref": "#/definitions/traits_trait_tracking_json"
+    },
+    "type": {
+     "enum": [
+      "audio"
+     ],
+     "type": "string"
+    },
+    "vanity_credits": {
+     "$ref": "#/definitions/traits_trait_vanity_credits_json"
+    },
+    "version": {
+     "$ref": "#/definitions/traits_trait_version_json"
+    },
+    "workflow": {
+     "$ref": "#/definitions/traits_trait_workflow_json"
+    }
+   },
+   "required": [
+    "type",
+    "version"
+   ],
+   "type": "object"
+  },
+  "content_json": {
+   "$schema": "http://json-schema.org/draft-04/schema#",
+   "additionalProperties": {},
+   "description": "Holds common attributes of ANS Content objects.",
+   "properties": {
+    "_id": {
+     "$ref": "#/definitions/traits_trait_id_json"
+    },
+    "additional_properties": {
+     "$ref": "#/definitions/traits_trait_additional_properties_json"
+    },
+    "address": {
+     "$ref": "#/definitions/traits_trait_address_json"
+    },
+    "alignment": {
+     "$ref": "#/definitions/traits_trait_alignment_json"
+    },
+    "canonical_url": {
+     "$ref": "#/definitions/traits_trait_canonical_url_json"
+    },
+    "channels": {
+     "$ref": "#/definitions/traits_trait_channel_json"
+    },
+    "comments": {
+     "$ref": "#/definitions/traits_trait_comments_json"
+    },
+    "content_aliases": {
+     "$ref": "#/definitions/traits_trait_content_aliases_json"
+    },
+    "content_restrictions": {
+     "$ref": "#/definitions/traits_trait_content_restrictions_json"
+    },
+    "contributors": {
+   
+... (truncated)

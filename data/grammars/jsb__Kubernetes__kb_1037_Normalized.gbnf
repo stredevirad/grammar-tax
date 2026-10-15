@@ -1,0 +1,14 @@
+apiGroup ::= string | null
+apiGroup-kv ::= "\"apiGroup\"" space ":" space apiGroup
+apiGroup-rest ::= ( "," space namespace-kv )?
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+kind ::= string | null
+kind-kv ::= "\"kind\"" space ":" space kind
+name ::= string | null
+name-kv ::= "\"name\"" space ":" space name
+namespace ::= string | null
+namespace-kv ::= "\"namespace\"" space ":" space namespace
+null ::= "null"
+root ::= "{" space kind-kv "," space name-kv ( "," space ( apiGroup-kv apiGroup-rest | namespace-kv ) )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

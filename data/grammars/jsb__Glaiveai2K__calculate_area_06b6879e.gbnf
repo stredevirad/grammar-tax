@@ -1,0 +1,16 @@
+base-kv ::= "\"base\"" space ":" space number
+base-rest ::= ( "," space height-kv )? height-rest
+decimal-part ::= [0-9]{1,16}
+height-kv ::= "\"height\"" space ":" space number
+height-rest ::= ( "," space length-kv )? length-rest
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+length-kv ::= "\"length\"" space ":" space number
+length-rest ::= ( "," space radius-kv )? radius-rest
+number ::= ("-"? integral-part) ("." decimal-part)? ([eE] [-+]? integral-part)?
+radius-kv ::= "\"radius\"" space ":" space number
+radius-rest ::= ( "," space width-kv )?
+root ::= "{" space shape-kv ( "," space ( base-kv base-rest | height-kv height-rest | length-kv length-rest | radius-kv radius-rest | width-kv ) )? space "}"
+shape ::= ("\"circle\"" | "\"rectangle\"" | "\"triangle\"")
+shape-kv ::= "\"shape\"" space ":" space shape
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+width-kv ::= "\"width\"" space ":" space number

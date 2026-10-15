@@ -1,0 +1,15 @@
+Address ::= "{" space Address-House-kv "," space Address-PostCode-kv "," space Address-Recipient-kv "," space Address-Street-kv "," space Address-Town-kv ( "," space ( Address-Country-kv Address-Country-rest | Address-County-kv ) )? space "}"
+Address-Country ::= ("\"IN\"" | "\"DE\"" | "\"ES\"" | "\"UK\"" | "\"US\"")
+Address-Country-kv ::= "\"Country\"" space ":" space Address-Country
+Address-Country-rest ::= ( "," space Address-County-kv )?
+Address-County-kv ::= "\"County\"" space ":" space string
+Address-House-kv ::= "\"House\"" space ":" space string
+Address-PostCode-kv ::= "\"PostCode\"" space ":" space string
+Address-Recipient-kv ::= "\"Recipient\"" space ":" space string
+Address-Street-kv ::= "\"Street\"" space ":" space string
+Address-Town-kv ::= "\"Town\"" space ":" space string
+Address-kv ::= "\"Address\"" space ":" space Address
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+root ::= "{" space Address-kv space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

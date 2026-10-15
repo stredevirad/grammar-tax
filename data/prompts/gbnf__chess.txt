@@ -1,0 +1,1 @@
+Write the moves of a chess game in standard algebraic notation, numbered, e.g. 1. e4 e5 2. Nf3 Nc6.

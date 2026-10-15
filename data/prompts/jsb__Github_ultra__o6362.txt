@@ -1,0 +1,179 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "anyOf": [
+  {
+   "$ref": "#/definitions/SkaffoldConfig"
+  }
+ ],
+ "definitions": {
+  "Activation": {
+   "additionalProperties": false,
+   "description": "criteria by which a profile is auto-activated.",
+   "preferredOrder": [
+    "env",
+    "kubeContext",
+    "command"
+   ],
+   "properties": {
+    "command": {
+     "description": "a Skaffold command for which the profile is auto-activated.",
+     "examples": [
+      "dev"
+     ],
+     "type": "string",
+     "x-intellij-html-description": "a Skaffold command for which the profile is auto-activated."
+    },
+    "env": {
+     "description": "a `key=value` pair. The profile is auto-activated if an Environment Variable `key` has value `value`.",
+     "examples": [
+      "ENV=production"
+     ],
+     "type": "string",
+     "x-intellij-html-description": "a <code>key=value</code> pair. The profile is auto-activated if an Environment Variable <code>key</code> has value <code>value</code>."
+    },
+    "kubeContext": {
+     "description": "a Kubernetes context for which the profile is auto-activated.",
+     "examples": [
+      "minikube"
+     ],
+     "type": "string",
+     "x-intellij-html-description": "a Kubernetes context for which the profile is auto-activated."
+    }
+   },
+   "x-intellij-html-description": "criteria by which a profile is auto-activated."
+  },
+  "Artifact": {
+   "anyOf": [
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync",
+      "plugin"
+     ],
+     "properties": {
+      "context": {
+       "default": ".",
+       "description": "directory containing the artifact's sources.",
+       "type": "string",
+       "x-intellij-html-description": "directory containing the artifact's sources."
+      },
+      "image": {
+       "description": "name of the image to be built.",
+       "examples": [
+        "gcr.io/k8s-skaffold/example"
+       ],
+       "type": "string",
+       "x-intellij-html-description": "name of the image to be built."
+      },
+      "plugin": {
+       "$ref": "#/definitions/BuilderPlugin",
+       "description": "plugin used to build this artifact.",
+       "x-intellij-html-description": "plugin used to build this artifact."
+      },
+      "sync": {
+       "additionalProperties": {
+        "type": "string"
+       },
+       "default": "{}",
+       "description": "*alpha* local files synced to pods instead of triggering an image build when modified. This is a mapping of local files to sync to remote folders.",
+       "examples": [
+        "{\"*.py\": \".\", \"css/**/*.css\": \"app/css\"}"
+       ],
+       "type": "object",
+       "x-intellij-html-description": "<em>alpha</em> local files synced to pods instead of triggering an image build when modified. This is a mapping of local files to sync to remote folders."
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync",
+      "plugin",
+      "docker"
+     ],
+     "properties": {
+      "context": {
+       "default": ".",
+       "description": "directory containing the artifact's sources.",
+       "type": "string",
+       "x-intellij-html-description": "directory containing the artifact's sources."
+      },
+      "docker": {
+       "$ref": "#/definitions/DockerArtifact",
+       "description": "*beta* describes an artifact built from a Dockerfile.",
+       "x-intellij-html-description": "<em>beta</em> describes an artifact built from a Dockerfile."
+      },
+      "image": {
+       "description": "name of the image to be built.",
+       "examples": [
+        "gcr.io/k8s-skaffold/example"
+       ],
+       "type": "string",
+       "x-intellij-html-description": "name of the image to be built."
+      },
+      "plugin": {
+       "$ref": "#/definitions/BuilderPlugin",
+       "description": "plugin used to build this artifact.",
+       "x-intellij-html-description": "plugin used to build this artifact."
+      },
+      "sync": {
+       "additionalProperties": {
+        "type": "string"
+       },
+       "default": "{}",
+       "description": "*alpha* local files synced to pods instead of triggering an image build when modified. This is a mapping of local files to sync to remote folders.",
+       "examples": [
+        "{\"*.py\": \".\", \"css/**/*.css\": \"app/css\"}"
+       ],
+       "type": "object",
+       "x-intellij-html-description": "<em>alpha</em> local files synced to pods instead of triggering an image build when modified. This is a mapping of local files to sync to remote folders."
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync",
+      "plugin",
+      "bazel"
+     ],
+     "properties": {
+      "bazel": {
+       "$ref": "#/definitions/BazelArtifact",
+       "description": "*beta* requires bazel CLI to be installed and the sources to contain [Bazel](https://bazel.build/) configuration files.",
+       "x-intellij-html-description": "<em>beta</em> requires bazel CLI to be installed and the sources to contain <a href=\"https://bazel.build/\">Bazel</a> configuration files."
+      },
+      "context": {
+       "default": ".",
+       "description": "directory containing the artifact's sources.",
+       "type": "string",
+       "x-intellij-html-description": "directory containing the artifact's sources."
+      },
+      "image": {
+       "description": "name of the image to be built.",
+       "examples": [
+        "gcr.io/k8s-skaffold/example"
+       ],
+       "type": "string",
+       "x-intellij-html-description": "name of the image to be built."
+      },
+      "plugin": {
+       "$ref": "#/definitions/BuilderPlugin",
+       "description": "plugin used to build this artifact.",
+       "x-intellij-html-description": "plugin used to build this artifact."
+      },
+      "sync": {
+       "additionalProperties": {
+        "type": "string"
+       },
+       "default": "{}",
+       "description": "*alpha* local files synced to pods instead of triggering an image build
+... (truncated)

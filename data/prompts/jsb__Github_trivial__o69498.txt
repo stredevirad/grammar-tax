@@ -1,0 +1,25 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "type": "object",
+ "properties": {
+  "tags": {
+   "type": "array",
+   "items": {
+    "anyOf": [
+     {
+      "type": "string"
+     },
+     {
+      "type": "number",
+      "enum": [
+       42
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

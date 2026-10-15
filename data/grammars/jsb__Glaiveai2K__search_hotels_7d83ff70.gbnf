@@ -1,0 +1,15 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+check-in-date-kv ::= "\"check_in_date\"" space ":" space string
+check-out-date-kv ::= "\"check_out_date\"" space ":" space string
+decimal-part ::= [0-9]{1,16}
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+location-kv ::= "\"location\"" space ":" space string
+number ::= ("-"? integral-part) ("." decimal-part)? ([eE] [-+]? integral-part)?
+price-range ::= "{" space  (price-range-max-price-kv price-range-max-price-rest | price-range-min-price-kv )? space "}"
+price-range-kv ::= "\"price_range\"" space ":" space price-range
+price-range-max-price-kv ::= "\"max_price\"" space ":" space number
+price-range-max-price-rest ::= ( "," space price-range-min-price-kv )?
+price-range-min-price-kv ::= "\"min_price\"" space ":" space number
+root ::= "{" space check-in-date-kv "," space check-out-date-kv "," space location-kv ( "," space ( price-range-kv ) )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

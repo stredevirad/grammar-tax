@@ -1,0 +1,243 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "id": "http://datafactories.schema.management.azure.com/schemas/2015-09-01/Microsoft.DataFactory.LinkedService.json",
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "title": "Microsoft.Azure.Management.DataFactories.Models.LinkedService",
+ "description": "The data factory linkedService.",
+ "type": "object",
+ "required": [
+  "name",
+  "properties"
+ ],
+ "properties": {
+  "name": {
+   "description": "Data factory linkedService name.",
+   "type": "string",
+   "maxLength": 260,
+   "pattern": "^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$"
+  },
+  "properties": {
+   "description": "Data factory linkedService properties.",
+   "$ref": "#/definitions/linkedServicePropertiesTypes"
+  },
+  "$schema": {
+   "type": "string"
+  }
+ },
+ "additionalProperties": true,
+ "definitions": {
+  "linkedServiceProperties": {
+   "title": "Microsoft.Azure.Management.DataFactories.Models.LinkedServiceProperties",
+   "description": "Data factory linkedService properties.",
+   "type": "object",
+   "properties": {
+    "description": {
+     "description": "Data factory linkedService description.",
+     "type": "string"
+    },
+    "hubName": {
+     "description": "The name of the Hub that this linked service belongs to.",
+     "type": "string"
+    }
+   }
+  },
+  "azureSqlDatabaseLinkedService": {
+   "title": "Microsoft.Azure.Management.DataFactories.Models.AzureSqlDatabaseLinkedService",
+   "description": "Windows Azure SQL database.",
+   "type": "object",
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "AzureSqlDatabase"
+     ]
+    },
+    "typeProperties": {
+     "description": "Properties specific to this linked service type.",
+     "type": "object",
+     "required": [
+      "connectionString"
+     ],
+     "properties": {
+      "connectionString": {
+       "description": "The connection string.",
+       "type": "string"
+      }
+     },
+     "additionalProperties": false
+    }
+   }
+  },
+  "azureSqlDataWarehouseLinkedService": {
+   "title": "Microsoft.Azure.Management.DataFactories.Models.AzureSqlDataWarehouseLinkedService",
+   "description": "Azure SQL data warehouse linked service.",
+   "type": "object",
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "AzureSqlDW"
+     ]
+    },
+    "typeProperties": {
+     "description": "Properties specific to this linked service type.",
+     "type": "object",
+     "required": [
+      "connectionString"
+     ],
+     "properties": {
+      "connectionString": {
+       "description": "The connection string.",
+       "type": "string"
+      }
+     },
+     "additionalProperties": false
+    }
+   }
+  },
+  "linkedServicePropertiesTypes": {
+   "type": "object",
+   "required": [
+    "type",
+    "typeProperties"
+   ],
+   "allOf": [
+    {
+     "$ref": "#/definitions/linkedServiceProperties"
+    },
+    {
+     "oneOf": [
+      {
+       "$ref": "#/definitions/azureSqlDatabaseLinkedService"
+      },
+      {
+       "$ref": "#/definitions/azureSqlDataWarehouseLinkedService"
+      },
+      {
+       "$ref": "#/definitions/azureStorageLinkedService"
+      },
+      {
+       "$ref": "#/definitions/azureStorageSasLinkedService"
+      },
+      {
+       "$ref": "#/definitions/azureSearchLinkedService"
+      },
+      {
+       "$ref": "#/definitions/azureBatchLinkedService"
+      },
+      {
+       "$ref": "#/definitions/documentDbLinkedService"
+      },
+      {
+       "$ref": "#/definitions/hdInsightLinkedService"
+      },
+      {
+       "$ref": "#/definitions/onPremisesFileServerLinkedService"
+      },
+      {
+       "$ref": "#/definitions/onPremisesSqlServerLinkedService"
+      },
+      {
+       "$ref": "#/definitions/onPremisesOracleLinkedService"
+      },
+      {
+       "$ref": "#/definitions/onPremisesMySqlLinkedService"
+      },
+      {
+       "$ref": "#/definitions/onPremisesPostgreSqlLinkedService"
+      },
+      {
+       "$ref": "#/definitions/onPremisesSybaseLinkedService"
+      },
+      {
+       "$ref": "#/definitions/onPremisesTeradataLinkedService"
+      },
+      {
+       "$ref": "#/definitions/onPremisesDb2LinkedService"
+      },
+      {
+       "$ref": "#/definitions/azureMLLinkedService"
+      },
+      {
+       "$ref": "#/definitions/hdInsightOnDemandLinkedService"
+      },
+      {
+       "$ref": "#/definitions/azureDataLakeStoreLinkedService"
+      },
+      {
+       "$ref": "#/definitions/azureDataLakeAnalyticsLinkedService"
+      },
+      {
+       "$ref": "#/definitions/onPremisesOdbcLinkedService"
+      },
+      {
+       "$ref": "#/definitions/hdfsLinkedService"
+      },
+      {
+       "$ref": "#/definitions/oDataLinkedService"
+      },
+      {
+       "$ref": "#/definitions/webLinkedService"
+      },
+      {
+       "$ref": "#/definitions/httpLinkedService"
+      },
+      {
+       "$ref": "#/definitions/onPremisesCassandraLinkedService"
+      },
+      {
+       "$ref": "#/definitions/onPremisesMongoDbLinkedService"
+      },
+      {
+       "$ref": "#/definitions/salesforceLinkedService"
+      },
+      {
+       "$ref": "#/definitions/awsAccessKeyLinkedService"
+      },
+      {
+       "$ref": "#/definitions/amazonRedshiftLinkedService"
+      },
+      {
+       "$ref": "#/definitions/ftpServerLinkedService"
+      },
+      {
+       "$ref": "#/definitions/sftpLinkedService"
+      },
+      {
+       "$ref": "#/definitions/customDataSourceLinkedService"
+      }
+     ]
+    }
+   ]
+  },
+  "azureStorageLinkedService": {
+   "title": "Microsoft.Azure.Management.DataFactories.Models.AzureStorageLinkedService",
+   "description": "The storage account linkedService.",
+   "type": "object",
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "AzureStorage"
+     ]
+    },
+    "typeProperties": {
+     "description": "Properties specific to this linked service type.",
+     "type": "object",
+     "required": [
+      "connectionString"
+     ],
+     "properties": {
+      "connectionString": {
+       "description": "The connection string.",
+       "type": "string"
+      }
+     },
+     "additionalProperties": false
+    }
+   }
+  },
+  "azureStorageSasLi
+... (truncated)

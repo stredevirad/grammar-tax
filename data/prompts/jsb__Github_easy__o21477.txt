@@ -1,0 +1,23 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "additionalProperties": false,
+ "properties": {
+  "filters": {
+   "type": "string"
+  },
+  "ids": {
+   "pattern": "^[a-z0-9:]+$",
+   "type": "string"
+  },
+  "metrics": {
+   "type": "string"
+  }
+ },
+ "required": [
+  "metrics"
+ ],
+ "title": "Google Analytics Realtime Collector Query",
+ "type": "object"
+}

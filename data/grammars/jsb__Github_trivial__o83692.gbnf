@@ -1,0 +1,4 @@
+country ::= ("\"Belize\"" | "\"Costa Rica\"" | "\"El Salvador\"" | "\"Guatemala\"" | "\"Honduras\"" | "\"Nicaragua\"" | "\"Panama\"")
+country-kv ::= "\"country\"" space ":" space country
+root ::= "{" space  (country-kv )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}

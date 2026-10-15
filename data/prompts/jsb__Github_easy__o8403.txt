@@ -1,0 +1,32 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "properties": {
+  "actions": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array"
+  },
+  "channel": {
+   "type": "string"
+  },
+  "command": {
+   "type": "string"
+  },
+  "tags": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array"
+  }
+ },
+ "required": [
+  "actions",
+  "channel",
+  "command",
+  "tags"
+ ],
+ "type": "object"
+}

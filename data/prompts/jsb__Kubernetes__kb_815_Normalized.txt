@@ -1,0 +1,120 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "definitions": {
+  "https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_core_v1_AWSElasticBlockStoreVolumeSource": {
+   "description": "Represents a Persistent Disk resource in AWS.\n\nAn AWS EBS disk must exist before mounting to a container. The disk must also be in the same AWS zone as the kubelet. An AWS EBS disk can only be mounted as read/write once. AWS EBS volumes support ownership management and SELinux relabeling.",
+   "properties": {
+    "fsType": {
+     "description": "Filesystem type of the volume that you want to mount. Tip: Ensure that the filesystem type is supported by the host operating system. Examples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
+     "type": "string"
+    },
+    "partition": {
+     "_format": "int32",
+     "description": "The partition in the volume that you want to mount. If omitted, the default is to mount by volume name. Examples: For volume /dev/sda1, you specify the partition as \"1\". Similarly, the volume partition for /dev/sda is \"0\" (or you can leave the property empty).",
+     "type": "integer"
+    },
+    "readOnly": {
+     "description": "Specify \"true\" to force and set the ReadOnly property in VolumeMounts to \"true\". If omitted, the default is \"false\". More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
+     "type": "boolean"
+    },
+    "volumeID": {
+     "description": "Unique ID of the persistent disk resource in AWS (Amazon EBS volume). More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
+     "type": "string"
+    }
+   },
+   "required": [
+    "volumeID"
+   ],
+   "type": "object"
+  },
+  "https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_core_v1_Affinity": {
+   "description": "Affinity is a group of affinity scheduling rules.",
+   "properties": {
+    "nodeAffinity": {
+     "$ref": "#/definitions/https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_core_v1_NodeAffinity",
+     "description": "Describes node affinity scheduling rules for the pod."
+    },
+    "podAffinity": {
+     "$ref": "#/definitions/https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_core_v1_PodAffinity",
+     "description": "Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s))."
+    },
+    "podAntiAffinity": {
+     "$ref": "#/definitions/https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_core_v1_PodAntiAffinity",
+     "description": "Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s))."
+    }
+   },
+   "type": "object"
+  },
+  "https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_core_v1_AzureDiskVolumeSource": {
+   "description": "AzureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.",
+   "properties": {
+    "cachingMode": {
+     "description": "Host Caching mode: None, Read Only, Read Write.",
+     "type": "string"
+    },
+    "diskName": {
+     "description": "The Name of the data disk in the blob storage",
+     "type": "string"
+    },
+    "diskURI": {
+     "description": "The URI the data disk in the blob storage",
+     "type": "string"
+    },
+    "fsType": {
+     "description": "Filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
+     "type": "string"
+    },
+    "kind": {
+     "description": "Expected values Shared: multiple blob disks per storage account  Dedicated: single blob disk per storage account  Managed: azure managed data disk (only in managed availability set). defaults to shared",
+     "type": "string"
+    },
+    "readOnly": {
+     "description": "Defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts.",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "diskName",
+    "diskURI"
+   ],
+   "type": "object"
+  },
+  "https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_core_v1_AzureFileVolumeSource": {
+   "description": "AzureFile represents an Azure File Service mount on the host and bind mount to the pod.",
+   "properties": {
+    "readOnly": {
+     "description": "Defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts.",
+     "type": "boolean"
+    },
+    "secretName": {
+     "description": "the name of secret that contains Azure Storage Account Name and Key",
+     "type": "string"
+    },
+    "shareName": {
+     "description": "Share Name",
+     "type": "string"
+    }
+   },
+   "required": [
+    "secretName",
+    "shareName"
+   ],
+   "type": "object"
+  },
+  "https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_core_v1_CSIVolumeSource": {
+   "description": "Represents a source location of a volume to mount, managed by an external CSI driver",
+   "properties": {
+    "driver": {
+     "description": "Driver is the name of the CSI driver that handles this volume. Consult with your admin for the correct name as registered in the cluster.",
+     "type": "string"
+    },
+    "fsType": {
+     "description": "Filesystem type to mount. Ex. \"ext4\", \"xfs\", \"ntfs\". If not provided, the empty value is passed to the associated CSI driver which will determine the default filesystem to apply.",
+     "type": "string"
+    },
+    "nodePublishSecretRef": {
+     "$ref": "#/definitions/https:__kubernetesjsonschema_dev_master__defs_json_defs_io_k8s_api_core_v1_LocalObjectReference",
+     "description": "NodePublishSecretRef is a reference to the secret object containing sensitive information to pass to the CSI driver to complete the CSI NodePublishVolume and NodeUnpublishVolume calls. This field is optional, and  may be empty if no secret is required. If the secret object contains more than one secre
+... (truncated)

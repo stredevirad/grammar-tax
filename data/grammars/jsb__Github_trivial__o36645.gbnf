@@ -1,0 +1,4 @@
+message ::= ("\"acknowledged\"")
+message-kv ::= "\"message\"" space ":" space message
+root ::= "{" space  (message-kv )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}

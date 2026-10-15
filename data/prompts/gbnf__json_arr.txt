@@ -1,0 +1,1 @@
+List five fictional books with title, author, year and genres as a JSON array of objects.

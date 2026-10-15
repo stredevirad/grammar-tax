@@ -1,0 +1,164 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$id": "https://json.schemastore.org/rustfmt.json",
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "description": "https://rust-lang.github.io/rustfmt",
+ "properties": {
+  "array_width": {
+   "type": "integer",
+   "description": "Maximum width of an array literal before falling back to vertical formatting.\n\n[Documentation](https://rust-lang.github.io/rustfmt/#array_width)",
+   "default": 60
+  },
+  "attr_fn_like_width": {
+   "type": "integer",
+   "description": "Maximum width of the args of a function-like attributes before falling back to vertical formatting.\n\n[Documentation](https://rust-lang.github.io/rustfmt/#attr_fn_like_width)",
+   "default": 70
+  },
+  "binop_separator": {
+   "type": "string",
+   "description": "Where to put a binary operator when a binary expression goes multiline\n\n[Documentation](https://rust-lang.github.io/rustfmt/#binop_separator)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": "Front",
+   "enum": [
+    "Front",
+    "Back"
+   ]
+  },
+  "blank_lines_lower_bound": {
+   "type": "integer",
+   "description": "Minimum number of blank lines which must be put between items\n\n[Documentation](https://rust-lang.github.io/rustfmt/#blank_lines_lower_bound)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": 0
+  },
+  "blank_lines_upper_bound": {
+   "type": "integer",
+   "description": "Maximum number of blank lines which can be put between items\n\n[Documentation](https://rust-lang.github.io/rustfmt/#blank_lines_upper_bound)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": 1
+  },
+  "brace_style": {
+   "type": "string",
+   "description": "Brace style for items\n\n[Documentation](https://rust-lang.github.io/rustfmt/#brace_style)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": "SameLineWhere",
+   "enum": [
+    "AlwaysNextLine",
+    "PreferSameLine",
+    "SameLineWhere"
+   ]
+  },
+  "chain_width": {
+   "type": "integer",
+   "description": "Maximum length of a chain to fit on a single line.\n\n[Documentation](https://rust-lang.github.io/rustfmt/#chain_width)",
+   "default": 60
+  },
+  "color": {
+   "type": "string",
+   "description": "What Color option to use when none is supplied: Always, Never, Auto\n\n[Documentation](https://rust-lang.github.io/rustfmt/#color)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": "Auto",
+   "enum": [
+    "Always",
+    "Never",
+    "Auto"
+   ]
+  },
+  "combine_control_expr": {
+   "type": "boolean",
+   "description": "Combine control expressions with function calls\n\n[Documentation](https://rust-lang.github.io/rustfmt/#combine_control_expr)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": true,
+   "enum": [
+    true,
+    false
+   ]
+  },
+  "comment_width": {
+   "type": "integer",
+   "description": "Maximum length of comments. No effect unless wrap_comments = true\n\n[Documentation](https://rust-lang.github.io/rustfmt/#comment_width)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": 80
+  },
+  "condense_wildcard_suffixes": {
+   "type": "boolean",
+   "description": "Replace strings of _ wildcards by a single .. in tuple patterns\n\n[Documentation](https://rust-lang.github.io/rustfmt/#condense_wildcard_suffixes)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": false,
+   "enum": [
+    true,
+    false
+   ]
+  },
+  "control_brace_style": {
+   "type": "string",
+   "description": "Brace style for control flow constructs\n\n[Documentation](https://rust-lang.github.io/rustfmt/#control_brace_style)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": "AlwaysSameLine",
+   "enum": [
+    "AlwaysSameLine",
+    "ClosingNextLine",
+    "AlwaysNextLine"
+   ]
+  },
+  "disable_all_formatting": {
+   "type": "boolean",
+   "description": "Don't reformat anything\n\n[Documentation](https://rust-lang.github.io/rustfmt/#disable_all_formatting)",
+   "default": false,
+   "enum": [
+    true,
+    false
+   ]
+  },
+  "edition": {
+   "type": "string",
+   "description": "The edition of the parser (RFC 2052)\n\n[Documentation](https://rust-lang.github.io/rustfmt/#edition)",
+   "default": "2015",
+   "enum": [
+    "2015",
+    "2018",
+    "2021"
+   ]
+  },
+  "emit_mode": {
+   "type": "string",
+   "description": "What emit Mode to use when none is supplied\n\n[Documentation](https://rust-lang.github.io/rustfmt/#emit_mode)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": "Files",
+   "enum": [
+    "Files",
+    "Stdout",
+    "Coverage",
+    "Checkstyle",
+    "Json",
+    "ModifiedLines",
+    "Diff"
+   ]
+  },
+  "empty_item_single_line": {
+   "type": "boolean",
+   "description": "Put empty-body functions and impls on a single line\n\n[Documentation](https://rust-lang.github.io/rustfmt/#empty_item_single_line)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": true,
+   "enum": [
+    true,
+    false
+   ]
+  },
+  "enum_discrim_align_threshold": {
+   "type": "integer",
+   "description": "Align enum variants discrims, if their diffs fit within threshold\n\n[Documentation](https://rust-lang.github.io/rustfmt/#enum_discrim_align_threshold)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": 0
+  },
+  "error_on_line_overflow": {
+   "type": "boolean",
+   "description": "Error if unable to get all lines within max_width\n\n[Documentation](https://rust-lang.github.io/rustfmt/#error_on_line_overflow)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": false,
+   "enum": [
+    true,
+    false
+   ]
+  },
+  "error_on_unformatted": {
+   "type": "boolean",
+   "description": "Error if unable to get comments or string literals within max_width, or they are left with trailing whitespaces\n\n[Documentation](https://rust-lang.github.io/rustfmt/#error_on_unformatted)\n\n### Unstable\nThis option requires Nightly Rust.",
+   "default": false,
+   "enum": [
+    true,
+    false
+   ]
+  },
+  "fn_args_layout": {
+   "type": "string",
+   "description": "Control the layout of arguments in a func
+... (truncated)

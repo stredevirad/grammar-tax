@@ -1,0 +1,17 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+integer ::= ("-"? integral-part)
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+null ::= "null"
+ranges ::= ranges-0 | null
+ranges-0 ::= "[" space (ranges-0-item ("," space ranges-0-item)*)? space "]"
+ranges-0-item ::= ref-definitions-https-kubernetesjsonschema-dev-master-defs-json-defs-io-k8s-api-policy-v1beta1-IDRange
+ranges-kv ::= "\"ranges\"" space ":" space ranges
+ranges-rest ::= ( "," space rule-kv )?
+ref-definitions-https-kubernetesjsonschema-dev-master-defs-json-defs-io-k8s-api-policy-v1beta1-IDRange ::= "{" space ref-definitions-https-kubernetesjsonschema-dev-master-defs-json-defs-io-k8s-api-policy-v1beta1-IDRange-max-kv "," space ref-definitions-https-kubernetesjsonschema-dev-master-defs-json-defs-io-k8s-api-policy-v1beta1-IDRange-min-kv space "}"
+ref-definitions-https-kubernetesjsonschema-dev-master-defs-json-defs-io-k8s-api-policy-v1beta1-IDRange-max-kv ::= "\"max\"" space ":" space integer
+ref-definitions-https-kubernetesjsonschema-dev-master-defs-json-defs-io-k8s-api-policy-v1beta1-IDRange-min-kv ::= "\"min\"" space ":" space integer
+root ::= "{" space  (ranges-kv ranges-rest | rule-kv )? space "}"
+rule ::= string | null
+rule-kv ::= "\"rule\"" space ":" space rule
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

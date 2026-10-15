@@ -1,0 +1,16 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+confidence-kv ::= "\"confidence\"" space ":" space number
+confidence-rest ::= ( "," space urls-kv )?
+decimal-part ::= [0-9]{1,16}
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+number ::= ("-"? integral-part) ("." decimal-part)? ([eE] [-+]? integral-part)?
+ref-definitions-subtitle-url ::= "{" space  (ref-definitions-subtitle-url-format-kv ref-definitions-subtitle-url-format-rest | ref-definitions-subtitle-url-url-kv )? space "}"
+ref-definitions-subtitle-url-format-kv ::= "\"format\"" space ":" space string
+ref-definitions-subtitle-url-format-rest ::= ( "," space ref-definitions-subtitle-url-url-kv )?
+ref-definitions-subtitle-url-url-kv ::= "\"url\"" space ":" space string
+root ::= "{" space  (confidence-kv confidence-rest | urls-kv )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+urls ::= "[" space (urls-item ("," space urls-item)*)? space "]"
+urls-item ::= ref-definitions-subtitle-url
+urls-kv ::= "\"urls\"" space ":" space urls

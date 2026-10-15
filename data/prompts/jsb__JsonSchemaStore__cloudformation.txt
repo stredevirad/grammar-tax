@@ -1,0 +1,300 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$id": "http://json-schema.org/draft-04/schema#",
+ "additionalProperties": false,
+ "definitions": {
+  "AWS::ACMPCA::Certificate": {
+   "additionalProperties": false,
+   "properties": {
+    "Condition": {
+     "type": "string"
+    },
+    "DeletionPolicy": {
+     "enum": [
+      "Delete",
+      "Retain",
+      "Snapshot"
+     ],
+     "type": "string"
+    },
+    "DependsOn": {
+     "anyOf": [
+      {
+       "pattern": "^[a-zA-Z0-9]+$",
+       "type": "string"
+      },
+      {
+       "items": {
+        "pattern": "^[a-zA-Z0-9]+$",
+        "type": "string"
+       },
+       "type": "array"
+      }
+     ]
+    },
+    "Metadata": {
+     "type": "object"
+    },
+    "Properties": {
+     "additionalProperties": false,
+     "properties": {
+      "ApiPassthrough": {
+       "$ref": "#/definitions/AWS::ACMPCA::Certificate.ApiPassthrough"
+      },
+      "CertificateAuthorityArn": {
+       "type": "string"
+      },
+      "CertificateSigningRequest": {
+       "type": "string"
+      },
+      "SigningAlgorithm": {
+       "type": "string"
+      },
+      "TemplateArn": {
+       "type": "string"
+      },
+      "Validity": {
+       "$ref": "#/definitions/AWS::ACMPCA::Certificate.Validity"
+      },
+      "ValidityNotBefore": {
+       "$ref": "#/definitions/AWS::ACMPCA::Certificate.Validity"
+      }
+     },
+     "required": [
+      "CertificateAuthorityArn",
+      "CertificateSigningRequest",
+      "SigningAlgorithm",
+      "Validity"
+     ],
+     "type": "object"
+    },
+    "Type": {
+     "enum": [
+      "AWS::ACMPCA::Certificate"
+     ],
+     "type": "string"
+    },
+    "UpdateReplacePolicy": {
+     "enum": [
+      "Delete",
+      "Retain",
+      "Snapshot"
+     ],
+     "type": "string"
+    }
+   },
+   "required": [
+    "Type",
+    "Properties"
+   ],
+   "type": "object"
+  },
+  "AWS::ACMPCA::Certificate.ApiPassthrough": {
+   "additionalProperties": false,
+   "properties": {
+    "Extensions": {
+     "$ref": "#/definitions/AWS::ACMPCA::Certificate.Extensions"
+    },
+    "Subject": {
+     "$ref": "#/definitions/AWS::ACMPCA::Certificate.Subject"
+    }
+   },
+   "type": "object"
+  },
+  "AWS::ACMPCA::Certificate.CustomAttribute": {
+   "additionalProperties": false,
+   "properties": {
+    "ObjectIdentifier": {
+     "type": "string"
+    },
+    "Value": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "ObjectIdentifier",
+    "Value"
+   ],
+   "type": "object"
+  },
+  "AWS::ACMPCA::Certificate.CustomExtension": {
+   "additionalProperties": false,
+   "properties": {
+    "Critical": {
+     "type": "boolean"
+    },
+    "ObjectIdentifier": {
+     "type": "string"
+    },
+    "Value": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "ObjectIdentifier",
+    "Value"
+   ],
+   "type": "object"
+  },
+  "AWS::ACMPCA::Certificate.EdiPartyName": {
+   "additionalProperties": false,
+   "properties": {
+    "NameAssigner": {
+     "type": "string"
+    },
+    "PartyName": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "NameAssigner",
+    "PartyName"
+   ],
+   "type": "object"
+  },
+  "AWS::ACMPCA::Certificate.ExtendedKeyUsage": {
+   "additionalProperties": false,
+   "properties": {
+    "ExtendedKeyUsageObjectIdentifier": {
+     "type": "string"
+    },
+    "ExtendedKeyUsageType": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "AWS::ACMPCA::Certificate.Extensions": {
+   "additionalProperties": false,
+   "properties": {
+    "CertificatePolicies": {
+     "items": {
+      "$ref": "#/definitions/AWS::ACMPCA::Certificate.PolicyInformation"
+     },
+     "type": "array"
+    },
+    "CustomExtensions": {
+     "items": {
+      "$ref": "#/definitions/AWS::ACMPCA::Certificate.CustomExtension"
+     },
+     "type": "array"
+    },
+    "ExtendedKeyUsage": {
+     "items": {
+      "$ref": "#/definitions/AWS::ACMPCA::Certificate.ExtendedKeyUsage"
+     },
+     "type": "array"
+    },
+    "KeyUsage": {
+     "$ref": "#/definitions/AWS::ACMPCA::Certificate.KeyUsage"
+    },
+    "SubjectAlternativeNames": {
+     "items": {
+      "$ref": "#/definitions/AWS::ACMPCA::Certificate.GeneralName"
+     },
+     "type": "array"
+    }
+   },
+   "type": "object"
+  },
+  "AWS::ACMPCA::Certificate.GeneralName": {
+   "additionalProperties": false,
+   "properties": {
+    "DirectoryName": {
+     "$ref": "#/definitions/AWS::ACMPCA::Certificate.Subject"
+    },
+    "DnsName": {
+     "type": "string"
+    },
+    "EdiPartyName": {
+     "$ref": "#/definitions/AWS::ACMPCA::Certificate.EdiPartyName"
+    },
+    "IpAddress": {
+     "type": "string"
+    },
+    "OtherName": {
+     "$ref": "#/definitions/AWS::ACMPCA::Certificate.OtherName"
+    },
+    "RegisteredId": {
+     "type": "string"
+    },
+    "Rfc822Name": {
+     "type": "string"
+    },
+    "UniformResourceIdentifier": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "AWS::ACMPCA::Certificate.KeyUsage": {
+   "additionalProperties": false,
+   "properties": {
+    "CRLSign": {
+     "type": "boolean"
+    },
+    "DataEncipherment": {
+     "type": "boolean"
+    },
+    "DecipherOnly": {
+     "type": "boolean"
+    },
+    "DigitalSignature": {
+     "type": "boolean"
+    },
+    "EncipherOnly": {
+     "type": "boolean"
+    },
+    "KeyAgreement": {
+     "type": "boolean"
+    },
+    "KeyCertSign": {
+     "type": "boolean"
+    },
+    "KeyEncipherment": {
+     "type": "boolean"
+    },
+    "NonRepudiation": {
+     "type": "boolean"
+    }
+   },
+   "type": "object"
+  },
+  "AWS::ACMPCA::Certificate.OtherName": {
+   "additionalProperties": false,
+   "properties": {
+    "TypeId": {
+     "type": "string"
+    },
+    "Value": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "TypeId",
+    "Value"
+   ],
+   "type": "object"
+  },
+  "AWS::ACMPCA::Certificate.PolicyInformation": {
+   "additionalProperties": false,
+   "properties": {
+    "CertPolicyId": {
+     "type": "string"
+    },
+    "PolicyQualifiers": {
+     "items": {
+      "$ref": "#/definitions/AWS::ACMPCA::Certificate.PolicyQualifierInfo"
+     },
+     "type": "array"
+    }
+   },
+   "required": [
+    "CertPolicyId"
+   ],
+   "type": "object"
+  },
+  "AWS::ACMP
+... (truncated)

@@ -1,0 +1,308 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "anyOf": [
+  {
+   "$ref": "#/definitions/SkaffoldConfig"
+  }
+ ],
+ "definitions": {
+  "Artifact": {
+   "anyOf": [
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync"
+     ],
+     "properties": {
+      "context": {
+       "type": "string"
+      },
+      "image": {
+       "type": "string"
+      },
+      "sync": {
+       "additionalProperties": {
+        "type": "string"
+       },
+       "default": "{}",
+       "type": "object"
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync",
+      "docker"
+     ],
+     "properties": {
+      "context": {
+       "type": "string"
+      },
+      "docker": {
+       "$ref": "#/definitions/DockerArtifact"
+      },
+      "image": {
+       "type": "string"
+      },
+      "sync": {
+       "additionalProperties": {
+        "type": "string"
+       },
+       "default": "{}",
+       "type": "object"
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync",
+      "bazel"
+     ],
+     "properties": {
+      "bazel": {
+       "$ref": "#/definitions/BazelArtifact"
+      },
+      "context": {
+       "type": "string"
+      },
+      "image": {
+       "type": "string"
+      },
+      "sync": {
+       "additionalProperties": {
+        "type": "string"
+       },
+       "default": "{}",
+       "type": "object"
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync",
+      "jibMaven"
+     ],
+     "properties": {
+      "context": {
+       "type": "string"
+      },
+      "image": {
+       "type": "string"
+      },
+      "jibMaven": {
+       "$ref": "#/definitions/JibMavenArtifact"
+      },
+      "sync": {
+       "additionalProperties": {
+        "type": "string"
+       },
+       "default": "{}",
+       "type": "object"
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync",
+      "jibGradle"
+     ],
+     "properties": {
+      "context": {
+       "type": "string"
+      },
+      "image": {
+       "type": "string"
+      },
+      "jibGradle": {
+       "$ref": "#/definitions/JibGradleArtifact"
+      },
+      "sync": {
+       "additionalProperties": {
+        "type": "string"
+       },
+       "default": "{}",
+       "type": "object"
+      }
+     }
+    }
+   ],
+   "description": "represents items that need to be built, along with the context in which they should be built.",
+   "x-intellij-html-description": "represents items that need to be built, along with the context in which they should be built."
+  },
+  "BazelArtifact": {
+   "additionalProperties": false,
+   "description": "describes an artifact built with Bazel.",
+   "preferredOrder": [
+    "target"
+   ],
+   "properties": {
+    "target": {
+     "type": "string"
+    }
+   },
+   "x-intellij-html-description": "describes an artifact built with Bazel."
+  },
+  "BuildConfig": {
+   "anyOf": [
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "artifacts",
+      "tagPolicy"
+     ],
+     "properties": {
+      "artifacts": {
+       "items": {
+        "$ref": "#/definitions/Artifact"
+       },
+       "type": "array"
+      },
+      "tagPolicy": {
+       "$ref": "#/definitions/TagPolicy"
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "artifacts",
+      "tagPolicy",
+      "local"
+     ],
+     "properties": {
+      "artifacts": {
+       "items": {
+        "$ref": "#/definitions/Artifact"
+       },
+       "type": "array"
+      },
+      "local": {
+       "$ref": "#/definitions/LocalBuild"
+      },
+      "tagPolicy": {
+       "$ref": "#/definitions/TagPolicy"
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "artifacts",
+      "tagPolicy",
+      "googleCloudBuild"
+     ],
+     "properties": {
+      "artifacts": {
+       "items": {
+        "$ref": "#/definitions/Artifact"
+       },
+       "type": "array"
+      },
+      "googleCloudBuild": {
+       "$ref": "#/definitions/GoogleCloudBuild"
+      },
+      "tagPolicy": {
+       "$ref": "#/definitions/TagPolicy"
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "artifacts",
+      "tagPolicy",
+      "kaniko"
+     ],
+     "properties": {
+      "artifacts": {
+       "items": {
+        "$ref": "#/definitions/Artifact"
+       },
+       "type": "array"
+      },
+      "kaniko": {
+       "$ref": "#/definitions/KanikoBuild"
+      },
+      "tagPolicy": {
+       "$ref": "#/definitions/TagPolicy"
+      }
+     }
+    }
+   ],
+   "description": "contains all the configuration for the build steps",
+   "x-intellij-html-description": "contains all the configuration for the build steps"
+  },
+  "DateTimeTagger": {
+   "additionalProperties": false,
+   "description": "contains the configuration for the DateTime tagger.",
+   "preferredOrder": [
+    "format",
+    "timezone"
+   ],
+   "properties": {
+    "format": {
+     "type": "string"
+    },
+    "timezone": {
+     "type": "string"
+    }
+   },
+   "x-intellij-html-description": "contains the configuration for the DateTime tagger."
+  },
+  "DeployConfig": {
+   "anyOf": [
+    {
+     "additionalProperties": false
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "helm"
+     ],
+     "properties": {
+      "helm": {
+       "$ref": "#/definitions/HelmDeploy"
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "kubectl"
+     ],
+     "properties": {
+      "kubectl": {
+       "$ref": "#/definitions/KubectlDeploy"
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "kustomize"
+     ],
+     "properties": {
+      "kustomize": {
+       "$ref": "#/definitions/KustomizeDeploy"
+      }
+     }
+    }
+   ],
+   "description": "contains all the configuration needed
+... (truncated)

@@ -1,0 +1,10 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+message ::= string | null
+message-kv ::= "\"message\"" space ":" space message
+message-rest ::= ( "," space reason-kv )?
+null ::= "null"
+reason ::= string | null
+reason-kv ::= "\"reason\"" space ":" space reason
+root ::= "{" space  (message-kv message-rest | reason-kv )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

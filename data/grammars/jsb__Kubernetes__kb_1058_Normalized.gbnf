@@ -1,0 +1,14 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+effect ::= string | null
+effect-kv ::= "\"effect\"" space ":" space effect
+key ::= string | null
+key-kv ::= "\"key\"" space ":" space key
+null ::= "null"
+root ::= "{" space effect-kv "," space key-kv ( "," space ( timeAdded-kv timeAdded-rest | value-kv ) )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+timeAdded ::= string
+timeAdded-kv ::= "\"timeAdded\"" space ":" space timeAdded
+timeAdded-rest ::= ( "," space value-kv )?
+value- ::= string | null
+value-kv ::= "\"value\"" space ":" space value-

@@ -1,0 +1,8 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+root ::= "{" space  (tags-kv )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+tags ::= "[" space (tags-item ("," space tags-item)*)? space "]"
+tags-item ::= string | tags-item-1
+tags-item-1 ::= ("42")
+tags-kv ::= "\"tags\"" space ":" space tags

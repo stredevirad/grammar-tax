@@ -1,0 +1,10 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "description": "# Brief\n\nResource data attribute.\n",
+ "items": {
+  "type": "string"
+ },
+ "type": "array"
+}

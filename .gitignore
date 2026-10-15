@@ -1,0 +1,7 @@
+build/
+models/
+data/raw/
+__pycache__/
+*.pyc
+callgrind.out.*
+perf.data*

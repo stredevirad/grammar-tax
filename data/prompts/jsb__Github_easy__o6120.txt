@@ -1,0 +1,38 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "type": "object",
+ "description": "URL parameter",
+ "required": [
+  "name"
+ ],
+ "properties": {
+  "name": {
+   "description": "Parameter name",
+   "type": "string"
+  },
+  "type": {
+   "description": "Parameter type",
+   "type": "string",
+   "enum": [
+    "any",
+    "int",
+    "string",
+    "boolean"
+   ]
+  },
+  "pattern": {
+   "description": "Parameter regex pattern",
+   "oneOf": [
+    {
+     "type": "string"
+    },
+    {
+     "type": "null"
+    }
+   ]
+  }
+ }
+}

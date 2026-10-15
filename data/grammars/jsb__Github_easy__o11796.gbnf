@@ -1,0 +1,14 @@
+auth-kv ::= "\"auth\"" space ":" space null
+boolean ::= ("true" | "false")
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+data ::= "{" space "}"
+data-kv ::= "\"data\"" space ":" space data
+integer ::= ("-"? integral-part)
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+lease-duration-kv ::= "\"lease_duration\"" space ":" space integer
+lease-id-kv ::= "\"lease_id\"" space ":" space string
+null ::= "null"
+renewable-kv ::= "\"renewable\"" space ":" space boolean
+root ::= "{" space auth-kv "," space data-kv "," space lease-duration-kv "," space lease-id-kv "," space renewable-kv space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

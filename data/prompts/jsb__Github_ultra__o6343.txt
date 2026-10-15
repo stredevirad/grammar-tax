@@ -1,0 +1,165 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "anyOf": [
+  {
+   "$ref": "#/definitions/SkaffoldConfig"
+  }
+ ],
+ "definitions": {
+  "Activation": {
+   "additionalProperties": false,
+   "description": "criteria by which a profile is auto-activated.",
+   "preferredOrder": [
+    "env",
+    "kubeContext",
+    "command"
+   ],
+   "properties": {
+    "command": {
+     "description": "a Skaffold command for which the profile is auto-activated.",
+     "examples": [
+      "dev"
+     ],
+     "type": "string",
+     "x-intellij-html-description": "a Skaffold command for which the profile is auto-activated."
+    },
+    "env": {
+     "description": "a `key=pattern` pair. The profile is auto-activated if an Environment Variable `key` matches the pattern. If the pattern starts with `!`, activation happens if the remaining pattern is _not_ matched. The pattern matches if the Environment Variable value is exactly `pattern`, or the regex `pattern` is found in it. An empty `pattern` (e.g. `env: \"key=\"`) always only matches if the Environment Variable is undefined or empty.",
+     "examples": [
+      "ENV=production"
+     ],
+     "type": "string",
+     "x-intellij-html-description": "a <code>key=pattern</code> pair. The profile is auto-activated if an Environment Variable <code>key</code> matches the pattern. If the pattern starts with <code>!</code>, activation happens if the remaining pattern is <em>not</em> matched. The pattern matches if the Environment Variable value is exactly <code>pattern</code>, or the regex <code>pattern</code> is found in it. An empty <code>pattern</code> (e.g. <code>env: &quot;key=&quot;</code>) always only matches if the Environment Variable is undefined or empty."
+    },
+    "kubeContext": {
+     "description": "a Kubernetes context for which the profile is auto-activated.",
+     "examples": [
+      "minikube"
+     ],
+     "type": "string",
+     "x-intellij-html-description": "a Kubernetes context for which the profile is auto-activated."
+    }
+   },
+   "x-intellij-html-description": "criteria by which a profile is auto-activated."
+  },
+  "Artifact": {
+   "anyOf": [
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync"
+     ],
+     "properties": {
+      "context": {
+       "default": ".",
+       "description": "directory containing the artifact's sources.",
+       "type": "string",
+       "x-intellij-html-description": "directory containing the artifact's sources."
+      },
+      "image": {
+       "description": "name of the image to be built.",
+       "examples": [
+        "gcr.io/k8s-skaffold/example"
+       ],
+       "type": "string",
+       "x-intellij-html-description": "name of the image to be built."
+      },
+      "sync": {
+       "$ref": "#/definitions/Sync",
+       "description": "*beta* local files synced to pods instead of triggering an image build when modified.",
+       "x-intellij-html-description": "<em>beta</em> local files synced to pods instead of triggering an image build when modified."
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync",
+      "docker"
+     ],
+     "properties": {
+      "context": {
+       "default": ".",
+       "description": "directory containing the artifact's sources.",
+       "type": "string",
+       "x-intellij-html-description": "directory containing the artifact's sources."
+      },
+      "docker": {
+       "$ref": "#/definitions/DockerArtifact",
+       "description": "*beta* describes an artifact built from a Dockerfile.",
+       "x-intellij-html-description": "<em>beta</em> describes an artifact built from a Dockerfile."
+      },
+      "image": {
+       "description": "name of the image to be built.",
+       "examples": [
+        "gcr.io/k8s-skaffold/example"
+       ],
+       "type": "string",
+       "x-intellij-html-description": "name of the image to be built."
+      },
+      "sync": {
+       "$ref": "#/definitions/Sync",
+       "description": "*beta* local files synced to pods instead of triggering an image build when modified.",
+       "x-intellij-html-description": "<em>beta</em> local files synced to pods instead of triggering an image build when modified."
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync",
+      "bazel"
+     ],
+     "properties": {
+      "bazel": {
+       "$ref": "#/definitions/BazelArtifact",
+       "description": "*beta* requires bazel CLI to be installed and the sources to contain [Bazel](https://bazel.build/) configuration files.",
+       "x-intellij-html-description": "<em>beta</em> requires bazel CLI to be installed and the sources to contain <a href=\"https://bazel.build/\">Bazel</a> configuration files."
+      },
+      "context": {
+       "default": ".",
+       "description": "directory containing the artifact's sources.",
+       "type": "string",
+       "x-intellij-html-description": "directory containing the artifact's sources."
+      },
+      "image": {
+       "description": "name of the image to be built.",
+       "examples": [
+        "gcr.io/k8s-skaffold/example"
+       ],
+       "type": "string",
+       "x-intellij-html-description": "name of the image to be built."
+      },
+      "sync": {
+       "$ref": "#/definitions/Sync",
+       "description": "*beta* local files synced to pods instead of triggering an image build when modified.",
+       "x-intellij-html-description": "<em>beta</em> local files synced to pods instead of triggering an image build when modified."
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "preferredOrder": [
+      "image",
+      "context",
+      "sync",
+      "jib"
+     ],
+     "properties": {
+      "context": {
+       "default": ".",
+       "description": "directory containing the artifact's sources.",
+       "type": "string",
+       "x-intellij-html-description": "directory containing the artifact's sources."
+      },
+      "image": {
+       "description": "name of t
+... (truncated)

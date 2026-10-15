@@ -1,0 +1,13 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+decimal-part ::= [0-9]{1,16}
+innerErrorMessage-kv ::= "\"innerErrorMessage\"" space ":" space string
+innerErrorName-kv ::= "\"innerErrorName\"" space ":" space string
+innerErrorStack-kv ::= "\"innerErrorStack\"" space ":" space string
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+message-kv ::= "\"message\"" space ":" space string
+name-kv ::= "\"name\"" space ":" space string
+number ::= ("-"? integral-part) ("." decimal-part)? ([eE] [-+]? integral-part)?
+root ::= "{" space name-kv "," space statusCode-kv "," space message-kv "," space innerErrorMessage-kv "," space innerErrorName-kv "," space innerErrorStack-kv space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+statusCode-kv ::= "\"statusCode\"" space ":" space number
+string ::= "\"" char* "\""

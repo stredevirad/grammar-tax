@@ -1,0 +1,15 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "additionalProperties": false,
+ "description": "A session_start GA4 event.",
+ "properties": {},
+ "self": {
+  "format": "jsonschema",
+  "name": "session_start",
+  "vendor": "com.google.ga4",
+  "version": "1-0-0"
+ },
+ "type": "object"
+}

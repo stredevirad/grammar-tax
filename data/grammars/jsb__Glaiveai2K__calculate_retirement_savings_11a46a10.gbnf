@@ -1,0 +1,9 @@
+decimal-part ::= [0-9]{1,16}
+integer ::= ("-"? integral-part)
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+interest-rate-kv ::= "\"interest_rate\"" space ":" space number
+monthly-contributions-kv ::= "\"monthly_contributions\"" space ":" space number
+number ::= ("-"? integral-part) ("." decimal-part)? ([eE] [-+]? integral-part)?
+root ::= "{" space interest-rate-kv "," space monthly-contributions-kv "," space years-until-retirement-kv space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+years-until-retirement-kv ::= "\"years_until_retirement\"" space ":" space integer

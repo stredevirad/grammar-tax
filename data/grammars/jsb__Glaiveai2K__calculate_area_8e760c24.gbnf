@@ -1,0 +1,13 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+decimal-part ::= [0-9]{1,16}
+dimensions ::= "{" space dimensions-length-kv "," space dimensions-width-kv ( "," space ( dimensions-radius-kv ) )? space "}"
+dimensions-kv ::= "\"dimensions\"" space ":" space dimensions
+dimensions-length-kv ::= "\"length\"" space ":" space number
+dimensions-radius-kv ::= "\"radius\"" space ":" space number
+dimensions-width-kv ::= "\"width\"" space ":" space number
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+number ::= ("-"? integral-part) ("." decimal-part)? ([eE] [-+]? integral-part)?
+root ::= "{" space dimensions-kv "," space shape-kv space "}"
+shape-kv ::= "\"shape\"" space ":" space string
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

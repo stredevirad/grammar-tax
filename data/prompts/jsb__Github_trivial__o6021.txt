@@ -1,0 +1,17 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "additionalProperties": false,
+ "properties": {
+  "name": {
+   "maxLength": 10,
+   "minLength": 10,
+   "type": "string"
+  }
+ },
+ "required": [
+  "name"
+ ],
+ "type": "object"
+}

@@ -1,0 +1,16 @@
+billing-address-kv ::= "\"billing_address\"" space ":" space string
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+customer-name-kv ::= "\"customer_name\"" space ":" space string
+decimal-part ::= [0-9]{1,16}
+integer ::= ("-"? integral-part)
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+items ::= "[" space (items-item ("," space items-item)*)? space "]"
+items-item ::= "{" space items-item-price-kv "," space items-item-product-kv "," space items-item-quantity-kv space "}"
+items-item-price-kv ::= "\"price\"" space ":" space number
+items-item-product-kv ::= "\"product\"" space ":" space string
+items-item-quantity-kv ::= "\"quantity\"" space ":" space integer
+items-kv ::= "\"items\"" space ":" space items
+number ::= ("-"? integral-part) ("." decimal-part)? ([eE] [-+]? integral-part)?
+root ::= "{" space billing-address-kv "," space customer-name-kv "," space items-kv space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

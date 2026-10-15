@@ -1,0 +1,38 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "properties": {
+  "dimensions": {
+   "description": "The dimensions of the shape",
+   "properties": {
+    "length": {
+     "description": "The length of the shape",
+     "type": "number"
+    },
+    "radius": {
+     "description": "The radius of the shape",
+     "type": "number"
+    },
+    "width": {
+     "description": "The width of the shape",
+     "type": "number"
+    }
+   },
+   "required": [
+    "length",
+    "width"
+   ],
+   "type": "object"
+  },
+  "shape": {
+   "description": "The shape to calculate the area of",
+   "type": "string"
+  }
+ },
+ "required": [
+  "shape",
+  "dimensions"
+ ],
+ "type": "object"
+}

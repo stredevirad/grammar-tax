@@ -1,0 +1,354 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "$ref": "#/definitions/RancherKubernetesEngineConfig",
+ "definitions": {
+  "AESConfiguration": {
+   "required": [
+    "keys"
+   ],
+   "properties": {
+    "keys": {
+     "items": {
+      "$ref": "#/definitions/Key"
+     },
+     "type": "array"
+    }
+   },
+   "additionalProperties": false,
+   "type": "object"
+  },
+  "AWSCloudProvider": {
+   "required": [
+    "global"
+   ],
+   "properties": {
+    "global": {
+     "$ref": "#/definitions/GlobalAwsOpts"
+    },
+    "serviceOverride": {
+     "patternProperties": {
+      ".*": {
+       "$ref": "#/definitions/ServiceOverride"
+      }
+     },
+     "type": "object"
+    }
+   },
+   "additionalProperties": false,
+   "type": "object"
+  },
+  "AWSElasticBlockStoreVolumeSource": {
+   "required": [
+    "volumeID"
+   ],
+   "properties": {
+    "volumeID": {
+     "type": "string"
+    },
+    "fsType": {
+     "type": "string"
+    },
+    "partition": {
+     "type": "integer"
+    },
+    "readOnly": {
+     "type": "boolean"
+    }
+   },
+   "additionalProperties": false,
+   "type": "object"
+  },
+  "AciNetworkProvider": {
+   "properties": {
+    "systemId": {
+     "type": "string"
+    },
+    "apicHosts": {
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "token": {
+     "type": "string"
+    },
+    "apicUserName": {
+     "type": "string"
+    },
+    "apicUserKey": {
+     "type": "string"
+    },
+    "apicUserCrt": {
+     "type": "string"
+    },
+    "apicRefreshTime": {
+     "type": "string"
+    },
+    "vmmDomain": {
+     "type": "string"
+    },
+    "vmmController": {
+     "type": "string"
+    },
+    "encapType": {
+     "type": "string"
+    },
+    "nodeSubnet": {
+     "type": "string"
+    },
+    "mcastRangeStart": {
+     "type": "string"
+    },
+    "mcastRangeEnd": {
+     "type": "string"
+    },
+    "aep": {
+     "type": "string"
+    },
+    "vrfName": {
+     "type": "string"
+    },
+    "vrfTenant": {
+     "type": "string"
+    },
+    "l3out": {
+     "type": "string"
+    },
+    "l3outExternalNetworks": {
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "externDynamic": {
+     "type": "string"
+    },
+    "externStatic": {
+     "type": "string"
+    },
+    "nodeSvcSubnet": {
+     "type": "string"
+    },
+    "kubeApiVlan": {
+     "type": "string"
+    },
+    "serviceVlan": {
+     "type": "string"
+    },
+    "infraVlan": {
+     "type": "string"
+    },
+    "tenant": {
+     "type": "string"
+    },
+    "ovsMemoryLimit": {
+     "type": "string"
+    },
+    "imagePullPolicy": {
+     "type": "string"
+    },
+    "imagePullSecret": {
+     "type": "string"
+    },
+    "serviceMonitorInterval": {
+     "type": "string"
+    },
+    "pbrTrackingNonSnat": {
+     "type": "string"
+    },
+    "installIstio": {
+     "type": "string"
+    },
+    "istioProfile": {
+     "type": "string"
+    },
+    "dropLogEnable": {
+     "type": "string"
+    },
+    "controllerLogLevel": {
+     "type": "string"
+    },
+    "hostAgentLogLevel": {
+     "type": "string"
+    },
+    "opflexLogLevel": {
+     "type": "string"
+    },
+    "useAciCniPriorityClass": {
+     "type": "string"
+    },
+    "noPriorityClass": {
+     "type": "string"
+    },
+    "maxNodesSvcGraph": {
+     "type": "string"
+    },
+    "snatContractScope": {
+     "type": "string"
+    },
+    "podSubnetChunkSize": {
+     "type": "string"
+    },
+    "enableEndpointSlice": {
+     "type": "string"
+    },
+    "snatNamespace": {
+     "type": "string"
+    },
+    "epRegistry": {
+     "type": "string"
+    },
+    "opflexMode": {
+     "type": "string"
+    },
+    "snatPortRangeStart": {
+     "oneOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "number"
+      }
+     ]
+    },
+    "snatPortRangeEnd": {
+     "oneOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "number"
+      }
+     ]
+    },
+    "snatPortsPerNode": {
+     "oneOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "number"
+      }
+     ]
+    },
+    "opflexClientSsl": {
+     "type": "string"
+    },
+    "usePrivilegedContainer": {
+     "type": "string"
+    },
+    "useHostNetnsVolume": {
+     "type": "string"
+    },
+    "useOpflexServerVolume": {
+     "type": "string"
+    },
+    "subnetDomainName": {
+     "type": "string"
+    },
+    "kafkaBrokers": {
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "kafkaClientCrt": {
+     "type": "string"
+    },
+    "kafkaClientKey": {
+     "type": "string"
+    },
+    "capic": {
+     "type": "string"
+    },
+    "useAciAnywhereCrd": {
+     "type": "string"
+    },
+    "overlayVrfName": {
+     "type": "string"
+    },
+    "gbpPodSubnet": {
+     "type": "string"
+    },
+    "runGbpContainer": {
+     "type": "string"
+    },
+    "runOpflexServerContainer": {
+     "type": "string"
+    },
+    "opflexServerPort": {
+     "oneOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "number"
+      }
+     ]
+    }
+   },
+   "additionalProperties": false,
+   "type": "object"
+  },
+  "AdmissionConfiguration": {
+   "required": [
+    "TypeMeta",
+    "plugins"
+   ],
+   "properties": {
+    "TypeMeta": {
+     "$ref": "#/definitions/TypeMeta"
+    },
+    "plugins": {
+     "items": {
+      "$ref": "#/definitions/AdmissionPluginConfiguration"
+     },
+     "type": "array"
+    }
+   },
+   "additionalProperties": false,
+   "type": "object"
+  },
+  "AdmissionPluginConfiguration": {
+   "required": [
+    "name",
+    "path",
+    "configuration"
+   ],
+   "properties": {
+    "name": {
+     "type": "string"
+    },
+    "path": {
+     "type": "string"
+    },
+    "configuration": {
+     "$ref": "#/definitions/Unknown"
+    }
+   },
+   "additionalProperties": false,
+   "type": "object"
+  },
+  "AuditLog": {
+   "properties": {
+    "enabled": {
+     "type": "boolean"
+    },
+    "configuration": {
+     "$ref": "#/definitions/AuditLogConfig"
+    }
+   },
+   "additionalProperties": false,
+   "type": "object"
+  },
+  "AuditLogConfig": {
+   "properties": {
+    "maxAge": {
+     "type": "integer"
+    },
+    "maxBackup": {
+ 
+... (truncated)

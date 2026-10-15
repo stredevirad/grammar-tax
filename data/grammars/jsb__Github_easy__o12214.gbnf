@@ -1,0 +1,9 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+comment-kv ::= "\"comment\"" space ":" space string
+info-id-kv ::= "\"info_id\"" space ":" space integer
+integer ::= ("-"? integral-part)
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+root ::= "{" space comment-kv "," space info-id-kv ( "," space ( title-kv ) )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+title-kv ::= "\"title\"" space ":" space string

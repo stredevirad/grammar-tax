@@ -1,0 +1,9 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-04/schema",
+ "description": "A description of the location, useful if a full address or lat/long specification is overkill.",
+ "title": "Location related trait",
+ "type": "string"
+}

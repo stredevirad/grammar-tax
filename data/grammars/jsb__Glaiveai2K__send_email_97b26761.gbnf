@@ -1,0 +1,12 @@
+bcc ::= "[" space (string ("," space string)*)? space "]"
+bcc-kv ::= "\"bcc\"" space ":" space bcc
+bcc-rest ::= ( "," space cc-kv )?
+cc ::= "[" space (string ("," space string)*)? space "]"
+cc-kv ::= "\"cc\"" space ":" space cc
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+message-kv ::= "\"message\"" space ":" space string
+root ::= "{" space message-kv "," space subject-kv "," space to-kv ( "," space ( bcc-kv bcc-rest | cc-kv ) )? space "}"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+subject-kv ::= "\"subject\"" space ":" space string
+to-kv ::= "\"to\"" space ":" space string

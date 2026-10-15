@@ -1,0 +1,197 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-04/schema",
+ "allOf": [
+  {
+   "properties": {
+    "body": {
+     "$ref": "#/definitions/content_json",
+     "description": "The object being inserted/updated/deleted"
+    },
+    "branch": {
+     "description": "The name of the branch within Story API that this operation occurs on, if any",
+     "type": "string"
+    },
+    "created": {
+     "description": "Identifies this item as created or updated.",
+     "type": "boolean"
+    },
+    "date": {
+     "_format": "date-time",
+     "description": "When the operation should be considered performed",
+     "type": "string"
+    },
+    "id": {
+     "description": "The id of the item being operated",
+     "type": "string"
+    },
+    "operation": {
+     "description": "The identifier of the operation being performed",
+     "enum": [
+      "insert-story",
+      "delete-story",
+      "insert-gallery",
+      "delete-gallery",
+      "insert-video",
+      "delete-video",
+      "insert-redirect",
+      "delete-redirect"
+     ],
+     "type": "string"
+    },
+    "organization_id": {
+     "description": "The id of the organization",
+     "type": "string"
+    },
+    "published": {
+     "description": "Identifies this item as published or not",
+     "type": "boolean"
+    },
+    "trigger": {
+     "additionalProperties": false,
+     "description": "Metadata about the primary source update that triggered this operation. These fields can be used by downstream consumers as an efficient way of determining the relevance of an operation.",
+     "properties": {
+      "app_name": {
+       "$ref": "#/definitions/traits_trait_app_name_json"
+      },
+      "id": {
+       "description": "The id of the document whose update was consumed in order to produce this update. If this operation is the result of a referent update, than this id will not match the id of the document in the body (except the case where a document references itself.)",
+       "title": "Trigger ID",
+       "type": "string"
+      },
+      "priority": {
+       "$ref": "#/definitions/traits_trait_priority_json"
+      },
+      "referent_update": {
+       "description": "If true, this update was triggered by an update to a referenced element in the document rather than the document itself.",
+       "title": "Referent Update",
+       "type": "boolean"
+      },
+      "type": {
+       "description": "The type of update that was consumed in order to produce this update. If this operation is the result of a referent update, than this type may or may not match the type of document in the body. For example, suppose story A contains image B and story C. If B is updated, then an operation may be produced with source 'image' and a body of story A (with updated image metadata.) If C is updated, then an operation may be produced with source 'story' and the body of story A.",
+       "enum": [
+        "story",
+        "gallery",
+        "image",
+        "video",
+        "url",
+        "site",
+        "author",
+        "clavis"
+       ],
+       "title": "Trigger Type",
+       "type": "string"
+      }
+     },
+     "title": "Operation Trigger",
+     "type": "object"
+    },
+    "type": {
+     "description": "Identifies this as an ANS operation",
+     "enum": [
+      "content-operation"
+     ],
+     "type": "string"
+    },
+    "version": {
+     "description": "The version of ANS this item is written in",
+     "type": "string"
+    }
+   },
+   "required": [
+    "type",
+    "operation",
+    "id",
+    "organization_id"
+   ]
+  }
+ ],
+ "definitions": {
+  "content_json": {
+   "$schema": "http://json-schema.org/draft-04/schema#",
+   "additionalProperties": {},
+   "description": "Holds common attributes of ANS Content objects.",
+   "properties": {
+    "_id": {
+     "$ref": "#/definitions/traits_trait_id_json"
+    },
+    "additional_properties": {
+     "$ref": "#/definitions/traits_trait_additional_properties_json"
+    },
+    "address": {
+     "$ref": "#/definitions/traits_trait_address_json"
+    },
+    "alignment": {
+     "$ref": "#/definitions/traits_trait_alignment_json"
+    },
+    "canonical_url": {
+     "$ref": "#/definitions/traits_trait_canonical_url_json"
+    },
+    "channels": {
+     "$ref": "#/definitions/traits_trait_channel_json"
+    },
+    "comments": {
+     "$ref": "#/definitions/traits_trait_comments_json"
+    },
+    "content_aliases": {
+     "$ref": "#/definitions/traits_trait_content_aliases_json"
+    },
+    "content_restrictions": {
+     "$ref": "#/definitions/traits_trait_content_restrictions_json"
+    },
+    "contributors": {
+     "$ref": "#/definitions/traits_trait_contributors_json"
+    },
+    "copyright": {
+     "$ref": "#/definitions/traits_trait_copyright_json"
+    },
+    "created_date": {
+     "$ref": "#/definitions/traits_trait_created_date_json"
+    },
+    "credits": {
+     "$ref": "#/definitions/traits_trait_credits_json"
+    },
+    "description": {
+     "$ref": "#/definitions/traits_trait_description_json"
+    },
+    "display_date": {
+     "$ref": "#/definitions/traits_trait_display_date_json"
+    },
+    "distributor": {
+     "$ref": "#/definitions/traits_trait_distributor_json"
+    },
+    "editor_note": {
+     "$ref": "#/definitions/traits_trait_editor_note_json"
+    },
+    "first_publish_date": {
+     "$ref": "#/definitions/traits_trait_first_publish_date_json"
+    },
+    "geo": {
+     "$ref": "#/definitions/traits_trait_geo_json"
+    },
+    "headlines": {
+     "$ref": "#/definitions/traits_trait_headlines_json"
+    },
+    "label": {
+     "$ref": "#/definitions/traits_trait_label_json"
+    },
+    "language": {
+     "$ref": "#/definitions/traits_trait_locale_json"
+    },
+    "last_updated_date": {
+     "$ref": "#/definitions/traits_trait_last_updated_date_json"
+    },
+    "location": {
+     "$ref": "#/definitions/traits_trait_location_json"
+    },
+    "owner": {
+     "$ref": "#/definitions/traits_trait_owner_json"
+    },
+    "pitches": {
+     "$ref": "#/definitions/traits_trait_pitches_json"
+    },
+    "planning": {
+     "$ref": "#/definitions/traits_trait_planning_j
+... (truncated)

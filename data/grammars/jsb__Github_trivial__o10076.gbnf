@@ -1,0 +1,6 @@
+alternative-1 ::= "[" space (alternative-1-item ("," space alternative-1-item)*)? space "]"
+alternative-1-item ::= string
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+root ::= string | alternative-1
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

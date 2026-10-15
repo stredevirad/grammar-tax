@@ -1,0 +1,269 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "definitions": {
+  "AccountChangeAccountHolderType": {
+   "properties": {
+    "attachmentUuids": {
+     "$ref": "#/definitions/AttachmentUuidsType"
+    },
+    "authorizedByApplicant": {
+     "$ref": "#/definitions/YesOrNoType"
+    },
+    "authorizedByApplicantDate": {
+     "$ref": "#/definitions/MMDDYYDateType"
+    },
+    "authorizedBySpouse": {
+     "$ref": "#/definitions/YesOrNoType"
+    },
+    "birthDate": {
+     "$ref": "#/definitions/MMDDYYDateType"
+    },
+    "citizenship": {
+     "$ref": "#/definitions/CitizenshipType"
+    },
+    "gender": {
+     "$ref": "#/definitions/GenderType"
+    },
+    "mailingAddress": {
+     "$ref": "#/definitions/AddressType"
+    },
+    "name": {
+     "$ref": "#/definitions/NameType"
+    },
+    "phn": {
+     "$ref": "#/definitions/PHNType"
+    },
+    "requestedLastName": {
+     "$ref": "#/definitions/SubNameType"
+    },
+    "residenceAddress": {
+     "$ref": "#/definitions/AddressType"
+    },
+    "selectedAddRemove": {
+     "$ref": "#/definitions/YesOrNoType"
+    },
+    "selectedAddressChange": {
+     "$ref": "#/definitions/YesOrNoType"
+    },
+    "selectedPersonalInfoChange": {
+     "$ref": "#/definitions/YesOrNoType"
+    },
+    "selectedStatusChange": {
+     "$ref": "#/definitions/YesOrNoType"
+    },
+    "telephone": {
+     "$ref": "#/definitions/TelephoneType"
+    }
+   },
+   "required": [
+    "name",
+    "gender",
+    "birthDate",
+    "phn",
+    "residenceAddress",
+    "authorizedByApplicant",
+    "authorizedByApplicantDate",
+    "selectedAddressChange",
+    "selectedPersonalInfoChange",
+    "selectedAddRemove",
+    "selectedStatusChange"
+   ],
+   "type": "object"
+  },
+  "AccountChangeApplicationType": {
+   "properties": {
+    "accountHolder": {
+     "$ref": "#/definitions/AccountChangeAccountHolderType"
+    },
+    "children": {
+     "$ref": "#/definitions/AccountChangeChildrenType"
+    },
+    "spouses": {
+     "$ref": "#/definitions/AccountChangeSpousesType"
+    }
+   },
+   "required": [
+    "accountHolder"
+   ],
+   "type": "object"
+  },
+  "AccountChangeChildType": {
+   "properties": {
+    "adoptionDate": {
+     "$ref": "#/definitions/MMDDYYDateType"
+    },
+    "attachmentUuids": {
+     "$ref": "#/definitions/AttachmentUuidsType"
+    },
+    "birthDate": {
+     "$ref": "#/definitions/MMDDYYDateType"
+    },
+    "cancellationDate": {
+     "$ref": "#/definitions/MMDDYYDateType"
+    },
+    "cancellationReason": {
+     "$ref": "#/definitions/CancellationReasonType"
+    },
+    "citizenship": {
+     "$ref": "#/definitions/CitizenshipType"
+    },
+    "dateStudiesBegin": {
+     "$ref": "#/definitions/MMDDYYDateType"
+    },
+    "dateStudiesFinish": {
+     "$ref": "#/definitions/MMDDYYDateType"
+    },
+    "departDateSchoolOutside": {
+     "$ref": "#/definitions/MMDDYYDateType"
+    },
+    "gender": {
+     "$ref": "#/definitions/GenderType"
+    },
+    "isExistingBeneficiary": {
+     "$ref": "#/definitions/YesOrNoType"
+    },
+    "livedInBC": {
+     "$ref": "#/definitions/LivedInBCType"
+    },
+    "mailingAddress": {
+     "$ref": "#/definitions/AddressType"
+    },
+    "name": {
+     "$ref": "#/definitions/NameType"
+    },
+    "operationAction": {
+     "$ref": "#/definitions/OperationActionType"
+    },
+    "outsideBC": {
+     "$ref": "#/definitions/OutsideBCType"
+    },
+    "outsideBCinFuture": {
+     "$ref": "#/definitions/OutsideBCType"
+    },
+    "phn": {
+     "$ref": "#/definitions/PHNType"
+    },
+    "previousCoverage": {
+     "$ref": "#/definitions/PreviousCoverageType"
+    },
+    "schoolAddress": {
+     "$ref": "#/definitions/AddressType"
+    },
+    "schoolName": {
+     "$ref": "#/definitions/SchoolNameType"
+    },
+    "willBeAway": {
+     "$ref": "#/definitions/WillBeAwayType"
+    }
+   },
+   "required": [
+    "name",
+    "birthDate",
+    "operationAction",
+    "gender",
+    "phn"
+   ],
+   "type": "object"
+  },
+  "AccountChangeChildrenType": {
+   "properties": {
+    "child": {
+     "$ref": "#/definitions/AccountChangeChildType"
+    }
+   },
+   "type": "array"
+  },
+  "AccountChangeSpouseType": {
+   "properties": {
+    "attachmentUuids": {
+     "$ref": "#/definitions/AttachmentUuidsType"
+    },
+    "birthDate": {
+     "$ref": "#/definitions/MMDDYYDateType"
+    },
+    "cancellationDate": {
+     "$ref": "#/definitions/MMDDYYDateType"
+    },
+    "cancellationReason": {
+     "$ref": "#/definitions/CancellationReasonType"
+    },
+    "citizenship": {
+     "$ref": "#/definitions/CitizenshipType"
+    },
+    "gender": {
+     "$ref": "#/definitions/GenderType"
+    },
+    "livedInBC": {
+     "$ref": "#/definitions/LivedInBCType"
+    },
+    "mailingAddress": {
+     "$ref": "#/definitions/AddressType"
+    },
+    "marriageDate": {
+     "$ref": "#/definitions/MMDDYYDateType"
+    },
+    "name": {
+     "$ref": "#/definitions/NameType"
+    },
+    "outsideBC": {
+     "$ref": "#/definitions/OutsideBCType"
+    },
+    "outsideBCinFuture": {
+     "$ref": "#/definitions/OutsideBCType"
+    },
+    "phn": {
+     "$ref": "#/definitions/PHNType"
+    },
+    "previousCoverage": {
+     "$ref": "#/definitions/PreviousCoverageType"
+    },
+    "previousLastName": {
+     "$ref": "#/definitions/SubNameType"
+    },
+    "willBeAway": {
+     "$ref": "#/definitions/WillBeAwayType"
+    }
+   },
+   "required": [
+    "name",
+    "birthDate",
+    "gender",
+    "phn"
+   ],
+   "type": "object"
+  },
+  "AccountChangeSpousesType": {
+   "properties": {
+    "addedSpouse": {
+     "$ref": "#/definitions/AccountChangeSpouseType"
+    },
+    "removedSpouse": {
+     "$ref": "#/definitions/AccountChangeSpouseType"
+    },
+    "updatedSpouse": {
+     "$ref": "#/definitions/AccountChangeSpouseType"
+    }
+   },
+   "type": "object"
+  },
+  "AddressType": {
+   "properties": {
+    "addressLine1": {
+     "$ref": "#/definitions/SubAddressLineType"
+    },
+    "addressLine2": {
+     "$ref": "#/definitions/SubAddressLineType"
+    },
+    "addressLine3": {
+     "$ref": "#/definitions/SubAddressLineType"
+    },
+    "city": {
+     "$ref": "#/definitions/CityType"
+    },
+    "country": {
+     "$ref": "#/definitions/CountryType"
+    },
+  
+... (truncated)

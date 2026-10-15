@@ -1,0 +1,16 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+integer ::= ("-"? integral-part)
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+item ::= item-0 | item-1
+item-0 ::= "{" space item-0-firstName-kv ( "," space ( item-0-lastName-kv item-0-lastName-rest | item-0-sport-kv ) )? space "}"
+item-0-firstName-kv ::= "\"firstName\"" space ":" space string
+item-0-lastName-kv ::= "\"lastName\"" space ":" space string
+item-0-lastName-rest ::= ( "," space item-0-sport-kv )?
+item-0-sport-kv ::= "\"sport\"" space ":" space string
+item-1 ::= "{" space  (item-1-vehicle-kv item-1-vehicle-rest | item-1-price-kv )? space "}"
+item-1-price-kv ::= "\"price\"" space ":" space integer
+item-1-vehicle-kv ::= "\"vehicle\"" space ":" space string
+item-1-vehicle-rest ::= ( "," space item-1-price-kv )?
+root ::= "[" space (item ("," space item)*)? space "]"
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""

@@ -1,0 +1,308 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "$schema": "http://json-schema.org/draft-04/schema#",
+ "description": "",
+ "type": "object",
+ "properties": {
+  "options": {
+   "type": "object",
+   "properties": {
+    "leftPanelEnabled": {
+     "type": "boolean"
+    },
+    "minWidthBreakPoint": {
+     "type": "number"
+    },
+    "overrideFullScreen": {
+     "type": "boolean"
+    },
+    "pagingEnabled": {
+     "type": "boolean"
+    },
+    "pessimisticAccessControl": {
+     "type": "boolean"
+    },
+    "preserveViewport": {
+     "type": "boolean"
+    },
+    "rightPanelEnabled": {
+     "type": "boolean"
+    },
+    "searchWithinEnabled": {
+     "type": "boolean"
+    },
+    "theme": {
+     "type": "string",
+     "minLength": 1
+    }
+   },
+   "required": [
+    "leftPanelEnabled",
+    "minWidthBreakPoint",
+    "overrideFullScreen",
+    "pagingEnabled",
+    "pessimisticAccessControl",
+    "preserveViewport",
+    "rightPanelEnabled",
+    "searchWithinEnabled",
+    "theme"
+   ]
+  },
+  "modules": {
+   "type": "object",
+   "properties": {
+    "dialogue": {
+     "type": "object",
+     "properties": {
+      "content": {
+       "type": "object",
+       "properties": {
+        "close": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "close"
+       ]
+      }
+     },
+     "required": [
+      "content"
+     ]
+    },
+    "downloadDialogue": {
+     "type": "object",
+     "properties": {
+      "options": {
+       "type": "object",
+       "properties": {
+        "confinedImageSize": {
+         "type": "number"
+        }
+       },
+       "required": [
+        "confinedImageSize"
+       ]
+      },
+      "content": {
+       "type": "object",
+       "properties": {
+        "currentViewAsJpg": {
+         "type": "string",
+         "minLength": 1
+        },
+        "download": {
+         "type": "string",
+         "minLength": 1
+        },
+        "editSettings": {
+         "type": "string",
+         "minLength": 1
+        },
+        "entireDocument": {
+         "type": "string",
+         "minLength": 1
+        },
+        "entireFileAsOriginal": {
+         "type": "string",
+         "minLength": 1
+        },
+        "noneAvailable": {
+         "type": "string",
+         "minLength": 1
+        },
+        "pagingNote": {
+         "type": "string",
+         "minLength": 1
+        },
+        "preview": {
+         "type": "string",
+         "minLength": 1
+        },
+        "title": {
+         "type": "string",
+         "minLength": 1
+        },
+        "wholeImageHighRes": {
+         "type": "string",
+         "minLength": 1
+        },
+        "wholeImageLowResAsJpg": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "currentViewAsJpg",
+        "download",
+        "editSettings",
+        "entireDocument",
+        "entireFileAsOriginal",
+        "noneAvailable",
+        "pagingNote",
+        "preview",
+        "title",
+        "wholeImageHighRes",
+        "wholeImageLowResAsJpg"
+       ]
+      }
+     },
+     "required": [
+      "options",
+      "content"
+     ]
+    },
+    "embedDialogue": {
+     "type": "object",
+     "properties": {
+      "options": {
+       "type": "object",
+       "properties": {
+        "embedTemplate": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "embedTemplate"
+       ]
+      },
+      "content": {
+       "type": "object",
+       "properties": {
+        "customSize": {
+         "type": "string",
+         "minLength": 1
+        },
+        "height": {
+         "type": "string",
+         "minLength": 1
+        },
+        "instructions": {
+         "type": "string",
+         "minLength": 1
+        },
+        "title": {
+         "type": "string",
+         "minLength": 1
+        },
+        "width": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "customSize",
+        "height",
+        "instructions",
+        "title",
+        "width"
+       ]
+      }
+     },
+     "required": [
+      "options",
+      "content"
+     ]
+    },
+    "footerPanel": {
+     "type": "object",
+     "properties": {
+      "options": {
+       "type": "object",
+       "properties": {
+        "downloadEnabled": {
+         "type": "boolean"
+        },
+        "embedEnabled": {
+         "type": "boolean"
+        },
+        "fullscreenEnabled": {
+         "type": "boolean"
+        },
+        "minimiseButtons": {
+         "type": "boolean"
+        }
+       },
+       "required": [
+        "downloadEnabled",
+        "embedEnabled",
+        "fullscreenEnabled",
+        "minimiseButtons"
+       ]
+      },
+      "content": {
+       "type": "object",
+       "properties": {
+        "download": {
+         "type": "string",
+         "minLength": 1
+        },
+        "embed": {
+         "type": "string",
+         "minLength": 1
+        },
+        "exitFullScreen": {
+         "type": "string",
+         "minLength": 1
+        },
+        "fullScreen": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "download",
+        "embed",
+        "exitFullScreen",
+        "fullScreen"
+       ]
+      }
+     },
+     "required": [
+      "options",
+      "content"
+     ]
+    },
+    "genericDialogue": {
+     "type": "object",
+     "properties": {
+      "content": {
+       "type": "object",
+       "properties": {
+        "emptyValue": {
+         "type": "string",
+         "minLength": 1
+        },
+        "invalidNumber": {
+         "type": "string",
+         "minLength": 1
+        },
+        "noMatches": {
+         "type": "string",
+         "minLength": 1
+        },
+        "ok": {
+         "type": "string",
+         "minLength": 1
+        },
+        "pageNotFound": {
+         "type": "string",
+         "minLength": 1
+        },
+        "refresh": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "emptyValue",
+        "invalidNumber",
+        "noMatches",
+        "ok",
+        "pageNotFound",
+      
+... (truncated)

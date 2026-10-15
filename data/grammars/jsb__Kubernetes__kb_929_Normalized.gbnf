@@ -1,0 +1,13 @@
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+null ::= "null"
+operator ::= string | null
+operator-kv ::= "\"operator\"" space ":" space operator
+root ::= "{" space operator-kv "," space scopeName-kv ( "," space ( values-kv ) )? space "}"
+scopeName ::= string | null
+scopeName-kv ::= "\"scopeName\"" space ":" space scopeName
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+values ::= values-0 | null
+values-0 ::= "[" space (values-0-item ("," space values-0-item)*)? space "]"
+values-0-item ::= string | null
+values-kv ::= "\"values\"" space ":" space values

@@ -1,0 +1,312 @@
+Generate one realistic JSON instance that conforms to the following JSON schema. Output only the JSON.
+
+Schema:
+{
+ "additionalProperties": false,
+ "properties": {
+  "analyticsAvailable": {
+   "type": "boolean"
+  },
+  "apiAccess": {
+   "type": "boolean"
+  },
+  "apiType": {
+   "maxLength": 200,
+   "minLength": 0,
+   "pattern": "^$|(^(?:\\S+\\s+){0,19}\\S+$)",
+   "type": "string"
+  },
+  "auditInformationProvided": {
+   "properties": {
+    "assurance": {
+     "enum": [
+      "Service provider assertion",
+      "Independent validation of assertion"
+     ]
+    },
+    "value": {
+     "enum": [
+      "None",
+      "Data made available",
+      "Data made available by negotiation"
+     ]
+    }
+   },
+   "required": [
+    "value",
+    "assurance"
+   ],
+   "type": "object"
+  },
+  "changeImpactAssessment": {
+   "properties": {
+    "assurance": {
+     "enum": [
+      "Service provider assertion",
+      "Independent validation of assertion"
+     ]
+    },
+    "value": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "value",
+    "assurance"
+   ],
+   "type": "object"
+  },
+  "cloudDeploymentModel": {
+   "properties": {
+    "assurance": {
+     "enum": [
+      "Service provider assertion",
+      "Contractual commitment",
+      "Independent validation of assertion"
+     ]
+    },
+    "value": {
+     "enum": [
+      "Public cloud",
+      "Community cloud",
+      "Private cloud",
+      "Hybrid cloud"
+     ]
+    }
+   },
+   "required": [
+    "value",
+    "assurance"
+   ],
+   "type": "object"
+  },
+  "codeLibraryLanguages": {
+   "items": {
+    "maxLength": 100,
+    "pattern": "^(?:\\S+\\s+){0,9}\\S+$",
+    "type": "string"
+   },
+   "maxItems": 10,
+   "minItems": 0,
+   "type": "array"
+  },
+  "dataAtRestProtections": {
+   "properties": {
+    "assurance": {
+     "enum": [
+      "Service provider assertion",
+      "Independent validation of assertion",
+      "Independent testing of implementation",
+      "CESG-assured components"
+     ]
+    },
+    "value": {
+     "items": {
+      "enum": [
+       "CPA Foundation-grade assured components",
+       "FIPS-assured encryption",
+       "Other encryption",
+       "Secure containers, racks or cages",
+       "Physical access control",
+       "No protection"
+      ]
+     },
+     "maxItems": 6,
+     "minItems": 1,
+     "type": "array",
+     "_uniqueItems": true
+    }
+   },
+   "required": [
+    "value",
+    "assurance"
+   ],
+   "type": "object"
+  },
+  "dataBackupRecovery": {
+   "type": "boolean"
+  },
+  "dataExtractionRemoval": {
+   "type": "boolean"
+  },
+  "dataManagementLocations": {
+   "properties": {
+    "assurance": {
+     "enum": [
+      "Service provider assertion",
+      "Contractual commitment",
+      "Independent validation of assertion"
+     ]
+    },
+    "value": {
+     "items": {
+      "enum": [
+       "UK",
+       "EU",
+       "USA - Safe Harbor",
+       "Other countries with data protection treaties",
+       "Rest of world"
+      ]
+     },
+     "maxItems": 5,
+     "minItems": 1,
+     "type": "array",
+     "_uniqueItems": true
+    }
+   },
+   "required": [
+    "value",
+    "assurance"
+   ],
+   "type": "object"
+  },
+  "dataProtectionBetweenUserAndService": {
+   "properties": {
+    "assurance": {
+     "enum": [
+      "Service provider assertion",
+      "Independent validation of assertion",
+      "Independent testing of implementation",
+      "CESG-assured components"
+     ]
+    },
+    "value": {
+     "items": {
+      "enum": [
+       "Encrypted PSN service",
+       "PSN service",
+       "CPA Foundation VPN Gateway",
+       "VPN using TLS, version 1.2 or later",
+       "VPN using legacy SSL or TLS",
+       "No encryption"
+      ]
+     },
+     "maxItems": 6,
+     "minItems": 1,
+     "type": "array",
+     "_uniqueItems": true
+    }
+   },
+   "required": [
+    "value",
+    "assurance"
+   ],
+   "type": "object"
+  },
+  "dataSecureDeletion": {
+   "properties": {
+    "assurance": {
+     "enum": [
+      "Service provider assertion",
+      "Independent validation of assertion",
+      "Independent testing of implementation",
+      "CESG-assured components"
+     ]
+    },
+    "value": {
+     "enum": [
+      "CPA Foundation-grade erasure product",
+      "CESG or CPNI-approved erasure process",
+      "Other secure erasure process",
+      "Other erasure process"
+     ]
+    }
+   },
+   "required": [
+    "value",
+    "assurance"
+   ],
+   "type": "object"
+  },
+  "datacentreLocations": {
+   "properties": {
+    "assurance": {
+     "enum": [
+      "Service provider assertion",
+      "Contractual commitment",
+      "Independent validation of assertion"
+     ]
+    },
+    "value": {
+     "items": {
+      "enum": [
+       "UK",
+       "EU",
+       "USA - Safe Harbor",
+       "Other countries with data protection treaties",
+       "Rest of world"
+      ]
+     },
+     "maxItems": 5,
+     "minItems": 1,
+     "type": "array",
+     "_uniqueItems": true
+    }
+   },
+   "required": [
+    "value",
+    "assurance"
+   ],
+   "type": "object"
+  },
+  "datacentreProtectionDisclosure": {
+   "properties": {
+    "assurance": {
+     "enum": [
+      "Service provider assertion",
+      "Contractual commitment",
+      "Independent validation of assertion"
+     ]
+    },
+    "value": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "value",
+    "assurance"
+   ],
+   "type": "object"
+  },
+  "datacentreTier": {
+   "enum": [
+    "TIA-942 Tier 1",
+    "TIA-942 Tier 2",
+    "TIA-942 Tier 3",
+    "TIA-942 Tier 4",
+    "Uptime Institute Tier 1",
+    "Uptime Institute Tier 2",
+    "Uptime Institute Tier 3",
+    "Uptime Institute Tier 4",
+    "None of the above"
+   ]
+  },
+  "datacentresEUCode": {
+   "type": "boolean"
+  },
+  "datacentresSpecifyLocation": {
+   "type": "boolean"
+  },
+  "deprovisioningTime": {
+   "maxLength": 200,
+   "minLength": 1,
+   "pattern": "^(?:\\S+\\s+){0,19}\\S+$",
+   "type": "string"
+  },
+  "deviceAccessMethod": {
+   "properties": {
+    "assurance": {
+     "enum": [
+      "Service provider assertion",
+      "Independent validation of assertion"
+     ]
+    },
+    "value": {
+     "items": {
+      "enum": [
+       "Corporate/enterprise devices",
+       "Partner devices",
+       "Unknown devices"
+      ]
+  
+... (truncated)
