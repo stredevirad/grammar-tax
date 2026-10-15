@@ -138,8 +138,6 @@ jsb__JsonSchemaStore__mason-registry	data/grammars/jsb__JsonSchemaStore__mason-r
 jsb__JsonSchemaStore__minecraft-dimension	data/grammars/jsb__JsonSchemaStore__minecraft-dimension.gbnf	bench/traces/{model}/jsb__JsonSchemaStore__minecraft-dimension.txt
 jsb__JsonSchemaStore__minecraft-recipe	data/grammars/jsb__JsonSchemaStore__minecraft-recipe.gbnf	bench/traces/{model}/jsb__JsonSchemaStore__minecraft-recipe.txt
 jsb__JsonSchemaStore__project-1	data/grammars/jsb__JsonSchemaStore__project-1.gbnf	bench/traces/{model}/jsb__JsonSchemaStore__project-1.txt
-jsb__JsonSchemaStore__project-1	data/grammars/jsb__JsonSchemaStore__project-1.gbnf	bench/traces/{model}/jsb__JsonSchemaStore__project-1.txt
-jsb__JsonSchemaStore__project-1	data/grammars/jsb__JsonSchemaStore__project-1.gbnf	bench/traces/{model}/jsb__JsonSchemaStore__project-1.txt
 jsb__JsonSchemaStore__qfconfig	data/grammars/jsb__JsonSchemaStore__qfconfig.gbnf	bench/traces/{model}/jsb__JsonSchemaStore__qfconfig.txt
 jsb__JsonSchemaStore__rustfmt	data/grammars/jsb__JsonSchemaStore__rustfmt.gbnf	bench/traces/{model}/jsb__JsonSchemaStore__rustfmt.txt
 jsb__JsonSchemaStore__samcli	data/grammars/jsb__JsonSchemaStore__samcli.gbnf	bench/traces/{model}/jsb__JsonSchemaStore__samcli.txt

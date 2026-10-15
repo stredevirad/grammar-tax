@@ -101,6 +101,11 @@ def main():
                 f.write(SCHEMA_PROMPT.format(schema=schema_txt))
             rows.append((name, gpath, f"bench/traces/{{model}}/{name}.txt"))
 
+    # JSONSchemaBench has a few duplicate unique_ids (JsonSchemaStore 'project-1' x3 in our sample).
+    # Same name means the later schema overwrote the earlier files; keep one manifest row per name.
+    seen = set()
+    rows = [r for r in rows if not (r[0] in seen or seen.add(r[0]))]
+
     with open("data/workload.tsv", "w") as f:
         f.write("# name\tgrammar\ttrace ({model} is replaced by the model tag)\n")
         for r in rows:

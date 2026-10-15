@@ -61,8 +61,10 @@ def load(raw):
                                 names=["name", "step", "mask_us", "accept_us", "n_stacks", "n_allowed"])
                 t["build"], t["run"] = b, run
                 tokens.append(t)
-    g = pd.DataFrame(per_grammar)
+    g = pd.DataFrame(per_grammar).drop_duplicates(subset=["build", "run", "name"])
     t = pd.concat(tokens, ignore_index=True) if tokens else pd.DataFrame()
+    if not t.empty:
+        t = t.drop_duplicates(subset=["build", "run", "name", "step"])
     if not t.empty:
         t["tok_us"] = t["mask_us"] + t["accept_us"]
     return builds, g, t
