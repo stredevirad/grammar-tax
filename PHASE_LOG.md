@@ -1,13 +1,13 @@
 # Phase log
 
-Current status: **Phase 2 GATE written (PASS), waiting for user go-ahead before Phase 3.** TinyLlama (32k vocab) recording/replay is the last Phase 1 item still running. Stop point requested by user: after Phase 2 GATE.
+**STOPPED at the Phase 2 GATE (as instructed by the user): GATE = PASS, waiting for the user's go-ahead before starting Phase 3.** Recommendation and evidence: results/profile.md section 5. No patch code has been written. On "continue": read this file and DECISIONS.md, then start Phase 3 with P1. Stop point requested by user: after Phase 2 GATE.
 
 ## Phase 0: setup - DONE
 - Submodule pinned at `620d222` (see README). Bench wrapper build at `build/bench-base`.
 - Tools: ccache, valgrind/callgrind, hyperfine OK; perf software events only (no HW PMU). See DECISIONS D0.5.
 - Baseline grammar tests: parser, integration, llama-grammar, json-schema-to-grammar all pass.
 
-## Phase 1: harness - IN PROGRESS
+## Phase 1: harness - DONE
 - Done: grammar_record / grammar_replay / schema_to_gbnf tools; workload = 8 built-in .gbnf + 200 JSONSchemaBench schemas (20 x 10 subsets, 0 conversion failures).
 - First smoke numbers (Qwen2.5-0.5B, 151k vocab, 2 threads): json.gbnf grammar ~64 ms/token vs decode ~34 ms/token.
 - Recording qwen05 traces: 146/208 done (first background job hit the 30 min limit; resumed, script skips finished traces).
