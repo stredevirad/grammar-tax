@@ -1,0 +1,3 @@
+date=2026-10-15T16:04:51+00:00 host=vm nproc=4 runs=5 jobs=1 model=qwen05 filter=
+model name	: Intel(R) Xeon(R) Processor @ 2.80GHz
+build build/bench-base: 620d2225cc436ab0b001e3200e590e3b286ef9ab 
