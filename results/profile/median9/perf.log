@@ -1,0 +1,2 @@
+[ perf record: Woken up 16 times to write data ]
+[ perf record: Captured and wrote 4.039 MB results/profile/median9/perf.data (50390 samples) ]

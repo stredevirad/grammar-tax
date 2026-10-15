@@ -1,6 +1,6 @@
 # Phase log
 
-Current status: **Phase 1 in progress** (baseline replay runs 3-5 running; then profiles, e2e, TinyLlama, then Phase 2 write-up and GATE). Stop point requested by user: after Phase 2 GATE.
+Current status: **Phase 2 GATE written (PASS), waiting for user go-ahead before Phase 3.** TinyLlama (32k vocab) recording/replay is the last Phase 1 item still running. Stop point requested by user: after Phase 2 GATE.
 
 ## Phase 0: setup - DONE
 - Submodule pinned at `620d222` (see README). Bench wrapper build at `build/bench-base`.
@@ -17,4 +17,11 @@ Current status: **Phase 1 in progress** (baseline replay runs 3-5 running; then 
 - Baseline replay x5 (j=1, quiet machine): run 1 total 1050 s, run 2 1026 s; median per-grammar mean ~34 ms/token.
 - llguidance built in ~2 min; reference replay: 162/198 schemas measurable, median 0.41 ms/token.
 - Added: grammar_replay --max-steps (for callgrind), apply_patches.sh, build_variant.sh, run_tests.sh, LEARNING.md part 1, UPSTREAM.md, upstream overlap table in DECISIONS.md.
-- Next: profiles (callgrind capped at 40 steps + perf full) on median9 / worst10, e2e subset, TinyLlama record + replay x3, fill results/baseline.md, write results/profile.md, GATE.
+- Baseline final: median per-grammar cost 31.3 ms/token [29.0..34.1], pooled p99 199 ms [163..251], 5 runs; monotonic VM drift of ~20% across runs (A/B must interleave).
+- e2e (28 grammars): decode 27.2 ms/tok; full mask every step 35.6 ms/tok (131% of decode); default resample path 1.5 ms/tok (6%), full mask on 5.1% of steps.
+
+## Phase 2: profile + GATE - DONE (waiting for go-ahead)
+- callgrind (40 steps/trace) + perf (full traces) on median9 and worst10: results/profile/.
+- Median: decode-related work 58.7% of instructions; malloc/free 25.6% of time. Worst: per-stack sweep 63% of time (memory bound), match_char 14.5%; advance_stack <1% (dedup candidate rejected).
+- GATE: PASS. P1 flat code-point buffer (median -20..-30%, ~25 lines); P2 per-stack first-char pre-filter (p99 -40..-60%, ~50 lines). See results/profile.md section 5.
+- Next (only after user says go): Phase 3, P1 then P2.

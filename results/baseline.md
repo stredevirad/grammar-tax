@@ -105,7 +105,18 @@ text.
 
 ## Grammar cost vs model compute (end to end)
 
-FILL: from `scripts/run_e2e.sh` (28-grammar subset, real model, 4 threads).
+`scripts/run_e2e.sh` on 28 grammars (all 8 built-in + 2 per subset), Qwen2.5-0.5B, 4 threads,
+quiet machine. Details: [`e2e/base/qwen05_summary.md`](e2e/base/qwen05_summary.md).
+
+| | ms / token | vs model decode |
+|---|---|---|
+| model decode | 27.2 | - |
+| grammar, full mask every step (`grammar_first`) | 35.6 | 131% |
+| grammar, default resample path | 1.5 | 6% |
+| steps needing the full mask on the default path | 5.1% (181 / 3544) | per grammar 0-64% |
+
+With this small model and large vocab, **the full mask costs more than the model's forward pass**;
+on the default path it is needed on ~5% of steps, so grammar is ~6% of generation time there.
 
 ## Reference ceiling: llguidance
 
