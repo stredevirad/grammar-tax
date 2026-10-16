@@ -7,7 +7,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 WT=$1; NUM=$2; NAME=$3; SUBJ=$4
 BASE=${5:-$(git ls-tree HEAD third_party/llama.cpp | awk '{print $3}')}
-OUT=patches/$NUM-$NAME.patch
+OUT=${PATCH_DIR:-patches}/$NUM-$NAME.patch
 BODY=$(cat)
 {
     echo "From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001"

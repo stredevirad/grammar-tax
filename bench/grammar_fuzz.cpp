@@ -4,6 +4,10 @@
 //
 // usage: grammar_fuzz --vocab model.gguf --manifest list.tsv --out hashes.tsv [--coverage cov.jsonl]
 //                     [--walks 16] [--steps 48] [--seed 1]
+//        grammar_fuzz --vocab model.gguf --cases cases.tsv --out hashes.tsv
+// cases: name <TAB> grammar.gbnf <TAB> space separated pieces as hex bytes (e.g. "22 e3 81 82"); each piece is
+// looked up as the token whose text is exactly those bytes, accepted in order, and the full mask is hashed
+// before every accept and after the last one (scripted edge cases, e.g. partial UTF-8 across tokens).
 // manifest: name <TAB> grammar.gbnf (extra columns ignored)
 //
 // Token choice per step (deterministic given the masks): EOG with probability 1/8 if allowed (ends the
@@ -18,6 +22,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
+#include <map>
 #include <random>
 #include <sstream>
 #include <string>
@@ -92,7 +97,7 @@ static void classify_top(const llama_grammar_stack & st, bool * seen) {
 }
 
 int main(int argc, char ** argv) {
-    std::string vocab_path, manifest_path, out_path, cov_path;
+    std::string vocab_path, manifest_path, out_path, cov_path, cases_path;
     int walks = 16, steps = 48;
     uint64_t seed = 1;
     for (int i = 1; i + 1 < argc; i += 2) {
@@ -101,12 +106,13 @@ int main(int argc, char ** argv) {
         else if (a == "--manifest") manifest_path = argv[i + 1];
         else if (a == "--out")      out_path      = argv[i + 1];
         else if (a == "--coverage") cov_path      = argv[i + 1];
+        else if (a == "--cases")    cases_path    = argv[i + 1];
         else if (a == "--walks")    walks         = std::atoi(argv[i + 1]);
         else if (a == "--steps")    steps         = std::atoi(argv[i + 1]);
         else if (a == "--seed")     seed          = std::strtoull(argv[i + 1], nullptr, 10);
         else { fprintf(stderr, "unknown arg %s\n", a.c_str()); return 2; }
     }
-    if (vocab_path.empty() || manifest_path.empty() || out_path.empty()) {
+    if (vocab_path.empty() || (manifest_path.empty() && cases_path.empty()) || out_path.empty()) {
         fprintf(stderr, "usage: %s --vocab model.gguf --manifest list.tsv --out hashes.tsv [--coverage cov.jsonl] [--walks N] [--steps N] [--seed S]\n", argv[0]);
         return 2;
     }
@@ -123,6 +129,11 @@ int main(int argc, char ** argv) {
     // per-token categories
     std::vector<uint8_t> is_partial(n_vocab), is_non_ascii(n_vocab), is_eog(n_vocab), is_byte1(n_vocab);
     int n_empty_piece = 0, n_eog = 0, n_partial = 0, n_byte1 = 0;
+    // memory of one full-vocab apply call (clean partial UTF-8 state):
+    // p1_buffer: the single code point buffer reserved by patch 0001 (4 bytes x (piece bytes + 1), all tokens)
+    // base_heap: what the baseline allocates per call: one vector per candidate, glibc chunk = max(32, (n + 8 + 15) & ~15),
+    //            plus the vector<pair<vector<uint32_t>, llama_partial_utf8>> array (32 bytes per candidate)
+    size_t p1_buffer = 0, base_heap = 0, n_cand = 0;
     for (int id = 0; id < n_vocab; id++) {
         const std::string & piece = vocab->token_to_piece(id);
         is_eog[id]       = vocab->is_eog(id) ? 1 : 0;
@@ -133,13 +144,84 @@ int main(int argc, char ** argv) {
         n_eog           += is_eog[id];
         n_partial       += is_partial[id];
         n_byte1         += is_byte1[id];
+        p1_buffer       += 4 * (piece.size() + 1);
+        if (!is_eog[id] && !piece.empty() && piece[0] != 0) {
+            const size_t req = 4 * (piece.size() + 1);
+            const size_t chunk = (req + 8 + 15) & ~(size_t) 15;
+            base_heap += (chunk < 32 ? 32 : chunk) + 32;
+            n_cand++;
+        }
     }
 
     FILE * fo = fopen(out_path.c_str(), "w");
     FILE * fc = cov_path.empty() ? nullptr : fopen(cov_path.c_str(), "w");
     if (fc) {
-        fprintf(fc, "{\"vocab\":\"%s\",\"n_vocab\":%d,\"n_eog\":%d,\"n_empty_piece\":%d,\"n_partial_end\":%d,\"n_single_high_byte\":%d}\n",
-                vocab_path.c_str(), n_vocab, n_eog, n_empty_piece, n_partial, n_byte1);
+        fprintf(fc, "{\"vocab\":\"%s\",\"n_vocab\":%d,\"n_eog\":%d,\"n_empty_piece\":%d,\"n_partial_end\":%d,\"n_single_high_byte\":%d,"
+                    "\"n_candidates\":%zu,\"p1_buffer_bytes\":%zu,\"base_heap_bytes\":%zu,\"base_heap_allocations\":%zu}\n",
+                vocab_path.c_str(), n_vocab, n_eog, n_empty_piece, n_partial, n_byte1, n_cand, p1_buffer, base_heap, n_cand + 1);
+    }
+
+    if (!cases_path.empty()) {
+        std::map<std::string, llama_token> piece_to_id;
+        for (int id = n_vocab - 1; id >= 0; id--) {
+            piece_to_id[vocab->token_to_piece(id)] = id; // lowest id wins
+        }
+        FILE * fo = fopen(out_path.c_str(), "w");
+        std::ifstream cf(cases_path);
+        std::string cl;
+        std::vector<llama_token_data> cur(n_vocab);
+        int rc = 0;
+        while (std::getline(cf, cl)) {
+            if (cl.empty() || cl[0] == '#') continue;
+            std::istringstream ls(cl);
+            std::string name, gpath, pieces;
+            std::getline(ls, name, '\t');
+            std::getline(ls, gpath, '\t');
+            std::getline(ls, pieces, '\t');
+            std::vector<llama_token> toks;
+            std::istringstream ps(pieces);
+            std::string hex;
+            while (ps >> hex) {
+                std::string bytes;
+                for (size_t k = 0; k + 1 < hex.size(); k += 2) bytes += (char) std::stoi(hex.substr(k, 2), nullptr, 16);
+                auto it = piece_to_id.find(bytes);
+                if (it == piece_to_id.end()) { fprintf(stderr, "%s: no token with piece %s\n", name.c_str(), hex.c_str()); rc = 1; toks.clear(); break; }
+                toks.push_back(it->second);
+            }
+            if (toks.empty()) continue;
+            const std::string gstr = read_file(gpath);
+            llama_grammar * grammar = llama_grammar_init_impl(vocab, gstr.c_str(), "root", false, nullptr, 0, nullptr, 0);
+            if (!grammar) { fprintf(stderr, "%s: grammar init failed\n", name.c_str()); rc = 1; continue; }
+            for (size_t step = 0; step <= toks.size(); step++) {
+                for (int id = 0; id < n_vocab; id++) cur[id] = { id, 0.0f, 0.0f };
+                llama_token_data_array cur_p = { cur.data(), (size_t) n_vocab, -1, false };
+                const int partial_in = grammar->partial_utf8.n_remain;
+                llama_grammar_apply_impl(*grammar, &cur_p);
+                uint64_t h = 1469598103934665603ULL;
+                int n_allowed = 0, eog_allowed = 0;
+                for (int id = 0; id < n_vocab; id++) {
+                    const uint8_t r = std::isinf(cur[id].logit) ? 1 : 0;
+                    h ^= r; h *= 1099511628211ULL;
+                    n_allowed += 1 - r;
+                    eog_allowed += (!r && is_eog[id]) ? 1 : 0;
+                }
+                const bool tok_ok = step < toks.size() && !std::isinf(cur[toks[step]].logit);
+                fprintf(fo, "%s\t%zu\t%d\t%016llx\tpartial_in=%d\tstacks=%zu\teog_allowed=%d\tnext=%d\tnext_allowed=%d\n", name.c_str(), step, n_allowed,
+                        (unsigned long long) h, partial_in, grammar->stacks.size(), eog_allowed, step < toks.size() ? toks[step] : -1, tok_ok ? 1 : 0);
+                if (step == toks.size() || !tok_ok) break;
+                try {
+                    llama_grammar_accept_impl(*grammar, toks[step]);
+                } catch (const std::exception & e) {
+                    fprintf(fo, "%s\t%zu\taccept_failed\n", name.c_str(), step);
+                    break;
+                }
+            }
+            llama_grammar_free_impl(grammar);
+        }
+        fclose(fo);
+        llama_model_free(model);
+        llama_backend_free();
+        return rc;
     }
 
     std::ifstream mf(manifest_path);

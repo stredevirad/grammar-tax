@@ -1,0 +1,67 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: grammar-tax workbench <workbench@localhost>
+Date: Fri, 16 Oct 2026 04:36:58 +0000
+Subject: [PATCH] grammar : test eog with a scan of the eog ids
+
+llama_grammar_apply_impl called llama_vocab::is_eog (a std::set lookup
+behind two out-of-line calls) for every vocab token on every call. Copy
+the eog ids once per call (the set has a few entries) and scan them
+inline. Adds llama_vocab::get_eog_ids.
+
+Applies on top of 0001 and 0002.
+---
+ src/llama-grammar.cpp |    5 ++++-
+ src/llama-vocab.cpp   |    4 ++++
+ src/llama-vocab.h     |    2 ++
+ 3 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/src/llama-grammar.cpp b/src/llama-grammar.cpp
+index 4eaa2b9..e518814 100644
+--- a/src/llama-grammar.cpp
++++ b/src/llama-grammar.cpp
+@@ -1395,11 +1395,14 @@ void llama_grammar_apply_impl(const struct llama_grammar & grammar, llama_token_
+     llama_grammar_candidates candidates_grammar;
+     candidates_grammar.reserve(cur_p->size);
+ 
++    // the eog set is small, a linear scan is cheaper than a call per token
++    const std::vector<llama_token> eog_ids = grammar.vocab->get_eog_ids();
++
+     for (size_t i = 0; i < cur_p->size; ++i) {
+         const llama_token id      = cur_p->data[i].id;
+         const std::string & piece = grammar.vocab->token_to_piece(id);
+ 
+-        if (grammar.vocab->is_eog(id)) {
++        if (std::find(eog_ids.begin(), eog_ids.end(), id) != eog_ids.end()) {
+             if (!allow_eog) {
+                 cur_p->data[i].logit = -INFINITY;
+             }
+diff --git a/src/llama-vocab.cpp b/src/llama-vocab.cpp
+index 9b5cc2e..0d90734 100644
+--- a/src/llama-vocab.cpp
++++ b/src/llama-vocab.cpp
+@@ -4156,6 +4156,10 @@ bool llama_vocab::is_eog(llama_token id) const {
+     return pimpl->is_eog(id);
+ }
+ 
++std::vector<llama_token> llama_vocab::get_eog_ids() const {
++    return std::vector<llama_token>(pimpl->special_eog_ids.begin(), pimpl->special_eog_ids.end());
++}
++
+ uint8_t llama_vocab::token_to_byte(llama_token id) const {
+     return pimpl->token_to_byte(id);
+ }
+diff --git a/src/llama-vocab.h b/src/llama-vocab.h
+index 898a23a..e026494 100644
+--- a/src/llama-vocab.h
++++ b/src/llama-vocab.h
+@@ -113,6 +113,8 @@ struct llama_vocab {
+     bool is_unused      (llama_token id) const;
+     bool is_eog         (llama_token id) const;
+ 
++    std::vector<llama_token> get_eog_ids() const;
++
+     uint8_t     token_to_byte(llama_token id) const;
+     llama_token byte_to_token(uint8_t ch)     const;
+ 
+-- 
+workbench

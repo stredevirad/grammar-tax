@@ -3,7 +3,7 @@
 # The submodule checkout itself is never modified.
 #
 # usage: scripts/apply_patches.sh [DEST=build/src-patched] [PATCH...]
-#   with no PATCH arguments, applies every patches/*.patch in name order.
+#   with no PATCH arguments, applies every patches/*.patch in name order; PATCH = none applies nothing.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 DEST=${1:-build/src-patched}
@@ -19,7 +19,9 @@ else
     git -C "$SUB" worktree add -q --detach "$(realpath -m "$DEST")" "$PIN"
 fi
 
-if [ $# -gt 0 ]; then
+if [ "${1:-}" = none ]; then
+    PATCHES=()
+elif [ $# -gt 0 ]; then
     PATCHES=("$@")
 else
     shopt -s nullglob

@@ -1,0 +1,23 @@
+# name	grammar	pieces (hex bytes per token)
+# partial UTF-8 carried across 2 and 3 tokens: e3 | 81 | 82 = U+3042 (hiragana a), inside a kana range
+partial_kana_3tok	bench/fuzz_grammars/multibyte_ranges.gbnf	e3 81 82 e3 81 84 20
+# 4-byte emoji from single bytes: f0 9f 98 80 = U+1F600
+partial_emoji_4tok	bench/fuzz_grammars/multibyte_ranges.gbnf	f0 9f 98 80 20 f0 9f 99 8f
+# 2-byte Latin-1 from bytes: c3 | a9 = U+00E9
+partial_latin1	bench/fuzz_grammars/multibyte_ranges.gbnf	c3 a9 c3 bf
+# negated multibyte class with a pending partial: '"' then e3 81 (inside [^぀-ヿ...] -> the third byte decides)
+negated_partial	bench/fuzz_grammars/negated_class.gbnf	22 e4 b8 80 e3 81
+# negated class, plain ASCII and escapes
+negated_ascii	bench/fuzz_grammars/negated_class.gbnf	22 61 5c 6e 62 22
+# any-char with partial UTF-8 and ASCII
+any_partial	bench/fuzz_grammars/any_char.gbnf	3c e3 81 82 61 7c e2 82 ac 3e
+# invalid continuation: after e3 a token starting with an ASCII byte is not allowed (mask decides; script stops there)
+invalid_continuation	bench/fuzz_grammars/any_char.gbnf	3c e3 41
+# completed (empty) stack next to live ones; EOG becomes allowed after "a", "ab", "abc"
+empty_stack_eog	bench/fuzz_grammars/empty_stacks.gbnf	61 62 63 64 64
+# char ranges and alternates in one class, bounded repetition
+ranges_alternates	bench/fuzz_grammars/ranges_alternates.gbnf	5f 61 39 2d 2c 66 46 2c 30 30 30 30 3b 79
+# token elements: TOKEN / TOKEN_NOT tops
+token_elements	bench/fuzz_grammars/token_elements.gbnf	78 79 79 7a
+# Japanese grammar from llama.cpp, with a byte-level split character
+japanese_bytes	third_party/llama.cpp/grammars/japanese.gbnf	e6 97 a5 e6 9c ac e8 aa 9e

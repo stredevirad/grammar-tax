@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: grammar-tax workbench <workbench@localhost>
+Date: Fri, 16 Oct 2026 04:36:58 +0000
+Subject: [PATCH] grammar : skip advance and recursion when no candidate matched
+
+In llama_grammar_reject_candidates_for_stack, when no candidate matched the
+char element on top of the stack, the next stacks were still built with
+llama_grammar_advance_stack before the (empty) recursive call returned.
+Return early instead. The result is the same: the recursive call returns
+an empty list for empty candidates.
+
+Applies on top of 0001 and 0002.
+---
+ src/llama-grammar.cpp |    4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/llama-grammar.cpp b/src/llama-grammar.cpp
+index 4eaa2b9..b58f00c 100644
+--- a/src/llama-grammar.cpp
++++ b/src/llama-grammar.cpp
+@@ -1123,6 +1123,10 @@ llama_grammar_candidates llama_grammar_reject_candidates_for_stack(
+         }
+     }
+ 
++    if (next_candidates.empty()) {
++        return rejects;
++    }
++
+     const auto * stack_pos_after = llama_grammar_match_char(stack_pos, 0).second;
+ 
+     // update top of stack to next element, if any
+-- 
+workbench
