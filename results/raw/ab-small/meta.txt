@@ -1,0 +1,7 @@
+date=2026-10-16T10:02:20+00:00 host=vm nproc=4 runs=3 jobs=1 model=qwen05 filter=
+model name	: Intel(R) Xeon(R) Processor @ 2.80GHz
+build build/bench-p1: 620d2225cc436ab0b001e3200e590e3b286ef9ab  1 file changed, 34 insertions(+), 14 deletions(-)
+build build/bench-p1skip: 620d2225cc436ab0b001e3200e590e3b286ef9ab  1 file changed, 38 insertions(+), 14 deletions(-)
+build build/bench-p1eog: 620d2225cc436ab0b001e3200e590e3b286ef9ab  3 files changed, 44 insertions(+), 15 deletions(-)
+build build/bench-p1ascii: 620d2225cc436ab0b001e3200e590e3b286ef9ab  1 file changed, 46 insertions(+), 16 deletions(-)
+build build/bench-p2b: 620d2225cc436ab0b001e3200e590e3b286ef9ab  1 file changed, 88 insertions(+), 17 deletions(-)

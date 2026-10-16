@@ -27,6 +27,13 @@ TEXT = "#0b0b0b"
 TEXT2 = "#52514e"
 GRID = "#e4e3df"
 SERIES = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"]
+# color follows the build, never its position (reference palette slots 1-8; unknown builds in gray)
+BUILD_COLOR = {"base": "#2a78d6", "p1": "#eb6834", "p2": "#1baf7a", "pr28371c": "#eda100", "comboc": "#e87ba4",
+               "p2b": "#6250d6", "p1skip": "#008300", "p1eog": "#e34948", "final": "#eb6834"}
+
+
+def color_for(name):
+    return BUILD_COLOR.get(name, "#8a8984")
 
 plt.rcParams.update({
     "figure.facecolor": SURFACE, "axes.facecolor": SURFACE, "savefig.facecolor": SURFACE,
@@ -169,7 +176,7 @@ def main():
         fig, ax = plt.subplots(figsize=(6.4, 3.6))
         for i, b in enumerate(builds):
             x = np.sort(t[(t.build == b) & (t.run == 1)]["tok_us"].values) / 1000.0
-            ax.plot(x, np.linspace(0, 1, len(x)), color=SERIES[i % 4], linewidth=2, label=b)
+            ax.plot(x, np.linspace(0, 1, len(x)), color=color_for(b), linewidth=2, label=b)
         ax.set_xscale("log")
         ax.set_xlabel("grammar cost per token, ms (full-vocab mask + accept), log scale")
         ax.set_ylabel("fraction of tokens")
@@ -183,7 +190,7 @@ def main():
     fig, ax = plt.subplots(figsize=(6.4, 3.6))
     for i, b in enumerate(builds):
         y = np.sort(pg[pg.build == b]["tok_us_mean"].values)[::-1] / 1000.0
-        ax.plot(np.arange(1, len(y) + 1), y, color=SERIES[i % 4], linewidth=2, label=b)
+        ax.plot(np.arange(1, len(y) + 1), y, color=color_for(b), linewidth=2, label=b)
     ax.set_yscale("log")
     ax.set_xlabel("grammar rank (most expensive first)")
     ax.set_ylabel("mean ms per token, log scale")
@@ -210,7 +217,7 @@ def main():
             pg[pg.build == o].set_index("name")[["tok_us_mean"]], rsuffix="_o", how="inner")
         sp = np.sort((m.tok_us_mean / m.tok_us_mean_o).values)
         fig, ax = plt.subplots(figsize=(6.4, 3.6))
-        ax.bar(np.arange(len(sp)), sp, width=0.8, color=SERIES[1])
+        ax.bar(np.arange(len(sp)), sp, width=0.8, color=color_for(o))
         ax.axhline(1.0, color=TEXT2, linewidth=1)
         ax.set_xlabel("grammar (sorted)")
         ax.set_ylabel(f"speedup ({base} / {o})")

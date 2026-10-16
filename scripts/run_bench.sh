@@ -43,7 +43,7 @@ echo "grammars: $(wc -l < "$TMP/manifest.tsv"), builds: ${BUILDS[*]}, runs: $RUN
 split -n l/"$JOBS" -d "$TMP/manifest.tsv" "$TMP/shard."
 
 {
-    echo "date=$(date -Is) host=$(hostname) nproc=$(nproc) runs=$RUNS jobs=$JOBS model=$TAG filter=$FILTER"
+    echo "date=$(date -Is) host=$(hostname) kernel=$(uname -r) nproc=$(nproc) runs=$RUNS jobs=$JOBS model=$TAG filter=$FILTER"
     grep -m1 "model name" /proc/cpuinfo
     for b in "${BUILDS[@]}"; do echo "build $b: $(git -C "$(grep LLAMA_SRC:PATH "$b/CMakeCache.txt" | cut -d= -f2)" rev-parse HEAD 2>/dev/null) $(git -C "$(grep LLAMA_SRC:PATH "$b/CMakeCache.txt" | cut -d= -f2)" diff --stat HEAD 2>/dev/null | tail -1)"; done
 } > "$OUT/meta.txt"

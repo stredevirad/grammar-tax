@@ -1,0 +1,32 @@
+{
+ "label": "ab-small-r12",
+ "a": "p1",
+ "b": "p2b",
+ "grammars": 206,
+ "runs": 2,
+ "bootstrap": 500,
+ "geomean_speedup": 0.964682320112773,
+ "geomean_speedup_ci": [
+  0.9554604646133086,
+  0.9739595407443152
+ ],
+ "median_cost_ratio": 1.0436624337005627,
+ "median_cost_ratio_ci": [
+  1.0232896281512878,
+  1.0663027765369169
+ ],
+ "p99_ratio": 0.9521502791050249,
+ "p99_ratio_ci": [
+  0.8226375293187875,
+  1.0965011517085193
+ ],
+ "total_ratio": 1.0431196695573146,
+ "total_ratio_ci": [
+  1.0304118872586236,
+  1.0541310985129817
+ ],
+ "grammars_faster": 56,
+ "grammars_slower": 150,
+ "per_grammar_speedup_min": 0.7953147047040506,
+ "per_grammar_speedup_max": 1.349316278620547
+}
