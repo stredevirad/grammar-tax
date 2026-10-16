@@ -6,7 +6,7 @@ and then link the merged PR. Every number is in `results/REPORT.md` with its spr
 **Option A (one line, for a projects section)**
 
 - Profiled llama.cpp's grammar-constrained (GBNF) sampling on CPU with a record/replay benchmark (206 grammars,
-  23k tokens) and wrote 3 small C++ patches (+73 / -22 lines) that cut full-vocab mask computation by 1.47x
+  23k tokens) and wrote 3 small C++ patches (+72 / -23 lines) that cut full-vocab mask computation by 1.47x
   (median per-token cost -33%, p99 -18%; 5 paired runs, 95% CI 1.455-1.486x) with bit-identical masks; about +2%
   end-to-end tokens/s on the default sampling path and +24% where the mask runs every step.
 

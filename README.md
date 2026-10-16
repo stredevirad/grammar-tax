@@ -45,7 +45,7 @@ roughly the full gain: [results/who_benefits.md](results/who_benefits.md) lists 
 |---|---|---|
 | [0001](patches/0001-grammar-flat-decode-buffer.patch) | decode every vocab piece into **one buffer per call** instead of one heap vector per token (removes ~152k malloc/free pairs per step; transient memory 11.6 MB -> 4.5 MB) | +34 / -14 |
 | [0002](patches/0002-grammar-ascii-match-table.patch) | for long candidate lists, **tabulate the char-class match for the 128 ASCII code points** once per stack | +12 / -2 |
-| [0003](patches/0003-grammar-reuse-reject-lists.patch) | **reuse two reject lists across stacks** instead of allocating ~4.8 MB per stack; fixes a cold-start page-fault regression that 0001 exposed | +27 / -6 |
+| [0003](patches/0003-grammar-reuse-reject-lists.patch) | **reuse two reject lists across stacks** instead of allocating ~4.8 MB per stack; fixes a cold-start page-fault regression that 0001 exposed | +26 / -7 |
 
 All three touch only `src/llama-grammar.cpp`, keep the public API and the output order of
 `llama_grammar_reject_candidates_for_stack`, and pass the four llama.cpp grammar tests. Line-by-line

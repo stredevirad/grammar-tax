@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: grammar-tax workbench <workbench@localhost>
-Date: Fri, 16 Oct 2026 15:22:55 +0000
+Date: Fri, 16 Oct 2026 19:21:40 +0000
 Subject: [PATCH] grammar : reuse the reject lists across stacks
 
 llama_grammar_reject_candidates allocated a new reject list for every
@@ -17,11 +17,11 @@ keeps its signature and output (including order).
 
 Applies on top of 0001 and 0002.
 ---
- src/llama-grammar.cpp |   33 +++++++++++++++++++++++++++------
- 1 file changed, 27 insertions(+), 6 deletions(-)
+ src/llama-grammar.cpp |   33 ++++++++++++++++++++++++++-------
+ 1 file changed, 26 insertions(+), 7 deletions(-)
 
 diff --git a/src/llama-grammar.cpp b/src/llama-grammar.cpp
-index a7cc0cf..64ca520 100644
+index a7cc0cf..29f783f 100644
 --- a/src/llama-grammar.cpp
 +++ b/src/llama-grammar.cpp
 @@ -953,6 +953,12 @@ static void llama_grammar_advance_stack(
@@ -93,12 +93,12 @@ index a7cc0cf..64ca520 100644
      }
  
      llama_grammar_candidates next_candidates;
-@@ -1148,7 +1169,7 @@ llama_grammar_candidates llama_grammar_reject_candidates_for_stack(
+@@ -1147,8 +1168,6 @@ llama_grammar_candidates llama_grammar_reject_candidates_for_stack(
+     for (const auto & tok : next_rejects) {
          rejects.push_back({ tok.index, tok.code_points - 1, tok.partial_utf8, tok.id });
      }
- 
+-
 -    return rejects;
-+    return;
  }
  
  ////////////////////

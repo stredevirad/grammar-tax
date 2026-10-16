@@ -17,7 +17,7 @@ chain. See [who_benefits.md](who_benefits.md) for every such path with file:line
 Final series: [`0001`](../patches/0001-grammar-flat-decode-buffer.patch) (decode all pieces into one buffer),
 [`0002`](../patches/0002-grammar-ascii-match-table.patch) (ASCII match table),
 [`0003`](../patches/0003-grammar-reuse-reject-lists.patch) (reuse the reject lists across stacks).
-+34 / -14, +12 / -2 and +27 / -6 lines (git numstat), all in `src/llama-grammar.cpp`.
++34 / -14, +12 / -2 and +26 / -7 lines (git numstat), all in `src/llama-grammar.cpp`.
 
 | measurement | baseline | final | change | runs |
 |---|---|---|---|---|

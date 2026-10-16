@@ -339,7 +339,7 @@ llama_grammar_candidates llama_grammar_reject_candidates_for_stack(rules, stack,
 static void llama_grammar_reject_candidates_for_stack_into(rules, stack, candidates, rejects) {
     rejects.clear();
     rejects.reserve(candidates.size());
-    ... the old body, with `return rejects;` -> `return;`
+    ... the old body, with `return rejects;` -> `return;` (the last one dropped)
 }
 
 // in llama_grammar_reject_candidates:
