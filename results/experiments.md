@@ -19,14 +19,14 @@ Every idea is a patch on the pinned SHA, measured the same way:
 | idea | patch | correct | wall time vs its base (geomean per-grammar speedup, 95% CI) | instructions (median9 / worst10) | decision |
 |---|---|---|---|---|---|
 | P1 flat code-point buffer | `patches/0001-grammar-flat-decode-buffer.patch` | yes | **1.458x vs base** [1.441, 1.477]; median cost -31.6%, pooled p99 -21.5%, total -27.9% | -35.8% / -12.5% vs base | **kept** |
-| P2 first-char pre-filter per stack | `patches/rejected/0002-grammar-first-char-prefilter.patch` | yes | **0.976x vs P1** [0.967, 0.986] (slower); median +2.2%, p99 -0.6% [CI -15% .. +20%], total +4.0%; 141 of 206 grammars slower | +5.4% / +6.8% vs P1 | **rejected** |
+| P2 first-char pre-filter per stack | `patches/rejected/0002-grammar-first-char-prefilter-on-0001.patch` | yes | **0.976x vs P1** [0.967, 0.986] (slower); median +2.2%, p99 -0.6% [CI -15% .. +20%], total +4.0%; 141 of 206 grammars slower | +5.4% / +6.8% vs P1 | **rejected** |
 | #28371 at head f000de6 (third arm) | `patches/third_party/pr28371-f000de6.diff` | **no** (mask diffs, segfaults; use-after-free, D3.11) | not timed | - | excluded |
 | #28371 at c29085b (cache cleared per call) | `patches/third_party/pr28371-c29085b.diff` | yes | **0.963x vs base** [0.953, 0.973] (slower); median +1.4%, total +2.2% | (pending) | not ours; reported |
 | ours (P1+P2) + #28371 c29085b | `patches/third_party/pr28371-c29085b-on-0002.diff` | yes | **0.975x vs P1+P2** [0.967, 0.982] (slower) | (pending) | does not combine usefully on this workload |
-| skip advance when no candidate survives | `patches/candidates/0002-grammar-skip-advance-no-survivors.patch` | yes | **0.999x vs P1** [0.990, 1.008]; median +0.3%, total +1.3% (2 runs, fc-v114) | (on P2: -0.8% / -1.9%) | **rejected** (no measurable gain) |
-| cheaper is_eog (scan of eog ids) | `patches/candidates/0002-grammar-eog-scan.patch` | yes | **1.002x vs P1** [0.993, 1.012]; median +0.9%, total +1.1% (2 runs, fc-v114) | (on P2: -2.9% / -0.7%) | **rejected** (no measurable gain; also adds a vocab accessor) |
-| ASCII match table in `reject_candidates_for_stack` | `patches/candidates/0002-grammar-ascii-match-table.patch` | yes | **1.036x vs P1** [1.028, 1.046]; median -2.5%, total -3.1% (2 runs, fc-v114) | (pending) | borderline; re-measured on fc-v139 (D3.13) |
-| P2b: compact first-code-point scan per stack | `patches/candidates/0002-grammar-first-char-scan.patch` | yes | **0.965x vs P1** [0.955, 0.974] on fc-v114 (2 runs); on fc-v139 it avoids P1's page-fault slow mode on stack-heavy grammars (D3.13) | (pending) | re-measured on fc-v139 |
+| skip advance when no candidate survives | `patches/rejected/0002-grammar-skip-advance-no-survivors.patch` | yes | **0.999x vs P1** [0.990, 1.008]; median +0.3%, total +1.3% (2 runs, fc-v114) | (on P2: -0.8% / -1.9%) | **rejected** (no measurable gain) |
+| cheaper is_eog (scan of eog ids) | `patches/rejected/0002-grammar-eog-scan.patch` | yes | **1.002x vs P1** [0.993, 1.012]; median +0.9%, total +1.1% (2 runs, fc-v114) | (on P2: -2.9% / -0.7%) | **rejected** (no measurable gain; also adds a vocab accessor) |
+| ASCII match table in `reject_candidates_for_stack` | `patches/0002-grammar-ascii-match-table.patch` | yes | **1.036x vs P1** [1.028, 1.046] (2 runs, fc-v114); **1.033x vs P1** [1.022, 1.045], median -4.1%, p99 -7.0%, total -4.2% (3 runs, fc-v139) | (see instructions.tsv) | **kept** (consistently just above the 3% bar, 13 lines) |
+| P2b: compact first-code-point scan per stack | `patches/rejected/0002-grammar-first-char-scan.patch` | yes | **0.965x vs P1** (fc-v114, 2 runs); **0.950x vs P1** [0.940, 0.961], median +6.3%, p99 -7.3% [CI -21% .. +6%] (fc-v139, 3 runs) | (see instructions.tsv) | **rejected** (slower on typical grammars; only fixes the cold-start case, D3.13) |
 
 Raw data: `results/raw/ab-main/` (base, p1, p2, pr28371c, comboc; 3 interleaved runs), statistics:
 `results/ab-main/ab_<a>_vs_<b>.md`, instruction counts: `results/profile/instructions.tsv`.
@@ -97,3 +97,38 @@ on top of P1 alone and timed there (instruction counts on top of P2 are kept in
   change to the vocab interface.
 - The third run of this A/B was lost to a VM restart (D3.12); both decisions are far from the 3% bar, so two
   paired runs over 206 grammars are enough (CI width about +-1%).
+
+## Re-measurement on the new kernel (fc-v139, `results/raw/ab-v139`, 3 interleaved runs)
+
+After the VM restart (D3.12) the remaining candidates were re-measured together with the baseline:
+
+| vs base | per-grammar speedup | median per-token | pooled p99 | total |
+|---|---|---|---|---|
+| P1 | 1.387x [1.368, 1.407] | -27.9% | -11.8% | -23.7% |
+| P1 + ASCII table (final series) | **1.433x** [1.415, 1.453] | **-32.5%** | **-24.3%** | **-27.0%** |
+| P2b | 1.318x [1.300, 1.337] | -23.3% | -25.4% | -22.8% |
+
+P1's numbers here are a little lower than on fc-v114 (1.458x); the two runs are on different kernels and
+days, so only within-run comparisons are used for decisions.
+
+## ASCII match table (kept as 0002)
+
+- What: in `llama_grammar_reject_candidates_for_stack`, for candidate lists of at least 128 entries,
+  compute `llama_grammar_match_char(stack_pos, c)` once for each ASCII `c` and look it up per candidate.
+  The result and the order of the output are unchanged (same function, same inputs).
+- Measured vs P1 in two separate A/Bs on two kernels: +3.6% and +3.3% per grammar (geomean), total time
+  -3.1% and -4.2%; on the post-reboot run also median -4.1% and pooled p99 -7.0%.
+- Why it helps: after P1, `llama_grammar_match_char` is ~18% of time on the worst set; for an ASCII first
+  char (most of the vocab) the lookup replaces a walk over the char class.
+
+## P2b: compact first-code-point scan (rejected)
+
+- What: P2's per-stack pre-filter, but scanning two compact arrays (first code point 4 B + accepted flag
+  1 B per candidate, with an ASCII table) instead of the 32-byte candidate structs.
+- Result: slower than P1 on the typical grammar (median +6.3%) and not significantly better on p99.
+  The per-stack scan is cheap, but it still touches every candidate for every stack, and for the many
+  candidates that pass the first char (e.g. tokens starting with a space at a whitespace position) the
+  full check runs as before.
+- Its one real advantage is structural: it never makes the two ~4.8 MB allocations per stack, so it avoids
+  the cold-start page-fault mode (D3.13). That case is quantified below; it was not judged worth a 5%
+  loss on typical grammars plus 52 lines.

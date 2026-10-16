@@ -1,0 +1,32 @@
+{
+ "label": "ab-v139",
+ "a": "p1",
+ "b": "p2b",
+ "grammars": 206,
+ "runs": 3,
+ "bootstrap": 1000,
+ "geomean_speedup": 0.9504497453894686,
+ "geomean_speedup_ci": [
+  0.9401876671454104,
+  0.9613831236888801
+ ],
+ "median_cost_ratio": 1.0632352158407408,
+ "median_cost_ratio_ci": [
+  1.0326287655399216,
+  1.0996394263469393
+ ],
+ "p99_ratio": 0.9265630993439216,
+ "p99_ratio_ci": [
+  0.7890759197579924,
+  1.0557302577557877
+ ],
+ "total_ratio": 1.0312878312918476,
+ "total_ratio_ci": [
+  1.0114471097604196,
+  1.0518106892579158
+ ],
+ "grammars_faster": 50,
+ "grammars_slower": 156,
+ "per_grammar_speedup_min": 0.7015682986486302,
+ "per_grammar_speedup_max": 1.2380221094286363
+}
