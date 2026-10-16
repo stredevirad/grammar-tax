@@ -1,0 +1,32 @@
+{
+ "label": "cold-reuse",
+ "a": "base",
+ "b": "reuse",
+ "grammars": 19,
+ "runs": 2,
+ "bootstrap": 1000,
+ "geomean_speedup": 1.381004914958663,
+ "geomean_speedup_ci": [
+  1.3362737659860089,
+  1.4255664029656347
+ ],
+ "median_cost_ratio": 0.7482949586035377,
+ "median_cost_ratio_ci": [
+  0.6525893302992813,
+  0.8071495337457997
+ ],
+ "p99_ratio": 0.8308959852089269,
+ "p99_ratio_ci": [
+  0.6863330460149725,
+  0.9520626957126783
+ ],
+ "total_ratio": 0.7339944741501321,
+ "total_ratio_ci": [
+  0.7056238272097966,
+  0.7576500433567361
+ ],
+ "grammars_faster": 19,
+ "grammars_slower": 0,
+ "per_grammar_speedup_min": 1.2225601535133803,
+ "per_grammar_speedup_max": 1.5804889673566527
+}

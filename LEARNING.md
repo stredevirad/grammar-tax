@@ -159,7 +159,9 @@ they fit llama.cpp's simplicity rules.
 ## Part 2. Patch walkthrough
 
 The kept patches live in `patches/` and apply in order to the pinned SHA
-(`scripts/apply_patches.sh`). Numbers quoted here come from `results/REPORT.md`; this part is about
+(`scripts/apply_patches.sh`): **0001** (one decode buffer), **0002** (ASCII match table), **0003** (reuse
+the reject lists across stacks). Rejected experiments are in `patches/rejected/` and explained after the
+kept ones. Numbers quoted here come from `results/REPORT.md`; this part is about
 *why the code is correct and why it is faster*.
 
 ### Patch 0001: decode all candidate pieces into one buffer
@@ -268,7 +270,106 @@ keeps nothing between calls, needs no locking, and lowers the transient memory o
 block instead of 11.6 MB in 152k blocks). It still decodes every step; the decode compute itself (~14% of
 time on the median set) is untouched.
 
-### Rejected experiment 0002: skip candidates whose first char cannot match the stack
+### Patch 0002: precompute the char match for ASCII in long candidate lists
+
+**Problem.** After 0001, `llama_grammar_match_char` is the next biggest piece (about 18% of time on the
+worst grammars). For every candidate, for every stack, it walks the char class at the top of the stack
+(`[^"\\\x7F\x00-\x1F]` is four elements) to decide whether the candidate's first code point matches.
+
+**Change** (inside `llama_grammar_reject_candidates_for_stack`, before the per-candidate loop):
+
+```cpp
+// the match result depends only on the code point, so for long lists precompute it for ascii
+bool match_ascii[128];
+const bool use_ascii = candidates.size() >= 128;
+if (use_ascii) {
+    for (uint32_t chr = 0; chr < 128; ++chr) {
+        match_ascii[chr] = llama_grammar_match_char(stack_pos, chr).first;
+    }
+}
+
+for (const auto & tok : candidates) {
+    const uint32_t chr = *tok.code_points;
+    if (chr == 0) {
+        ...
+    } else if ((use_ascii && chr < 128) ? match_ascii[chr] : llama_grammar_match_char(stack_pos, chr).first) {
+```
+
+- `llama_grammar_match_char(pos, chr)` is a pure function of the stack element and the code point, so a
+  table filled by calling it is exactly equal to calling it again: same results, same order of output.
+- Building the table costs 128 calls, so it is only built when the list has at least 128 candidates (the
+  top-level lists have ~152k; the deep recursion lists are usually small).
+- Code points >= 128 (multibyte characters) still go through the function.
+
+**Measured.** +3.6% and +3.3% per grammar over 0001 in two separate A/B sessions (total time -3.1% and
+-4.2%). Small, but consistently above the 3% bar, for 13 lines.
+
+### Patch 0003: reuse the reject lists across stacks
+
+**Problem (found by measuring, not by reading).** Replaying the 600-stack schema *alone in a fresh process*,
+0001+0002 was ~60% slower than the baseline, with 20.9 million page faults (baseline 3.4 million). The cause
+is pre-existing code:
+
+```cpp
+auto rejects = llama_grammar_reject_candidates_for_stack(rules, stacks.front(), candidates);
+for (size_t i = 1, size = stacks.size(); i < size; ++i) {
+    rejects = llama_grammar_reject_candidates_for_stack(rules, stacks[i], rejects);
+}
+```
+
+Each call creates a new `rejects` vector reserved to `candidates.size()` (~152k x 32 bytes = 4.8 MB at the top
+level) and fills it. glibc serves large allocations with `mmap` until its *dynamic* mmap threshold has been
+raised by earlier large frees, and returns memory at the top of the heap to the kernel above a trim
+threshold. In a fresh process every per-stack list is therefore new memory: ~1,200 page faults (the kernel
+zeroes each 4 KB page) per stack per step. In the baseline, ~152k small per-token vectors are live during the
+sweep and change what glibc does with those blocks; 0001 removed them and exposed the problem. With
+`GLIBC_TUNABLES` raising both thresholds the faults disappear and 0001+0002 is faster than the baseline
+again, which confirms the mechanism.
+
+**Change.**
+
+```cpp
+llama_grammar_candidates llama_grammar_reject_candidates_for_stack(rules, stack, candidates) {
+    llama_grammar_candidates rejects;
+    llama_grammar_reject_candidates_for_stack_into(rules, stack, candidates, rejects);
+    return rejects;
+}
+
+// writes the rejected candidates into rejects (cleared first), so the caller can reuse its storage
+static void llama_grammar_reject_candidates_for_stack_into(rules, stack, candidates, rejects) {
+    rejects.clear();
+    rejects.reserve(candidates.size());
+    ... the old body, with `return rejects;` -> `return;`
+}
+
+// in llama_grammar_reject_candidates:
+llama_grammar_candidates rejects;
+llama_grammar_candidates rejects_next;
+llama_grammar_reject_candidates_for_stack_into(rules, stacks.front(), candidates, rejects);
+for (size_t i = 1, size = stacks.size(); i < size; ++i) {
+    llama_grammar_reject_candidates_for_stack_into(rules, stacks[i], rejects, rejects_next);
+    std::swap(rejects, rejects_next);
+}
+return rejects;
+```
+
+- The body moves into a `static` function that writes into a vector the caller owns. `clear()` keeps the
+  capacity, so `reserve()` is a no-op once the vector has been big enough once.
+- The per-stack loop alternates two vectors (input of stack *i* is the output of stack *i-1*; they must not
+  be the same vector, hence two). `std::swap` of two vectors swaps three pointers, no copying.
+- Result: two big allocations per apply call instead of two per stack.
+- The public `llama_grammar_reject_candidates_for_stack` (declared in `llama-grammar.h` and called by
+  `test-llama-grammar`) becomes a 3-line wrapper with the same output in the same order.
+
+**Correctness.** The body is unchanged except where the output lives; the caller reads the same elements in
+the same order. Bit-identical masks on all traces and in the random-walk test.
+
+**Measured.** Cold 600-stack schema: page faults 20.9M -> 0.6M, 377.6 -> 180.3 ms per token (baseline 235 ms).
+Full numbers in `results/REPORT.md`.
+
+## Rejected experiments
+
+### Rejected: P2, skip candidates whose first char cannot match the stack
 
 > **Status: rejected.** Correct (bit-identical masks) but 2.4% *slower* than P1 alone; see "Why it did not
 > work" at the end of this section and `results/experiments.md`. It is explained in full because the
@@ -369,13 +470,135 @@ be true), and masks the complement. Same set. Only the *order* of the reject lis
 `apply_impl` only uses the set. `llama_grammar_reject_candidates_for_stack` itself is untouched, which
 matters because `tests/test-llama-grammar.cpp:375-393` checks the order of its output.
 
-**Why it did not work.** The idea was that each stack's sweep was expensive because it *wrote* a copy of
+**Why it did not work.** (Measured against 0001, before 0002/0003 existed.) The idea was that each stack's sweep was expensive because it *wrote* a copy of
 ~152k rejected candidates. Measured, the writes were not the problem: P2 still *reads*, for every stack, the
 whole 152k x 32-byte candidate array plus one code point per token (~9 MB), and those reads set the
 ~2.3 ms per-stack cost. P2 removed the cheap sequential writes, kept the expensive reads, and added a second
 `llama_grammar_match_char` call for every candidate that passes. Lesson: the Phase 2 profile was of the
 *baseline*; after P1 changed the memory layout, the bottleneck had to be re-measured before designing P2.
 
+### Rejected: P2b, scan compact first-code-point arrays per stack
+
+A follow-up to P2: per call, build `first_chr[k]` (4 bytes) and `accepted[k]` (1 byte) for every candidate
+and scan only those per stack, with a 128-entry ASCII table, so a stack reads ~0.75 MB instead of ~9 MB.
+It passed every correctness gate but was 5% slower than 0001 on typical grammars and not significantly
+better at p99: the scan was not the bottleneck either. For the many candidates that *do* pass the first
+char (tokens starting with a space at a whitespace position, all of them for string contents) the full
+check still runs. Its one real advantage, never making the big per-stack lists, was later obtained more
+cheaply by 0003.
+
+### Rejected: skip advance when nothing matched; cheaper `is_eog`
+
+Both correct, both within +-1% of 0001 (0.999x and 1.002x). `llama_grammar_advance_stack` and the
+per-token `std::set` lookup were each under 2% of the time, so no change there could reach 3%.
+
+### Lesson from the rejections
+
+The Phase 2 profile was of the *baseline*. Each kept patch changed what the bottleneck was (0001 removed
+the allocator storm and exposed the per-stack lists). Ideas designed against an old profile (P2) failed; the
+fix that worked (0003) came from measuring the patched code in a new situation (a fresh process).
+
 ## Part 3. Interview questions
 
-(after Phase 5)
+Numbers below are from `results/REPORT.md` (Qwen2.5 151,936-token vocab, this VM). Where a number is a
+headline, say what it measures: **mask computation**, not end-to-end tokens/s.
+
+**1. In one minute: what did you do and what came out of it?**
+I built a record/replay benchmark that isolates llama.cpp's GBNF mask computation from model inference
+(206 grammars: the 8 built-in ones plus 198 JSONSchemaBench schemas), profiled it, and wrote three small
+patches. Together they make the full-vocab mask about FINAL_SPEEDUP faster per grammar (median per-token
+cost FINAL_MEDIAN, p99 FINAL_P99), with masks bit-identical to upstream on every step of every trace. On the
+default sampling path the end-to-end gain is about 2%, because the full mask only runs when the sampled token is
+rejected; the big win is for code paths that mask every step.
+
+**2. Why do bit-identical masks prove correctness?**
+The grammar sampler's only output is the mask: which tokens get logit -inf. If, for the same grammar state and
+the same candidate tokens, two builds produce the same mask, the rest of sampling cannot tell them apart. The
+state after accepting a token comes from `llama_grammar_accept_impl`, which my patches don't change, and
+because masks are equal the replay accepts the same tokens, so the states stay equal step after step. I hash
+the mask (FNV-1a over the reject bit of every token) at every step of 44,650 recorded steps (two vocabs), and
+compare them. It is a proof *for those inputs*; to cover inputs the traces don't hit, I added random valid
+walks through every built-in grammar plus edge-case grammars (partial UTF-8 across tokens, byte-fallback
+tokens, negated classes, any-char, empty stacks, token elements), and scripted cases for each edge.
+
+**3. What does a hash collision mean for that argument?**
+A collision could hide a difference. For one step whose masks differ, a 64-bit hash collides with
+probability about 2^-64 (5e-20); over ~60k compared steps that is about 3e-15. I also record the count of
+allowed tokens next to each hash, so a difference would have to collide in both. For a stronger claim one would store the full masks (152k bits = 19 KB per step).
+
+**4. Why is the mask so expensive?**
+Every step it walks the whole vocab: it decodes every token's text to code points and runs every token through
+every live parse stack. Cost per step is roughly 16 ms + 2.3 ms per live stack at baseline. Most steps have 1-4
+stacks; JSON objects with many optional properties create hundreds (one stack per remaining property).
+
+**5. Walk me through patch 0001.**
+The baseline built one `std::vector<uint32_t>` per token per step (152k allocations + frees). I changed the
+decoder to append into a caller's buffer, reserve one buffer for all tokens (upper bound: bytes + 1 per
+token, because every code point consumes at least one byte), and point the candidates into it. An assert checks
+the buffer never reallocated, so the raw pointers stay valid. Same decoder, same values, different storage.
+
+**6. How is that different from PR #6811, which was closed?**
+#6811 cached decoded code points *across steps*, which costs vocab-sized memory forever, needs locking when
+several slots share a vocab, and was closed because the end-to-end gain disappeared after the resampling fix.
+0001 keeps nothing between calls: no state, no locking, and the transient memory goes *down* (4.5 MB in one
+block instead of 11.6 MB in 152k blocks).
+
+**7. You say end-to-end gains are ~2%. So why does this matter?**
+On the default path (`common_sampler_sample`) the full mask only runs when the chain's sampled token is
+rejected (5% of steps in my runs, 0-64% per grammar). There grammar is ~6% of generation time, so even a much
+faster mask gives ~2%. But the full mask runs every step for `grammar_first = true` (the `llama-speculative`
+example) and for any application that puts the grammar sampler in a `llama_sampler` chain; there it was 131%
+of the model's decode time with this 0.5B model, so the mask speedup translates almost directly. Also, each
+rejected step on the default path is a latency spike of one full mask.
+
+**8. Why not just use llguidance?**
+It is much faster (about 0.4 ms vs ~20-30 ms per mask here) and it is already an optional backend. But it is a
+Rust dependency, it rejects some schemas (36 of 198 here: `oneOf`, unknown formats), it has different
+whitespace rules (39 schemas diverged on our traces), and many users build without it. Making the default
+engine faster helps everyone without new dependencies; porting llguidance's ideas (a token trie, an Earley
+parser) would be a rewrite, not a patch, and llama.cpp prefers small, reviewable changes.
+
+**9. How did you handle VM noise?**
+Absolute numbers drifted ~20% over an hour on this VM. So: every comparison interleaves builds in the same
+session (A,B then B,A), compares run *i* of A with run *i* of B per grammar (paired), and reports the
+geometric-mean per-grammar speedup with a bootstrap 95% CI over grammars, plus medians and the min..max over
+runs. Callgrind instruction counts back up the timing, because they don't depend on noise.
+
+**10. Your Phase 2 profile predicted P2 would cut p99 by 40-60%. It made things slower. What happened?**
+I designed P2 against the baseline profile, but P1 had already changed the memory behaviour. P2 removed the
+copying of reject lists, but the cost was in reading the candidate list for every stack, which P2 kept, and it
+added a second match per surviving candidate. I measured it, it was 2.4% slower, so I rejected it and kept it
+documented. A follow-up (P2b) that scanned compact arrays also lost on typical grammars.
+
+**11. Tell me about the cold-start regression.**
+After the VM rebooted, the 600-stack schema replayed alone in a fresh process was 60% slower with my patches.
+perf showed a quarter of the time in kernel page-fault handling, and `perf stat` showed 21M faults vs 3.4M.
+Running the same grammar after another one in the same process removed it, and so did raising glibc's
+malloc thresholds with `GLIBC_TUNABLES`. That isolated the cause: each stack allocated a new 4.8 MB reject list,
+which a cold glibc serves with mmap and the kernel has to fault in. P1 had removed the small allocations that
+masked this. The fix (0003) reuses two lists across stacks. The lesson: measure the cold case too, because one
+generation per process (llama-cli) is cold.
+
+**12. What trade-offs did you reject?**
+A persistent code-point cache (more memory, locking, the #6811 history); P2/P2b (more code, slower on typical
+grammars); a cheaper `is_eog` (needed a new vocab accessor for no measurable gain); and `mallopt`-style
+allocator tuning (fixes the symptom process-wide, not llama.cpp's business). I also didn't touch the public
+API or the order of `llama_grammar_reject_candidates_for_stack`'s output, because a test checks it.
+
+**13. How do you know the ASCII table (0002) isn't noise? It's only ~3.5%.**
+Two separate A/B sessions on two different kernels gave +3.6% [2.8, 4.6] and +3.3% [2.2, 4.5] per grammar, paired
+over 206 grammars, and total time -3.1% and -4.2%. Instruction counts also drop. It is small but consistent, and
+it is 13 lines with an obvious correctness argument (a pure function, tabulated).
+
+**14. What did you learn about the upstream PR #28371?**
+I applied it read-only as a third arm. At its head, its cache keys keep raw pointers into buffers that are freed
+after each step; valgrind showed thousands of invalid reads and my mask check showed wrong masks and crashes.
+Its previous commit, which clears the cache every step, is correct but ~4% slower than baseline on this
+workload, because its memo only engages for candidate lists of at most 8 entries, which are rare here. I
+didn't post anything upstream; whether to tell the author is a human decision.
+
+**15. If you had another week, what would you do?**
+Share work across stacks that have the same top element (hundreds of stacks at one JSON position often expect
+the same char), so a token is checked once per distinct top element rather than once per stack; measure the
+default sampling path in llama-server with real request mixes; and test on ARM and on other allocators
+(jemalloc, mimalloc), since 0003's effect depends on glibc behaviour.
