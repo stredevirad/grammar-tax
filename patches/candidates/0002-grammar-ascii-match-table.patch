@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: grammar-tax workbench <workbench@localhost>
+Date: Fri, 16 Oct 2026 10:02:48 +0000
+Subject: [PATCH] grammar : precompute the char match for ascii in long candidate lists
+
+llama_grammar_match_char depends only on the stack element and the code
+point. In llama_grammar_reject_candidates_for_stack, when the candidate
+list is long (at least 128 entries), compute the result once for every
+ascii code point and look it up per candidate instead of walking the char
+class each time. Output and its order are unchanged.
+
+Applies on top of 0001.
+---
+ src/llama-grammar.cpp |   14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/src/llama-grammar.cpp b/src/llama-grammar.cpp
+index cf22eb1..a7cc0cf 100644
+--- a/src/llama-grammar.cpp
++++ b/src/llama-grammar.cpp
+@@ -1108,15 +1108,25 @@ llama_grammar_candidates llama_grammar_reject_candidates_for_stack(
+     llama_grammar_candidates next_candidates;
+     next_candidates.reserve(candidates.size());
+ 
++    // the match result depends only on the code point, so for long lists precompute it for ascii
++    bool match_ascii[128];
++    const bool use_ascii = candidates.size() >= 128;
++    if (use_ascii) {
++        for (uint32_t chr = 0; chr < 128; ++chr) {
++            match_ascii[chr] = llama_grammar_match_char(stack_pos, chr).first;
++        }
++    }
++
+     for (const auto & tok : candidates) {
+-        if (*tok.code_points == 0) {
++        const uint32_t chr = *tok.code_points;
++        if (chr == 0) {
+             // reached end of full codepoints in token, reject iff it ended in a partial sequence
+             // that cannot satisfy this position in grammar
+             if (tok.partial_utf8.n_remain != 0 &&
+                     !llama_grammar_match_partial_char(stack_pos, tok.partial_utf8)) {
+                 rejects.push_back(tok);
+             }
+-        } else if (llama_grammar_match_char(stack_pos, *tok.code_points).first) {
++        } else if ((use_ascii && chr < 128) ? match_ascii[chr] : llama_grammar_match_char(stack_pos, chr).first) {
+             next_candidates.push_back({ tok.index, tok.code_points + 1, tok.partial_utf8, tok.id });
+         } else {
+             rejects.push_back(tok);
+-- 
+workbench

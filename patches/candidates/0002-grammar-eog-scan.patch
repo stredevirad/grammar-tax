@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: grammar-tax workbench <workbench@localhost>
-Date: Fri, 16 Oct 2026 04:36:58 +0000
+Date: Fri, 16 Oct 2026 10:02:48 +0000
 Subject: [PATCH] grammar : test eog with a scan of the eog ids
 
 llama_grammar_apply_impl called llama_vocab::is_eog (a std::set lookup
@@ -8,7 +8,7 @@ behind two out-of-line calls) for every vocab token on every call. Copy
 the eog ids once per call (the set has a few entries) and scan them
 inline. Adds llama_vocab::get_eog_ids.
 
-Applies on top of 0001 and 0002.
+Applies on top of 0001.
 ---
  src/llama-grammar.cpp |    5 ++++-
  src/llama-vocab.cpp   |    4 ++++
@@ -16,7 +16,7 @@ Applies on top of 0001 and 0002.
  3 files changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/src/llama-grammar.cpp b/src/llama-grammar.cpp
-index 4eaa2b9..e518814 100644
+index cf22eb1..8aefb1b 100644
 --- a/src/llama-grammar.cpp
 +++ b/src/llama-grammar.cpp
 @@ -1395,11 +1395,14 @@ void llama_grammar_apply_impl(const struct llama_grammar & grammar, llama_token_

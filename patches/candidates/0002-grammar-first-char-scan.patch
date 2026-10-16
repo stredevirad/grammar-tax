@@ -1,0 +1,97 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: grammar-tax workbench <workbench@localhost>
+Date: Fri, 16 Oct 2026 10:02:48 +0000
+Subject: [PATCH] grammar : scan first code points per stack instead of the candidate list
+
+llama_grammar_apply_impl passed the whole candidate list through every
+stack in turn. Each stack read every candidate (32 bytes) and its first
+code point and copied almost all of them into a new reject list, because
+most tokens fail at the first char. With many live stacks (e.g. a JSON
+object with many optional properties) this dominates, and it is limited by
+memory reads.
+
+Instead, keep two small arrays per call: the first code point of each
+candidate and an accepted flag. For each stack whose top is a char
+element, scan only those arrays (with a 128 entry table for ascii code
+points) and pass just the candidates whose first code point matches, plus
+the ones with no complete code point, to the unchanged
+llama_grammar_reject_candidates_for_stack. A candidate is kept if any
+stack accepts it. Each candidate's result for a stack does not depend on
+the other candidates in the list, so the mask is the same.
+
+Applies on top of 0001.
+---
+ src/llama-grammar.cpp |   57 ++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 54 insertions(+), 3 deletions(-)
+
+diff --git a/src/llama-grammar.cpp b/src/llama-grammar.cpp
+index cf22eb1..a661fed 100644
+--- a/src/llama-grammar.cpp
++++ b/src/llama-grammar.cpp
+@@ -1412,10 +1412,61 @@ void llama_grammar_apply_impl(const struct llama_grammar & grammar, llama_token_
+         }
+     }
+     GGML_ASSERT(code_points.data() == code_points_data);
++    GGML_ASSERT(!grammar.stacks.empty());
+ 
+-    const auto rejects = llama_grammar_reject_candidates(grammar.rules, grammar.stacks, candidates_grammar);
+-    for (const auto & reject : rejects) {
+-        cur_p->data[reject.index].logit = -INFINITY;
++    // a candidate is kept if any stack accepts it
++    // a stack with a char element on top rejects every candidate whose first code point does not match,
++    // so only the other candidates need the full check for that stack
++    // the per-stack scan reads only these two small arrays, indexed by position in candidates_grammar
++    const size_t n_cand = candidates_grammar.size();
++    std::vector<uint32_t> first_chr(n_cand);
++    for (size_t k = 0; k < n_cand; ++k) {
++        first_chr[k] = *candidates_grammar[k].code_points;
++    }
++    std::vector<uint8_t> accepted(n_cand, 0);
++
++    bool match_ascii[128];
++    llama_grammar_candidates candidates_stack;
++
++    for (const auto & stack : grammar.stacks) {
++        const llama_grammar_element * pos = stack.empty() ? nullptr : stack.back();
++        const bool is_char = pos != nullptr && (pos->type == LLAMA_GRETYPE_CHAR || pos->type == LLAMA_GRETYPE_CHAR_NOT || pos->type == LLAMA_GRETYPE_CHAR_ANY);
++        if (is_char) {
++            for (uint32_t chr = 0; chr < 128; ++chr) {
++                match_ascii[chr] = llama_grammar_match_char(pos, chr).first;
++            }
++        }
++
++        candidates_stack.clear();
++        for (size_t k = 0; k < n_cand; ++k) {
++            if (accepted[k]) {
++                continue;
++            }
++            const uint32_t chr = first_chr[k];
++            if (is_char && chr != 0 && !(chr < 128 ? match_ascii[chr] : llama_grammar_match_char(pos, chr).first)) {
++                continue;
++            }
++            // index is only passed through by llama_grammar_reject_candidates_for_stack, use it for k
++            candidates_stack.push_back(candidates_grammar[k]);
++            candidates_stack.back().index = k;
++        }
++        if (candidates_stack.empty()) {
++            continue;
++        }
++
++        const auto rejects = llama_grammar_reject_candidates_for_stack(grammar.rules, stack, candidates_stack);
++        for (const auto & cand : candidates_stack) {
++            accepted[cand.index] = 1;
++        }
++        for (const auto & reject : rejects) {
++            accepted[reject.index] = 0;
++        }
++    }
++
++    for (size_t k = 0; k < n_cand; ++k) {
++        if (!accepted[k]) {
++            cur_p->data[candidates_grammar[k].index].logit = -INFINITY;
++        }
+     }
+ }
+ 
+-- 
+workbench
