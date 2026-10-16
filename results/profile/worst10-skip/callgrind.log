@@ -1,0 +1,14 @@
+==27658== Callgrind, a call-graph generating cache profiler
+==27658== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==27658== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==27658== Command: build/cg-skip/bin/grammar_replay --vocab models/qwen2.5-0.5b-instruct-q4_k_m.gguf --manifest results/profile/worst10-skip/manifest.tsv --max-steps 40 --check results/profile/worst10-skip/masks.tsv
+==27658== 
+==27658== For interactive control, run 'callgrind_control -h'.
+==27658== brk segment overflow in thread #1: can't grow to 0x4bce000
+==27658== (see section Limitations in user manual)
+==27658== NOTE: further instances of this message will not be shown
+==27658== 
+==27658== Events    : Ir
+==27658== Collected : 176988274337
+==27658== 
+==27658== I   refs:      176,988,274,337

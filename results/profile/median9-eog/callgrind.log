@@ -1,0 +1,14 @@
+==27939== Callgrind, a call-graph generating cache profiler
+==27939== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==27939== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==27939== Command: build/cg-eog/bin/grammar_replay --vocab models/qwen2.5-0.5b-instruct-q4_k_m.gguf --manifest results/profile/median9-eog/manifest.tsv --max-steps 40 --check results/profile/median9-eog/masks.tsv
+==27939== 
+==27939== For interactive control, run 'callgrind_control -h'.
+==27939== brk segment overflow in thread #1: can't grow to 0x4bce000
+==27939== (see section Limitations in user manual)
+==27939== NOTE: further instances of this message will not be shown
+==27939== 
+==27939== Events    : Ir
+==27939== Collected : 39906888762
+==27939== 
+==27939== I   refs:      39,906,888,762

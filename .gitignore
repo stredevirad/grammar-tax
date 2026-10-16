@@ -7,3 +7,4 @@ callgrind.out.*
 perf.data*
 callgrind.out
 results/check/*/shard.*
+results/profile/*/masks.tsv

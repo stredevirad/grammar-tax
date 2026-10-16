@@ -1,0 +1,14 @@
+==23550== Callgrind, a call-graph generating cache profiler
+==23550== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==23550== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==23550== Command: build/cg-base/bin/grammar_replay --vocab models/qwen2.5-0.5b-instruct-q4_k_m.gguf --manifest results/profile/median9-base/manifest.tsv --max-steps 40 --check results/profile/median9-base/masks.tsv
+==23550== 
+==23550== For interactive control, run 'callgrind_control -h'.
+==23550== brk segment overflow in thread #1: can't grow to 0x4bce000
+==23550== (see section Limitations in user manual)
+==23550== NOTE: further instances of this message will not be shown
+==23550== 
+==23550== Events    : Ir
+==23550== Collected : 60753562545
+==23550== 
+==23550== I   refs:      60,753,562,545
