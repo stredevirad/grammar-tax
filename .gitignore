@@ -6,3 +6,4 @@ __pycache__/
 callgrind.out.*
 perf.data*
 callgrind.out
+results/check/*/shard.*
