@@ -35,6 +35,10 @@ Final series: [`0001`](../patches/0001-grammar-flat-decode-buffer.patch) (decode
 | peak RSS of the replay process | 140-142 MB | 132-133 MB | -6% | 5 |
 | **correctness** | | | masks bit-identical on every step: 23,448 (Qwen) + 21,202 (TinyLlama) trace steps, 17,167 random-walk steps, 87 x 2 scripted edge-case steps; 4/4 grammar tests pass | |
 
+**Instruction counts** (callgrind, deterministic; first 40 tokens per trace; [instructions.md](profile/instructions.md)):
+final vs baseline **-47.1%** on the median-9 grammars (60.75G -> 32.13G) and **-38.7%** on the worst-10
+(193.12G -> 118.35G). Full table, including rejected arms, in section 5.
+
 All A/B numbers are paired and interleaved (run *i* of each build back to back, order alternating), with
 95% bootstrap CIs over grammars (2,000 resamples) from [`scripts/ab_stats.py`](../scripts/ab_stats.py).
 Raw data: `results/raw/ab-final/` (Qwen), `results/raw/ab-final-tinyllama/`, `results/raw/cold-reuse/`,
@@ -150,6 +154,25 @@ Details and numbers: [experiments.md](experiments.md).
 | cheaper `is_eog` (scan of eog ids) | correct; 1.002x [0.993, 1.012] vs 0001 | the `std::set` lookup was 1.7% of time; also needed a new vocab accessor |
 | cheaper stack de-dup (recover #18604's ~13%) | not implemented | profile: `advance_stack` incl. de-dup < 1% of instructions on the 600-stack grammars |
 | persistent code-point cache (#6811 idea) | not implemented | memory, locking, and the documented lack of end-to-end gain |
+
+Instruction counts for every arm (callgrind, same method as section 1):
+
+| variant | median9 instructions | vs base | worst10 instructions | vs base |
+|---|---|---|---|---|
+| baseline | 60.75 G | +0.0% | 193.12 G | +0.0% |
+| 0001 | 38.98 G | -35.8% | 168.94 G | -12.5% |
+| 0001+0002 | 32.14 G | -47.1% | 118.42 G | -38.7% |
+| final 0001+0002+0003 | 32.13 G | -47.1% | 118.35 G | -38.7% |
+| 0001+P2 (rej.) | 41.09 G | -32.4% | 180.48 G | -6.5% |
+| 0001+P2b (rej.) | 38.63 G | -36.4% | 142.92 G | -26.0% |
+| 0001+skip (rej.) | 38.65 G | -36.4% | 165.44 G | -14.3% |
+| 0001+eog (rej.) | 37.79 G | -37.8% | 167.62 G | -13.2% |
+| #28371 c29085b | 60.84 G | +0.1% | 193.25 G | +0.1% |
+| 0001+P2+#28371 | 41.17 G | -32.2% | 180.56 G | -6.5% |
+
+P2 and the #28371 arms do not reduce instructions; P2b and the two small ideas reduce them a little but not
+wall time (P2b: -15% instructions vs 0001 on the worst set, yet 3.5-5% slower), which says the remaining
+per-stack cost is memory latency, not instruction count.
 
 **A misleading smoke test** (kept as a lesson): a single replay of the worst grammar on a loaded machine showed
 P2b halving P1's time. Interleaved A/B on a quiet machine showed no such gain; the smoke test had measured P1's

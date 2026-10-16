@@ -7,3 +7,8 @@
 ==12573== brk segment overflow in thread #1: can't grow to 0x4bce000
 ==12573== (see section Limitations in user manual)
 ==12573== NOTE: further instances of this message will not be shown
+==12573== 
+==12573== Events    : Ir
+==12573== Collected : 60754003445
+==12573== 
+==12573== I   refs:      60,754,003,445

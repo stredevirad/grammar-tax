@@ -1,0 +1,55 @@
+--------------------------------------------------------------------------------
+Profile data file 'results/profile/worst10-pr28371c/callgrind.out' (creator: callgrind-3.22.0)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+LL cache: 
+Timerange: Basic block 0 - 45831951296
+Trigger: Program termination
+Profiled target:  build/cg-pr28371c/bin/grammar_replay --vocab models/qwen2.5-0.5b-instruct-q4_k_m.gguf --manifest results/profile/worst10-pr28371c/manifest.tsv --max-steps 40 --check results/profile/worst10-pr28371c/masks.tsv (PID 14373, part 1)
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Thresholds:       99
+Include dirs:     
+User annotated:   
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+Ir                       
+--------------------------------------------------------------------------------
+193,249,840,782 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+Ir                       file:function
+--------------------------------------------------------------------------------
+77,429,611,085 (40.07%)  ???:llama_grammar_match_char(llama_grammar_element const*, unsigned int) [/home/user/grammar-tax/build/cg-pr28371c/bin/grammar_replay]
+47,025,953,923 (24.33%)  ???:llama_grammar_reject_candidates_for_stack_impl(std::vector<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> >, std::allocator<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> > > > const&, std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const&, std::unordered_map<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> >, std::unordered_map<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, llama_grammar_candidates_hash, llama_grammar_candidates_eq, std::allocator<std::pair<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > > > >, llama_grammar_stack_hash, llama_grammar_stack_eq, std::allocator<std::pair<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const, std::unordered_map<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, llama_grammar_candidates_hash, llama_grammar_candidates_eq, std::allocator<std::pair<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > > > > > > >&) [/home/user/grammar-tax/build/cg-pr28371c/bin/grammar_replay]
+15,614,908,544 ( 8.08%)  ???:decode_utf8(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, llama_partial_utf8) [clone .isra.0] [/home/user/grammar-tax/build/cg-pr28371c/bin/grammar_replay]
+15,419,119,859 ( 7.98%)  ???:llama_grammar_reject_candidates_for_stack_impl(std::vector<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> >, std::allocator<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> > > > const&, std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const&, std::unordered_map<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> >, std::unordered_map<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, llama_grammar_candidates_hash, llama_grammar_candidates_eq, std::allocator<std::pair<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > > > >, llama_grammar_stack_hash, llama_grammar_stack_eq, std::allocator<std::pair<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const, std::unordered_map<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, llama_grammar_candidates_hash, llama_grammar_candidates_eq, std::allocator<std::pair<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > > > > > > >&)'2 [/home/user/grammar-tax/build/cg-pr28371c/bin/grammar_replay]
+ 8,691,749,110 ( 4.50%)  ./malloc/./malloc/malloc.c:_int_malloc [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 5,367,677,211 ( 2.78%)  ./malloc/./malloc/malloc.c:_int_free [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 4,163,259,204 ( 2.15%)  ???:llama_grammar_apply_impl(llama_grammar const&, llama_token_data_array*) [/home/user/grammar-tax/build/cg-pr28371c/bin/grammar_replay]
+ 3,499,799,004 ( 1.81%)  ./malloc/./malloc/malloc.c:malloc_consolidate [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 3,341,441,919 ( 1.73%)  ./malloc/./malloc/malloc.c:malloc [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 3,027,134,400 ( 1.57%)  ???:llama_vocab::is_eog(int) const [/home/user/grammar-tax/build/cg-pr28371c/bin/grammar_replay]
+ 2,081,551,276 ( 1.08%)  ./malloc/./malloc/malloc.c:free [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 1,395,969,817 ( 0.72%)  ./malloc/./malloc/malloc.c:unlink_chunk.isra.0 [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 1,189,631,968 ( 0.62%)  ???:operator new(unsigned long) [/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33]
+ 1,152,136,473 ( 0.60%)  ???:llama_grammar_advance_stack(std::vector<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> >, std::allocator<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> > > > const&, std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&, std::vector<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> >, std::allocator<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > > >&) [/home/user/grammar-tax/build/cg-pr28371c/bin/grammar_replay]
+   729,297,600 ( 0.38%)  ???:llama_vocab::token_to_piece[abi:cxx11](int) const [/home/user/grammar-tax/build/cg-pr28371c/bin/grammar_replay]
+   247,610,284 ( 0.13%)  ./malloc/./malloc/malloc.c:alloc_perturb [/usr/lib/x86_64-linux-gnu/libc.so.6]
+   223,023,351 ( 0.12%)  ./malloc/./malloc/arena.c:free
+   219,630,547 ( 0.11%)  ./string/../sysdeps/x86_64/multiarch/memcmp-avx2-movbe.S:__memcmp_avx2_movbe [/usr/lib/x86_64-linux-gnu/libc.so.6]
+   165,285,494 ( 0.09%)  ???:void std::vector<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> >, std::allocator<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > > >::_M_realloc_insert<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&>(__gnu_cxx::__normal_iterator<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> >*, std::vector<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> >, std::allocator<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > > > >, std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&) [/home/user/grammar-tax/build/cg-pr28371c/bin/grammar_replay]
+   148,703,996 ( 0.08%)  ???:0x0000000000130960 [???]
+   148,703,996 ( 0.08%)  ???:0x0000000004944210 [???]
+   148,682,234 ( 0.08%)  ???:0x0000000000130980 [???]
+
+--------------------------------------------------------------------------------
+The following files chosen for auto-annotation could not be found:
+--------------------------------------------------------------------------------
+  ./malloc/./malloc/arena.c
+  ./malloc/./malloc/malloc.c
+  ./string/../sysdeps/x86_64/multiarch/memcmp-avx2-movbe.S
+

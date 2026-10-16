@@ -4,9 +4,9 @@ Profile data file 'results/profile/median9-base/callgrind.out' (creator: callgri
 I1 cache: 
 D1 cache: 
 LL cache: 
-Timerange: Basic block 0 - 13751508845
+Timerange: Basic block 0 - 13751778289
 Trigger: Program termination
-Profiled target:  build/cg-base/bin/grammar_replay --vocab models/qwen2.5-0.5b-instruct-q4_k_m.gguf --manifest results/profile/median9-base/manifest.tsv --max-steps 40 --check results/profile/median9-base/masks.tsv (PID 23550, part 1)
+Profiled target:  build/cg-base/bin/grammar_replay --vocab models/qwen2.5-0.5b-instruct-q4_k_m.gguf --manifest results/profile/median9-base/manifest.tsv --max-steps 40 --check results/profile/median9-base/masks.tsv (PID 12573, part 1)
 Events recorded:  Ir
 Events shown:     Ir
 Event sort order: Ir
@@ -18,28 +18,28 @@ Auto-annotation:  on
 --------------------------------------------------------------------------------
 Ir                      
 --------------------------------------------------------------------------------
-60,753,562,545 (100.0%)  PROGRAM TOTALS
+60,754,003,445 (100.0%)  PROGRAM TOTALS
 
 --------------------------------------------------------------------------------
 Ir                       file:function
 --------------------------------------------------------------------------------
 14,053,413,088 (23.13%)  ???:decode_utf8(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, llama_partial_utf8) [clone .isra.0] [/home/user/grammar-tax/build/cg-base/bin/grammar_replay]
  9,878,227,282 (16.26%)  ???:llama_grammar_match_char(llama_grammar_element const*, unsigned int) [/home/user/grammar-tax/build/cg-base/bin/grammar_replay]
- 7,284,248,119 (11.99%)  ./malloc/./malloc/malloc.c:_int_malloc [/usr/lib/x86_64-linux-gnu/libc.so.6]
- 4,197,124,248 ( 6.91%)  ./malloc/./malloc/malloc.c:_int_free [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 7,284,023,092 (11.99%)  ./malloc/./malloc/malloc.c:_int_malloc [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 4,197,131,958 ( 6.91%)  ./malloc/./malloc/malloc.c:_int_free [/usr/lib/x86_64-linux-gnu/libc.so.6]
  3,825,977,234 ( 6.30%)  ???:llama_grammar_reject_candidates_for_stack(std::vector<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> >, std::allocator<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> > > > const&, std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const&)'2 [/home/user/grammar-tax/build/cg-base/bin/grammar_replay]
  3,760,701,942 ( 6.19%)  ???:llama_grammar_apply_impl(llama_grammar const&, llama_token_data_array*) [/home/user/grammar-tax/build/cg-base/bin/grammar_replay]
  3,627,528,407 ( 5.97%)  ???:llama_grammar_reject_candidates_for_stack(std::vector<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> >, std::allocator<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> > > > const&, std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const&) [/home/user/grammar-tax/build/cg-base/bin/grammar_replay]
- 3,012,149,766 ( 4.96%)  ./malloc/./malloc/malloc.c:malloc_consolidate [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 3,012,185,184 ( 4.96%)  ./malloc/./malloc/malloc.c:malloc_consolidate [/usr/lib/x86_64-linux-gnu/libc.so.6]
  2,724,420,960 ( 4.48%)  ???:llama_vocab::is_eog(int) const [/home/user/grammar-tax/build/cg-base/bin/grammar_replay]
  2,538,186,249 ( 4.18%)  ./malloc/./malloc/malloc.c:malloc [/usr/lib/x86_64-linux-gnu/libc.so.6]
  1,579,766,580 ( 2.60%)  ./malloc/./malloc/malloc.c:free [/usr/lib/x86_64-linux-gnu/libc.so.6]
- 1,190,434,386 ( 1.96%)  ./malloc/./malloc/malloc.c:unlink_chunk.isra.0 [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 1,190,438,424 ( 1.96%)  ./malloc/./malloc/malloc.c:unlink_chunk.isra.0 [/usr/lib/x86_64-linux-gnu/libc.so.6]
    902,723,856 ( 1.49%)  ???:operator new(unsigned long) [/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33]
    656,367,840 ( 1.08%)  ???:llama_vocab::token_to_piece[abi:cxx11](int) const [/home/user/grammar-tax/build/cg-base/bin/grammar_replay]
-   217,721,016 ( 0.36%)  ./malloc/./malloc/malloc.c:alloc_perturb [/usr/lib/x86_64-linux-gnu/libc.so.6]
+   217,740,220 ( 0.36%)  ./malloc/./malloc/malloc.c:alloc_perturb [/usr/lib/x86_64-linux-gnu/libc.so.6]
    169,260,705 ( 0.28%)  ./malloc/./malloc/arena.c:free
-   114,289,560 ( 0.19%)  ???:llama_grammar_advance_stack(std::vector<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> >, std::allocator<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> > > > const&, std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&, std::vector<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> >, std::allocator<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > > >&) [/home/user/grammar-tax/build/cg-base/bin/grammar_replay]
+   114,709,328 ( 0.19%)  ???:llama_grammar_advance_stack(std::vector<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> >, std::allocator<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> > > > const&, std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&, std::vector<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> >, std::allocator<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > > >&) [/home/user/grammar-tax/build/cg-base/bin/grammar_replay]
    112,840,482 ( 0.19%)  ???:0x0000000000130960 [???]
    112,840,482 ( 0.19%)  ???:0x0000000004944210 [???]
    112,840,470 ( 0.19%)  ???:0x0000000000130980 [???]

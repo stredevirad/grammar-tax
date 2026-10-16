@@ -7,3 +7,8 @@
 ==12575== brk segment overflow in thread #1: can't grow to 0x4bce000
 ==12575== (see section Limitations in user manual)
 ==12575== NOTE: further instances of this message will not be shown
+==12575== 
+==12575== Events    : Ir
+==12575== Collected : 168938760839
+==12575== 
+==12575== I   refs:      168,938,760,839

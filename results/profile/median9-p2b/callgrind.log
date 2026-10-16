@@ -1,0 +1,14 @@
+==14020== Callgrind, a call-graph generating cache profiler
+==14020== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==14020== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==14020== Command: build/cg-p2b/bin/grammar_replay --vocab models/qwen2.5-0.5b-instruct-q4_k_m.gguf --manifest results/profile/median9-p2b/manifest.tsv --max-steps 40 --check results/profile/median9-p2b/masks.tsv
+==14020== 
+==14020== For interactive control, run 'callgrind_control -h'.
+==14020== brk segment overflow in thread #1: can't grow to 0x4bce000
+==14020== (see section Limitations in user manual)
+==14020== NOTE: further instances of this message will not be shown
+==14020== 
+==14020== Events    : Ir
+==14020== Collected : 38630825126
+==14020== 
+==14020== I   refs:      38,630,825,126

@@ -1,6 +1,6 @@
 # Phase log
 
-**Phase 3-5 done; final callgrind table and main branch pending.** Final series: patches/0001 (flat decode buffer) + 0002 (ASCII match table) + 0003 (reuse reject lists). Headline (5 interleaved runs, 206 grammars, Qwen vocab): 1.470x [1.455, 1.486] per grammar on mask computation, median -32.7%, p99 -17.9%, 206/206 faster, masks bit-identical; end to end +1.5% tok/s on the default path, +24.2% with the full mask every step. See results/REPORT.md.
+**ALL PHASES DONE.** Final series: patches/0001 (flat decode buffer) + 0002 (ASCII match table) + 0003 (reuse reject lists). Mask computation 1.470x [1.455, 1.486] per grammar vs upstream (5 interleaved runs, 206 grammars, Qwen vocab), median -32.7%, p99 -17.9%, 206/206 faster, instructions -47% (median set) / -39% (worst set); masks bit-identical on 44,650 trace steps + fuzz. End to end: +1.5% tok/s on the default path, +24.2% with the full mask every step. Report: results/REPORT.md. main branch created from the final state.
 
 ## Phase 0: setup - DONE
 - Submodule pinned at `620d222` (see README). Bench wrapper build at `build/bench-base`.
@@ -42,7 +42,7 @@
 - Final vs base, 5 interleaved runs (fc-v139): 1.470x [1.455, 1.486]; median 27.3 -> 18.5 ms; p99 159 -> 127 ms; 206/206 faster. TinyLlama 1.258x.
 - E2E (28 grammars x 2 rounds): default path 34.89 -> 35.42 tok/s (+1.5%); grammar_first 15.73 -> 19.54 tok/s (+24.2%); identical tokens.
 - llama-bench: no difference beyond noise. Tests 4/4; masks bit-identical on 44,650 steps; fuzz identical.
-- Callgrind for all variants: running (results/profile/instructions.tsv).
+- Callgrind (results/profile/instructions.md): final vs base -47.1% (median9), -38.7% (worst10).
 
-## Phase 5: write-up - DONE (pending callgrind table + main branch)
+## Phase 5: write-up - DONE
 - README.md, results/REPORT.md, results/experiments.md, results/who_benefits.md, LEARNING.md (parts 1-3), UPSTREAM.md, RESUME.md, LICENSE (MIT), third-party credits in README.

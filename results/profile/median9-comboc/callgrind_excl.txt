@@ -1,0 +1,45 @@
+--------------------------------------------------------------------------------
+Profile data file 'results/profile/median9-comboc/callgrind.out' (creator: callgrind-3.22.0)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+LL cache: 
+Timerange: Basic block 0 - 9953778810
+Trigger: Program termination
+Profiled target:  build/cg-comboc/bin/grammar_replay --vocab models/qwen2.5-0.5b-instruct-q4_k_m.gguf --manifest results/profile/median9-comboc/manifest.tsv --max-steps 40 --check results/profile/median9-comboc/masks.tsv (PID 14433, part 1)
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Thresholds:       99
+Include dirs:     
+User annotated:   
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+Ir                      
+--------------------------------------------------------------------------------
+41,173,190,997 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+Ir                       file:function
+--------------------------------------------------------------------------------
+12,577,364,128 (30.55%)  ???:decode_utf8(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, llama_partial_utf8, std::vector<unsigned int, std::allocator<unsigned int> >&) [clone .isra.0] [/home/user/grammar-tax/build/cg-comboc/bin/grammar_replay]
+10,825,472,980 (26.29%)  ???:llama_grammar_match_char(llama_grammar_element const*, unsigned int) [/home/user/grammar-tax/build/cg-comboc/bin/grammar_replay]
+ 6,684,168,104 (16.23%)  ???:llama_grammar_apply_impl(llama_grammar const&, llama_token_data_array*) [/home/user/grammar-tax/build/cg-comboc/bin/grammar_replay]
+ 3,831,596,620 ( 9.31%)  ???:llama_grammar_reject_candidates_for_stack_impl(std::vector<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> >, std::allocator<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> > > > const&, std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const&, std::unordered_map<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> >, std::unordered_map<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, llama_grammar_candidates_hash, llama_grammar_candidates_eq, std::allocator<std::pair<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > > > >, llama_grammar_stack_hash, llama_grammar_stack_eq, std::allocator<std::pair<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const, std::unordered_map<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, llama_grammar_candidates_hash, llama_grammar_candidates_eq, std::allocator<std::pair<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > > > > > > >&)'2 [/home/user/grammar-tax/build/cg-comboc/bin/grammar_replay]
+ 2,724,420,960 ( 6.62%)  ???:llama_vocab::is_eog(int) const [/home/user/grammar-tax/build/cg-comboc/bin/grammar_replay]
+ 1,312,731,360 ( 3.19%)  ???:llama_vocab::token_to_piece[abi:cxx11](int) const [/home/user/grammar-tax/build/cg-comboc/bin/grammar_replay]
+ 1,255,736,520 ( 3.05%)  ???:unsigned int& std::vector<unsigned int, std::allocator<unsigned int> >::emplace_back<unsigned int>(unsigned int&&) [clone .isra.0] [/home/user/grammar-tax/build/cg-comboc/bin/grammar_replay]
+   899,985,767 ( 2.19%)  ???:llama_grammar_reject_candidates_for_stack_impl(std::vector<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> >, std::allocator<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> > > > const&, std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const&, std::unordered_map<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> >, std::unordered_map<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, llama_grammar_candidates_hash, llama_grammar_candidates_eq, std::allocator<std::pair<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > > > >, llama_grammar_stack_hash, llama_grammar_stack_eq, std::allocator<std::pair<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const, std::unordered_map<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> >, llama_grammar_candidates_hash, llama_grammar_candidates_eq, std::allocator<std::pair<std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > const, std::vector<llama_grammar_candidate, std::allocator<llama_grammar_candidate> > > > > > > >&) [/home/user/grammar-tax/build/cg-comboc/bin/grammar_replay]
+   327,345,328 ( 0.80%)  ./string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:__memcpy_avx_unaligned_erms [/usr/lib/x86_64-linux-gnu/libc.so.6]
+   109,768,691 ( 0.27%)  ???:llama_grammar_advance_stack(std::vector<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> >, std::allocator<std::vector<llama_grammar_element, std::allocator<llama_grammar_element> > > > const&, std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > const&, std::vector<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> >, std::allocator<std::vector<llama_grammar_element const*, std::allocator<llama_grammar_element const*> > > >&) [/home/user/grammar-tax/build/cg-comboc/bin/grammar_replay]
+   108,251,380 ( 0.26%)  ./malloc/./malloc/malloc.c:_int_free [/usr/lib/x86_64-linux-gnu/libc.so.6]
+    83,329,941 ( 0.20%)  ./malloc/./malloc/malloc.c:malloc [/usr/lib/x86_64-linux-gnu/libc.so.6]
+    75,350,350 ( 0.18%)  ./malloc/./malloc/malloc.c:_int_malloc [/usr/lib/x86_64-linux-gnu/libc.so.6]
+
+--------------------------------------------------------------------------------
+The following files chosen for auto-annotation could not be found:
+--------------------------------------------------------------------------------
+  ./malloc/./malloc/malloc.c
+  ./string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S
+
