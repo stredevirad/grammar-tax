@@ -1,0 +1,5 @@
+date=2026-10-16T18:59:15+00:00 host=vm kernel=6.18.44-fc-v139 nproc=4 runs=3 jobs=1 model=tinyllama filter=
+model name	: Intel(R) Xeon(R) Processor @ 2.80GHz
+build build/bench-base: 620d2225cc436ab0b001e3200e590e3b286ef9ab 
+build build/bench-reuse: 620d2225cc436ab0b001e3200e590e3b286ef9ab  1 file changed, 73 insertions(+), 22 deletions(-)
+MASKS IDENTICAL: base vs reuse (21202 steps)

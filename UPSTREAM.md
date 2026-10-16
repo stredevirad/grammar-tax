@@ -18,7 +18,14 @@ message.
 - [ ] Can you explain every line of the patch without notes? CONTRIBUTING.md says to budget
       about one hour of review per 200-400 lines, and you must be able to answer maintainers
       without AI help. Work through `LEARNING.md` Part 2 until you can.
-- [ ] Is it one idea? Each patch in `patches/` is meant to be one PR. Do not bundle.
+- [ ] Is it one idea? The series is three patches. **0001 must not go upstream without 0003**: 0001 alone makes
+      stack-heavy grammars up to ~60% slower in a fresh process (glibc page faults, `results/REPORT.md` section 4),
+      and 0003 fixes that. Either submit 0003 first (it is a small improvement on its own: it also cuts the
+      baseline's page faults) and then 0001, or submit them together as one PR and explain why. 0002 is
+      independent and small (+3.5%); decide whether it is worth a reviewer's time on its own.
+- [ ] Measure the cold case yourself: replay a stack-heavy schema alone in a fresh process
+      (`scripts/cold_ab.sh`), and run one end-to-end generation per process. Reviewers on other platforms
+      (macOS, Windows, musl, other allocators) may see different allocator behavior; say what you tested.
 
 ## 1. Check for duplicates (again, right before submitting)
 

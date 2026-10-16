@@ -1,0 +1,7 @@
+date=2026-10-16T15:46:23+00:00 host=vm kernel=6.18.44-fc-v139 nproc=4 runs=5 jobs=1 model=qwen05 filter=
+model name	: Intel(R) Xeon(R) Processor @ 2.80GHz
+build build/bench-base: 620d2225cc436ab0b001e3200e590e3b286ef9ab 
+build build/bench-p1ascii: 620d2225cc436ab0b001e3200e590e3b286ef9ab  1 file changed, 46 insertions(+), 16 deletions(-)
+build build/bench-reuse: 620d2225cc436ab0b001e3200e590e3b286ef9ab  1 file changed, 73 insertions(+), 22 deletions(-)
+MASKS IDENTICAL: base vs p1ascii (23448 steps)
+MASKS IDENTICAL: base vs reuse (23448 steps)

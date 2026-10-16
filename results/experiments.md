@@ -23,9 +23,10 @@ Every idea is a patch on the pinned SHA, measured the same way:
 | #28371 at head f000de6 (third arm) | `patches/third_party/pr28371-f000de6.diff` | **no** (mask diffs, segfaults; use-after-free, D3.11) | not timed | - | excluded |
 | #28371 at c29085b (cache cleared per call) | `patches/third_party/pr28371-c29085b.diff` | yes | **0.963x vs base** [0.953, 0.973] (slower); median +1.4%, total +2.2% | (pending) | not ours; reported |
 | ours (P1+P2) + #28371 c29085b | `patches/third_party/pr28371-c29085b-on-0002.diff` | yes | **0.975x vs P1+P2** [0.967, 0.982] (slower) | (pending) | does not combine usefully on this workload |
+| reuse reject lists across stacks (fixes the cold-start regression) | `patches/0003-grammar-reuse-reject-lists.patch` | yes | cold (fresh process per grammar, 19 grammars): **1.381x vs base** [1.336, 1.426], 19/19 faster (0001+0002 alone: 3/19 slower, down to 0.625x); warm: **0.982x vs 0001+0002** [0.978, 0.987] | (see instructions.tsv) | **kept** (removes a regression of up to +60% in the cold case; costs ~2% warm) |
 | skip advance when no candidate survives | `patches/rejected/0002-grammar-skip-advance-no-survivors.patch` | yes | **0.999x vs P1** [0.990, 1.008]; median +0.3%, total +1.3% (2 runs, fc-v114) | (on P2: -0.8% / -1.9%) | **rejected** (no measurable gain) |
 | cheaper is_eog (scan of eog ids) | `patches/rejected/0002-grammar-eog-scan.patch` | yes | **1.002x vs P1** [0.993, 1.012]; median +0.9%, total +1.1% (2 runs, fc-v114) | (on P2: -2.9% / -0.7%) | **rejected** (no measurable gain; also adds a vocab accessor) |
-| ASCII match table in `reject_candidates_for_stack` | `patches/0002-grammar-ascii-match-table.patch` | yes | **1.036x vs P1** [1.028, 1.046] (2 runs, fc-v114); **1.033x vs P1** [1.022, 1.045], median -4.1%, p99 -7.0%, total -4.2% (3 runs, fc-v139) | (see instructions.tsv) | **kept** (consistently just above the 3% bar, 13 lines) |
+| ASCII match table in `reject_candidates_for_stack` | `patches/0002-grammar-ascii-match-table.patch` | yes | **1.036x vs P1** [1.028, 1.046] (2 runs, fc-v114); **1.033x vs P1** [1.022, 1.045], median -4.1%, p99 -7.0%, total -4.2% (3 runs, fc-v139) | (see instructions.tsv) | **kept** (consistently just above the 3% bar, +12 / -2 lines) |
 | P2b: compact first-code-point scan per stack | `patches/rejected/0002-grammar-first-char-scan.patch` | yes | **0.965x vs P1** (fc-v114, 2 runs); **0.950x vs P1** [0.940, 0.961], median +6.3%, p99 -7.3% [CI -21% .. +6%] (fc-v139, 3 runs) | (see instructions.tsv) | **rejected** (slower on typical grammars; only fixes the cold-start case, D3.13) |
 
 Raw data: `results/raw/ab-main/` (base, p1, p2, pr28371c, comboc; 3 interleaved runs), statistics:
@@ -132,3 +133,30 @@ days, so only within-run comparisons are used for decisions.
 - Its one real advantage is structural: it never makes the two ~4.8 MB allocations per stack, so it avoids
   the cold-start page-fault mode (D3.13). That case is quantified below; it was not judged worth a 5%
   loss on typical grammars plus 52 lines.
+
+## 0003: reuse the reject lists across stacks (kept)
+
+- Found after the VM restart: replaying the 600-stack schema alone in a fresh process, 0001+0002 was 60% slower than
+  baseline; the cause is glibc mmap/trim behavior on the ~4.8 MB reject list allocated per stack in the pre-existing
+  code, which the baseline's small allocations had masked (DECISIONS D3.13, D3.15).
+- Cold A/B (`results/raw/cold-final` vs `results/raw/cold-reuse`, 19 grammars, each alone in a fresh process, 2 rounds):
+  0001+0002 vs base 1.250x but o46322 0.625x, rustfmt 0.756x, sp_408 0.806x; 0001+0002+0003 vs base **1.381x**
+  [1.336, 1.426], all 19 faster (slowest 1.223x).
+- End to end, fresh `grammar_record` process with the real model, full mask every step: o46322 grammar time base 55.1 /
+  54.5 / 55.1 s, 0001+0002 81.0 / 82.7 / 81.6 s, final 59.3 / 55.5 / 54.8 s (page faults base 3.6M, 0001+0002 21.9M,
+  final 9.2M). So the regression is mostly but not entirely gone for this one schema (-0.6% to +7.7% vs base over three
+  runs); rustfmt base 21.1 / 21.6 s vs final 23.0 / 21.5 s; sp_408 final 17-27% faster. Removing the rest would mean
+  passing scratch buffers down the recursion (`next_candidates`), judged too much code for the remaining few percent.
+- Warm (5 runs, `results/raw/ab-final`): 0.982x [0.978, 0.987] vs 0001+0002, i.e. ~2% slower in the warm process.
+  Kept anyway: one generation per process (`llama-cli`, `llama-completion`) is the cold case.
+
+## Final validation (Phase 4, fc-v139)
+
+| | result |
+|---|---|
+| final vs base, 5 interleaved runs, 206 grammars (Qwen vocab) | **1.470x** [1.455, 1.486] per grammar; median -32.7% [-34.0, -31.2]; pooled p99 -17.9% [-24.5, -14.8]; total -28.8%; 206/206 faster |
+| 0001+0002 vs base in the same session | 1.497x [1.480, 1.514]; median -32.4%; p99 -22.8% |
+| final vs base, TinyLlama vocab, 3 runs | 1.258x [1.223, 1.298] per grammar; median -5.9% [-12.7, -1.4]; p99 +1.6% (n.s.); total -3.4% |
+| end to end (28 grammars, 2 interleaved rounds) | default path +1.5% pooled tok/s (+3.1% [1.2, 5.0] per grammar); full mask every step +24.2% (+23.9% [22.3, 25.6]); identical token sequences |
+| llama-bench, no grammar | pp512 282.1 / 264.2 vs 279.4 / 280.8 t/s; tg128 43.4 / 43.1 vs 42.1 / 42.8 t/s; per-test stddev 13-19 (pp) and 1.0-2.4 (tg) t/s: no difference beyond noise (the grammar code is not executed) |
+| tests, masks, fuzz | 4/4 tests pass; masks bit-identical on 23,448 + 21,202 steps; fuzz 13,499 + 3,668 steps and 87 x 2 scripted steps identical |

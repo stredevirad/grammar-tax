@@ -1,14 +1,9 @@
-==23551== Callgrind, a call-graph generating cache profiler
-==23551== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
-==23551== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==23551== Command: build/cg-base/bin/grammar_replay --vocab models/qwen2.5-0.5b-instruct-q4_k_m.gguf --manifest results/profile/worst10-base/manifest.tsv --max-steps 40 --check results/profile/worst10-base/masks.tsv
-==23551== 
-==23551== For interactive control, run 'callgrind_control -h'.
-==23551== brk segment overflow in thread #1: can't grow to 0x4bce000
-==23551== (see section Limitations in user manual)
-==23551== NOTE: further instances of this message will not be shown
-==23551== 
-==23551== Events    : Ir
-==23551== Collected : 193120118930
-==23551== 
-==23551== I   refs:      193,120,118,930
+==12580== Callgrind, a call-graph generating cache profiler
+==12580== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==12580== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==12580== Command: build/cg-base/bin/grammar_replay --vocab models/qwen2.5-0.5b-instruct-q4_k_m.gguf --manifest results/profile/worst10-base/manifest.tsv --max-steps 40 --check results/profile/worst10-base/masks.tsv
+==12580== 
+==12580== For interactive control, run 'callgrind_control -h'.
+==12580== brk segment overflow in thread #1: can't grow to 0x4bce000
+==12580== (see section Limitations in user manual)
+==12580== NOTE: further instances of this message will not be shown

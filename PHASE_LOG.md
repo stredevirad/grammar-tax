@@ -1,6 +1,6 @@
 # Phase log
 
-**Phase 3 IN PROGRESS** (user gave go-ahead on 2026-10-16 with additions: order P1, P2, then skip-advance and cheaper is_eog; P2 edge-case + random-walk differential test; P1 memory cost; who-benefits audit with file:line; #28371 third arm if it applies in ~15 min; bootstrap CIs; fix baseline.md stack-count wording; MIT LICENSE + third-party credits + main branch at the end).
+**Phase 3-5 done; final callgrind table and main branch pending.** Final series: patches/0001 (flat decode buffer) + 0002 (ASCII match table) + 0003 (reuse reject lists). Headline (5 interleaved runs, 206 grammars, Qwen vocab): 1.470x [1.455, 1.486] per grammar on mask computation, median -32.7%, p99 -17.9%, 206/206 faster, masks bit-identical; end to end +1.5% tok/s on the default path, +24.2% with the full mask every step. See results/REPORT.md.
 
 ## Phase 0: setup - DONE
 - Submodule pinned at `620d222` (see README). Bench wrapper build at `build/bench-base`.
@@ -26,7 +26,7 @@
 - GATE: PASS. P1 flat code-point buffer (median -20..-30%, ~25 lines); P2 per-stack first-char pre-filter (p99 -40..-60%, ~50 lines). See results/profile.md section 5.
 - Next (only after user says go): Phase 3, P1 then P2.
 
-## Phase 3: optimize - IN PROGRESS
+## Phase 3: optimize - DONE
 - Started 2026-10-16. Plan: tooling (bootstrap CIs, RSS, fuzz diff test) -> P1 -> P2 -> small ideas -> #28371 arm.
 - Tooling: ab_stats.py (paired per-grammar ratios, bootstrap 95% CI over grammars), replay max_rss_kb, grammar_fuzz (random walks + scripted edge cases, bench/fuzz_grammars/), check_masks.sh, run_fuzz.sh, make_patch.sh, build_cg.sh, run_callgrind_all.sh, run_e2e_ab.sh.
 - Correctness (tests + bit-exact masks on 23,448 + 21,202 trace steps + 17,167 fuzz steps + 87 scripted steps x 2 vocabs): PASS for p1, p2, skip, eog, pr28371c (#28371 at c29085b), comboc (ours + c29085b). FAIL for #28371 head f000de6 (mask diffs + segfaults; use-after-free confirmed by memcheck, D3.11).
@@ -34,3 +34,15 @@
 - Callgrind (instructions, 40 steps/trace): median9 base 60.75G, p1 38.98G, p2 41.09G, skip 40.77G, eog 39.91G; worst10 base 193.12G, p1 168.94G, p2 180.47G, skip 176.99G, eog 179.15G. P2 adds instructions (memory-traffic optimization), so wall time decides.
 - Who-benefits audit: results/who_benefits.md (correction: server speculative drafters carry no grammar).
 - Running: main timed A/B (base/p1/p2/pr28371c/comboc, 3 interleaved runs) -> results/raw/ab-main. Next: small-ideas A/B (p2/skip/eog), callgrind for PR arms, keep/reject decisions, results/experiments.md.
+- Main A/B (fc-v114, 3 runs): P1 1.458x vs base (kept); P2 0.976x vs P1 (rejected); #28371 c29085b 0.963x vs base; head f000de6 fails the gate (use-after-free).
+- Small ideas on P1 (2 runs): skip 0.999x, eog 1.002x (rejected); ASCII table 1.036x (kept as 0002); P2b 0.965x (rejected).
+- VM restarted mid-run (kernel fc-v114 -> fc-v139). Found a cold-start page-fault regression (fresh process, stack-heavy grammar: 0001+0002 up to 1.6x slower than base), confirmed via GLIBC_TUNABLES; fixed by 0003 (reuse reject lists). Cold A/B: 1.381x, 19/19 faster.
+
+## Phase 4: validate - DONE
+- Final vs base, 5 interleaved runs (fc-v139): 1.470x [1.455, 1.486]; median 27.3 -> 18.5 ms; p99 159 -> 127 ms; 206/206 faster. TinyLlama 1.258x.
+- E2E (28 grammars x 2 rounds): default path 34.89 -> 35.42 tok/s (+1.5%); grammar_first 15.73 -> 19.54 tok/s (+24.2%); identical tokens.
+- llama-bench: no difference beyond noise. Tests 4/4; masks bit-identical on 44,650 steps; fuzz identical.
+- Callgrind for all variants: running (results/profile/instructions.tsv).
+
+## Phase 5: write-up - DONE (pending callgrind table + main branch)
+- README.md, results/REPORT.md, results/experiments.md, results/who_benefits.md, LEARNING.md (parts 1-3), UPSTREAM.md, RESUME.md, LICENSE (MIT), third-party credits in README.

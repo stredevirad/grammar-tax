@@ -1,0 +1,32 @@
+{
+ "label": "ab-final-tinyllama",
+ "a": "base",
+ "b": "reuse",
+ "grammars": 206,
+ "runs": 3,
+ "bootstrap": 2000,
+ "geomean_speedup": 1.258256723894782,
+ "geomean_speedup_ci": [
+  1.2225584941112047,
+  1.298335091710395
+ ],
+ "median_cost_ratio": 0.9405465406904602,
+ "median_cost_ratio_ci": [
+  0.8727778129707046,
+  0.9859550947140411
+ ],
+ "p99_ratio": 1.0159849906059608,
+ "p99_ratio_ci": [
+  0.9415152799306411,
+  1.11019503576147
+ ],
+ "total_ratio": 0.9657302666490566,
+ "total_ratio_ci": [
+  0.9224775249225526,
+  1.0051070130906878
+ ],
+ "grammars_faster": 184,
+ "grammars_slower": 22,
+ "per_grammar_speedup_min": 0.9047263494711564,
+ "per_grammar_speedup_max": 2.1321769666361785
+}

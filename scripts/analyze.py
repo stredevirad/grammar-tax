@@ -28,8 +28,17 @@ TEXT2 = "#52514e"
 GRID = "#e4e3df"
 SERIES = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"]
 # color follows the build, never its position (reference palette slots 1-8; unknown builds in gray)
-BUILD_COLOR = {"base": "#2a78d6", "p1": "#eb6834", "p2": "#1baf7a", "pr28371c": "#eda100", "comboc": "#e87ba4",
-               "p2b": "#6250d6", "p1skip": "#008300", "p1eog": "#e34948", "final": "#eb6834"}
+BUILD_COLOR = {"base": "#2a78d6", "reuse": "#eb6834", "final": "#eb6834", "p1": "#1baf7a", "p1ascii": "#eda100",
+               "p2": "#e87ba4", "p2b": "#6250d6", "pr28371c": "#008300", "comboc": "#e34948"}
+
+
+DISPLAY = {"base": "baseline", "reuse": "final (0001+0002+0003)", "p1ascii": "0001+0002", "p1": "0001",
+           "p2": "0001+P2 (rejected)", "p2b": "0001+P2b (rejected)", "pr28371c": "#28371 (c29085b)",
+           "comboc": "0001+P2+#28371", "p1skip": "0001+skip (rejected)", "p1eog": "0001+eog (rejected)"}
+
+
+def label_for(name):
+    return DISPLAY.get(name, name)
 
 
 def color_for(name):
@@ -176,7 +185,7 @@ def main():
         fig, ax = plt.subplots(figsize=(6.4, 3.6))
         for i, b in enumerate(builds):
             x = np.sort(t[(t.build == b) & (t.run == 1)]["tok_us"].values) / 1000.0
-            ax.plot(x, np.linspace(0, 1, len(x)), color=color_for(b), linewidth=2, label=b)
+            ax.plot(x, np.linspace(0, 1, len(x)), color=color_for(b), linewidth=2, label=label_for(b))
         ax.set_xscale("log")
         ax.set_xlabel("grammar cost per token, ms (full-vocab mask + accept), log scale")
         ax.set_ylabel("fraction of tokens")
@@ -190,7 +199,7 @@ def main():
     fig, ax = plt.subplots(figsize=(6.4, 3.6))
     for i, b in enumerate(builds):
         y = np.sort(pg[pg.build == b]["tok_us_mean"].values)[::-1] / 1000.0
-        ax.plot(np.arange(1, len(y) + 1), y, color=color_for(b), linewidth=2, label=b)
+        ax.plot(np.arange(1, len(y) + 1), y, color=color_for(b), linewidth=2, label=label_for(b))
     ax.set_yscale("log")
     ax.set_xlabel("grammar rank (most expensive first)")
     ax.set_ylabel("mean ms per token, log scale")
@@ -220,8 +229,8 @@ def main():
         ax.bar(np.arange(len(sp)), sp, width=0.8, color=color_for(o))
         ax.axhline(1.0, color=TEXT2, linewidth=1)
         ax.set_xlabel("grammar (sorted)")
-        ax.set_ylabel(f"speedup ({base} / {o})")
-        ax.set_title(f"Per-grammar speedup of {o} over {base} (median over runs)", loc="left", color=TEXT)
+        ax.set_ylabel("speedup (baseline time / patched time)")
+        ax.set_title(f"Per-grammar speedup: {label_for(o)} vs {label_for(base)}", loc="left", color=TEXT)
         fig.tight_layout()
         fig.savefig(os.path.join(cdir, f"speedup_{o}.png"), dpi=150)
         plt.close(fig)

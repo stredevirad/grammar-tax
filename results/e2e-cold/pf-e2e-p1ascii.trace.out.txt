@@ -1,0 +1,21 @@
+{
+  "incomeTaxYTD": 0,
+  "incomeTaxThisPeriod": 0,
+  "payFromAllEmployments": 0,
+  "benefitsAndExpensesReceived": 0,
+  "allowableExpenses": 0,
+  "payFromAllEmploymentsAfterExpenses": 0,
+  "shareSchemes": 0,
+  "profitFromSelfEmployment": 0,
+  "profitFromPartnerships": 0,
+  "profitFromUkLandAndProperty": 0,
+  "foreignIncome": 0,
+  "dividendsFromForeignCompanies": 0,
+  "trustsAndEstates": 0,
+  "interestReceivedFromUkBanksAndBuildingSocieties": 0,
+  "dividendsFromUkCompanies": 0,
+  "ukPensionsAndStateBenefits": 0,
+  "gainsOnLifeInsurance": 0,
+  "otherIncome": 0,
+  "totalIncomeReceived": 0
+}

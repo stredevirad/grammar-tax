@@ -302,7 +302,7 @@ for (const auto & tok : candidates) {
 - Code points >= 128 (multibyte characters) still go through the function.
 
 **Measured.** +3.6% and +3.3% per grammar over 0001 in two separate A/B sessions (total time -3.1% and
--4.2%). Small, but consistently above the 3% bar, for 13 lines.
+-4.2%). Small, but consistently above the 3% bar, for 12 added lines.
 
 ### Patch 0003: reuse the reject lists across stacks
 
@@ -506,8 +506,8 @@ headline, say what it measures: **mask computation**, not end-to-end tokens/s.
 **1. In one minute: what did you do and what came out of it?**
 I built a record/replay benchmark that isolates llama.cpp's GBNF mask computation from model inference
 (206 grammars: the 8 built-in ones plus 198 JSONSchemaBench schemas), profiled it, and wrote three small
-patches. Together they make the full-vocab mask about FINAL_SPEEDUP faster per grammar (median per-token
-cost FINAL_MEDIAN, p99 FINAL_P99), with masks bit-identical to upstream on every step of every trace. On the
+patches. Together they make the full-vocab mask about 1.47x faster per grammar (median per-token
+cost -33%, p99 -18%), with masks bit-identical to upstream on every step of every trace. On the
 default sampling path the end-to-end gain is about 2%, because the full mask only runs when the sampled token is
 rejected; the big win is for code paths that mask every step.
 
@@ -588,7 +588,7 @@ API or the order of `llama_grammar_reject_candidates_for_stack`'s output, becaus
 **13. How do you know the ASCII table (0002) isn't noise? It's only ~3.5%.**
 Two separate A/B sessions on two different kernels gave +3.6% [2.8, 4.6] and +3.3% [2.2, 4.5] per grammar, paired
 over 206 grammars, and total time -3.1% and -4.2%. Instruction counts also drop. It is small but consistent, and
-it is 13 lines with an obvious correctness argument (a pure function, tabulated).
+it is 12 added lines with an obvious correctness argument (a pure function, tabulated).
 
 **14. What did you learn about the upstream PR #28371?**
 I applied it read-only as a third arm. At its head, its cache keys keep raw pointers into buffers that are freed

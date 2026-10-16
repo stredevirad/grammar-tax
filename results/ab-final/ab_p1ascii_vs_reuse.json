@@ -1,0 +1,32 @@
+{
+ "label": "ab-final",
+ "a": "p1ascii",
+ "b": "reuse",
+ "grammars": 206,
+ "runs": 5,
+ "bootstrap": 2000,
+ "geomean_speedup": 0.9821766174769399,
+ "geomean_speedup_ci": [
+  0.9775244506569741,
+  0.9869520727086186
+ ],
+ "median_cost_ratio": 1.0118777112166908,
+ "median_cost_ratio_ci": [
+  0.993739830656928,
+  1.038507808097518
+ ],
+ "p99_ratio": 1.069308358295622,
+ "p99_ratio_ci": [
+  0.9661182726438181,
+  1.1068680485353874
+ ],
+ "total_ratio": 1.0211126432190627,
+ "total_ratio_ci": [
+  1.0094071870223762,
+  1.0301644282829567
+ ],
+ "grammars_faster": 67,
+ "grammars_slower": 139,
+ "per_grammar_speedup_min": 0.8764321188358218,
+ "per_grammar_speedup_max": 1.0850276687198037
+}
