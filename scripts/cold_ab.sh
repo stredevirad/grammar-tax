@@ -15,7 +15,8 @@ for i in $(seq 1 "$R"); do
         for b in "${order[@]}"; do
             n=$(basename "$b"); n=${n#bench-}; mkdir -p "$OUT/$n"
             "$b/bin/grammar_replay" --vocab models/qwen2.5-0.5b-instruct-q4_k_m.gguf --manifest "$TMP/one.tsv" \
-                --json /dev/stdout --tokens "$TMP/tok" 2> /dev/null >> "$OUT/$n/run$i.jsonl"
+                --json "$TMP/one.jsonl" --tokens "$TMP/tok" > /dev/null 2>&1
+            cat "$TMP/one.jsonl" >> "$OUT/$n/run$i.jsonl"
             cat "$TMP/tok" >> "$TMP/$n.run$i.tokens"
         done
     done < "$TMP/manifest.tsv"

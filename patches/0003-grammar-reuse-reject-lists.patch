@@ -1,0 +1,106 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: grammar-tax workbench <workbench@localhost>
+Date: Fri, 16 Oct 2026 15:22:55 +0000
+Subject: [PATCH] grammar : reuse the reject lists across stacks
+
+llama_grammar_reject_candidates allocated a new reject list for every
+stack (reserved to the full candidate list, ~4.8 MB for a 152k vocab at
+the top level) and filled it. With many live stacks, and while glibc's
+mmap threshold is still low (e.g. the first grammar in a process), every
+such list is a fresh mmap that is faulted in and unmapped again: one
+600-stack schema took ~21M page faults in a fresh process.
+
+Add an internal variant of llama_grammar_reject_candidates_for_stack that
+writes into a caller-owned list, and alternate two lists across the
+stacks, so the storage is allocated once per call. The public function
+keeps its signature and output (including order).
+
+Applies on top of 0001 and 0002.
+---
+ src/llama-grammar.cpp |   33 +++++++++++++++++++++++++++------
+ 1 file changed, 27 insertions(+), 6 deletions(-)
+
+diff --git a/src/llama-grammar.cpp b/src/llama-grammar.cpp
+index a7cc0cf..64ca520 100644
+--- a/src/llama-grammar.cpp
++++ b/src/llama-grammar.cpp
+@@ -953,6 +953,12 @@ static void llama_grammar_advance_stack(
+     }
+ }
+ 
++static void llama_grammar_reject_candidates_for_stack_into(
++        const llama_grammar_rules      & rules,
++        const llama_grammar_stack      & stack,
++        const llama_grammar_candidates & candidates,
++        llama_grammar_candidates       & rejects);
++
+ static llama_grammar_candidates llama_grammar_reject_candidates(
+         const llama_grammar_rules      & rules,
+         const llama_grammar_stacks     & stacks,
+@@ -963,10 +969,15 @@ static llama_grammar_candidates llama_grammar_reject_candidates(
+         return {};
+     }
+ 
+-    auto rejects = llama_grammar_reject_candidates_for_stack(rules, stacks.front(), candidates);
++    // reuse two lists across the stacks instead of allocating a new reject list per stack
++    llama_grammar_candidates rejects;
++    llama_grammar_candidates rejects_next;
++
++    llama_grammar_reject_candidates_for_stack_into(rules, stacks.front(), candidates, rejects);
+ 
+     for (size_t i = 1, size = stacks.size(); i < size; ++i) {
+-        rejects = llama_grammar_reject_candidates_for_stack(rules, stacks[i], rejects);
++        llama_grammar_reject_candidates_for_stack_into(rules, stacks[i], rejects, rejects_next);
++        std::swap(rejects, rejects_next);
+     }
+ 
+     return rejects;
+@@ -1074,8 +1085,18 @@ llama_grammar_candidates llama_grammar_reject_candidates_for_stack(
+         const llama_grammar_rules      & rules,
+         const llama_grammar_stack      & stack,
+         const llama_grammar_candidates & candidates) {
+-
+     llama_grammar_candidates rejects;
++    llama_grammar_reject_candidates_for_stack_into(rules, stack, candidates, rejects);
++    return rejects;
++}
++
++// writes the rejected candidates into rejects (cleared first), so the caller can reuse its storage
++static void llama_grammar_reject_candidates_for_stack_into(
++        const llama_grammar_rules      & rules,
++        const llama_grammar_stack      & stack,
++        const llama_grammar_candidates & candidates,
++        llama_grammar_candidates       & rejects) {
++    rejects.clear();
+     rejects.reserve(candidates.size());
+ 
+     if (stack.empty()) {
+@@ -1084,7 +1105,7 @@ llama_grammar_candidates llama_grammar_reject_candidates_for_stack(
+                 rejects.push_back(tok);
+             }
+         }
+-        return rejects;
++        return;
+     }
+ 
+     const llama_grammar_element * stack_pos = stack.back();
+@@ -1102,7 +1123,7 @@ llama_grammar_candidates llama_grammar_reject_candidates_for_stack(
+                 rejects.push_back(tok);
+             }
+         }
+-        return rejects;
++        return;
+     }
+ 
+     llama_grammar_candidates next_candidates;
+@@ -1148,7 +1169,7 @@ llama_grammar_candidates llama_grammar_reject_candidates_for_stack(
+         rejects.push_back({ tok.index, tok.code_points - 1, tok.partial_utf8, tok.id });
+     }
+ 
+-    return rejects;
++    return;
+ }
+ 
+ ////////////////////
+-- 
+workbench
