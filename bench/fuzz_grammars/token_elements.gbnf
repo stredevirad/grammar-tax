@@ -1,0 +1,2 @@
+# token elements (TOKEN / TOKEN_NOT tops) next to char elements; ids are small so they exist in both vocabs
+root ::= ( <[90]> | "x" | !<[91]> ) ( "y" | <[92]> )* "z"

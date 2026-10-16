@@ -1,6 +1,6 @@
 # Phase log
 
-**STOPPED at the Phase 2 GATE (as instructed by the user): GATE = PASS, waiting for the user's go-ahead before starting Phase 3.** Recommendation and evidence: results/profile.md section 5. No patch code has been written. On "continue": read this file and DECISIONS.md, then start Phase 3 with P1. Stop point requested by user: after Phase 2 GATE.
+**Phase 3 IN PROGRESS** (user gave go-ahead on 2026-10-16 with additions: order P1, P2, then skip-advance and cheaper is_eog; P2 edge-case + random-walk differential test; P1 memory cost; who-benefits audit with file:line; #28371 third arm if it applies in ~15 min; bootstrap CIs; fix baseline.md stack-count wording; MIT LICENSE + third-party credits + main branch at the end).
 
 ## Phase 0: setup - DONE
 - Submodule pinned at `620d222` (see README). Bench wrapper build at `build/bench-base`.
@@ -25,3 +25,6 @@
 - Median: decode-related work 58.7% of instructions; malloc/free 25.6% of time. Worst: per-stack sweep 63% of time (memory bound), match_char 14.5%; advance_stack <1% (dedup candidate rejected).
 - GATE: PASS. P1 flat code-point buffer (median -20..-30%, ~25 lines); P2 per-stack first-char pre-filter (p99 -40..-60%, ~50 lines). See results/profile.md section 5.
 - Next (only after user says go): Phase 3, P1 then P2.
+
+## Phase 3: optimize - IN PROGRESS
+- Started 2026-10-16. Plan: tooling (bootstrap CIs, RSS, fuzz diff test) -> P1 -> P2 -> small ideas -> #28371 arm.

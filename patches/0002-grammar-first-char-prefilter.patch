@@ -1,0 +1,80 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: grammar-tax workbench <workbench@localhost>
+Date: Fri, 16 Oct 2026 04:15:52 +0000
+Subject: [PATCH] grammar : skip candidates whose first char cannot match the stack
+
+llama_grammar_apply_impl passed the whole candidate list through every
+stack in turn, and each stack copied almost all candidates into a new
+reject list (most tokens fail at the first char). With many live stacks
+(e.g. a JSON object with many optional properties) this is the dominant
+cost.
+
+Instead, keep an accepted flag per candidate. For each stack whose top is
+a char element, only candidates whose first code point matches it (and
+candidates with no complete code point, e.g. a partial UTF-8 sequence)
+go through llama_grammar_reject_candidates_for_stack; every other
+candidate would be rejected by that stack at its first char anyway. A
+candidate is kept if any stack accepts it. Each candidate's result for a
+stack does not depend on the other candidates, so the mask is the same.
+llama_grammar_reject_candidates_for_stack is unchanged.
+
+Applies on top of 0001.
+---
+ src/llama-grammar.cpp |   41 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 38 insertions(+), 3 deletions(-)
+
+diff --git a/src/llama-grammar.cpp b/src/llama-grammar.cpp
+index cf22eb1..4eaa2b9 100644
+--- a/src/llama-grammar.cpp
++++ b/src/llama-grammar.cpp
+@@ -1412,10 +1412,45 @@ void llama_grammar_apply_impl(const struct llama_grammar & grammar, llama_token_
+         }
+     }
+     GGML_ASSERT(code_points.data() == code_points_data);
++    GGML_ASSERT(!grammar.stacks.empty());
+ 
+-    const auto rejects = llama_grammar_reject_candidates(grammar.rules, grammar.stacks, candidates_grammar);
+-    for (const auto & reject : rejects) {
+-        cur_p->data[reject.index].logit = -INFINITY;
++    // a candidate is kept if any stack accepts it
++    // a stack with a char element on top rejects every candidate whose first code point does not match,
++    // so only the other candidates need the full check for that stack
++    std::vector<uint8_t> accepted(cur_p->size, 0);
++    llama_grammar_candidates candidates_stack;
++
++    for (const auto & stack : grammar.stacks) {
++        const llama_grammar_element * pos = stack.empty() ? nullptr : stack.back();
++        const bool is_char = pos != nullptr && (pos->type == LLAMA_GRETYPE_CHAR || pos->type == LLAMA_GRETYPE_CHAR_NOT || pos->type == LLAMA_GRETYPE_CHAR_ANY);
++
++        candidates_stack.clear();
++        for (const auto & cand : candidates_grammar) {
++            if (accepted[cand.index]) {
++                continue;
++            }
++            if (is_char && *cand.code_points != 0 && !llama_grammar_match_char(pos, *cand.code_points).first) {
++                continue;
++            }
++            candidates_stack.push_back(cand);
++        }
++        if (candidates_stack.empty()) {
++            continue;
++        }
++
++        const auto rejects = llama_grammar_reject_candidates_for_stack(grammar.rules, stack, candidates_stack);
++        for (const auto & cand : candidates_stack) {
++            accepted[cand.index] = 1;
++        }
++        for (const auto & reject : rejects) {
++            accepted[reject.index] = 0;
++        }
++    }
++
++    for (const auto & cand : candidates_grammar) {
++        if (!accepted[cand.index]) {
++            cur_p->data[cand.index].logit = -INFINITY;
++        }
+     }
+ }
+ 
+-- 
+workbench

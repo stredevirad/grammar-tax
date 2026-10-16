@@ -1,0 +1,2 @@
+# char ranges with alternates inside one class, and bounded repetition
+root ::= [a-zA-Z_] [a-zA-Z0-9_-]* ( "," [0-9a-fA-F]{2,4} )* ( ";" [x-z] )?

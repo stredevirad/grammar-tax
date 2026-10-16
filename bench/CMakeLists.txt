@@ -36,3 +36,7 @@ if (LLAMA_LLGUIDANCE)
     add_executable(llg_replay llg_replay.cpp)
     target_link_libraries(llg_replay PRIVATE llama-common)
 endif()
+
+add_executable(grammar_fuzz grammar_fuzz.cpp)
+target_include_directories(grammar_fuzz PRIVATE ${LLAMA_SRC}/src)
+target_link_libraries(grammar_fuzz PRIVATE llama)

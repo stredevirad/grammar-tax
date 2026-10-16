@@ -41,9 +41,12 @@ inclusive) is 29.5%.
 
 ### 2.2 Two cost regimes (from the baseline fit)
 
-Per step: **cost ~= 25 ms (fixed, every vocab token) + ~3-4 ms per live stack** (baseline.md). At the
-median step there are 3 stacks, so the fixed vocab work dominates; the p99 tokens have a median of
-156 stacks, so the per-stack sweep dominates. The two halves of the profile above are those two
+Per step: **cost ~= 16 ms (fixed, every vocab token) + ~2.3 ms per live stack**, with the per-stack cost
+the same from 1 stack to 556 (per-step medians, baseline.md; up to ~2x more when most of the vocab passes
+the first character, e.g. inside JSON strings). At the median step there are 3 stacks, so the fixed vocab
+work dominates; the p99 tokens have a median of 156 stacks, so the per-stack sweep dominates. (An earlier
+version of this section said "~25 ms + 3-4 ms per stack" from a least-squares fit over steps with <= 10
+stacks; the per-bucket medians are the better description.) The two halves of the profile above are those two
 regimes.
 
 ### 2.3 Why time and instructions disagree: the sweep is memory-bound
@@ -99,7 +102,7 @@ Full table: [`e2e/base/qwen05_summary.md`](e2e/base/qwen05_summary.md).
 | | ms / token | vs model decode |
 |---|---|---|
 | model decode (forward pass) | **27.2** | - |
-| grammar, full mask every step (`grammar_first = true`: speculative-decoding draft sampling, examples/speculative) | **35.6** | **131%** |
+| grammar, full mask every step (`grammar_first = true`, or the grammar sampler inside a `llama_sampler` chain; see [who_benefits.md](who_benefits.md)) | **35.6** | **131%** |
 | grammar, default path (`common_sampler_sample`: check the sampled token, full mask only if it is rejected) | **1.5** | **6%** |
 | steps on the default path that needed the full mask | 181 / 3544 = **5.1%** | per grammar: median 5%, max 64% (JsonSchemaStore cloudformation) |
 
@@ -110,9 +113,13 @@ What this means for the candidates:
   same reason upstream #6811 was closed in 2024; it is still true.
 - **Where the full mask runs every step it costs more than the model itself** (131% of decode here,
   because the 151k vocab is large and the model is small). There a 40% cheaper mask is a projected
-  **~+30% tokens/s** (27.2 + 35.6 ms -> 27.2 + 21.4 ms per token). This applies to speculative-decoding
-  draft sampling with a grammar, to any caller that applies the grammar before the chain, and more
-  generally to small models with large vocabs.
+  **~+30% tokens/s** (27.2 + 35.6 ms -> 27.2 + 21.4 ms per token). This applies to the
+  `llama-speculative` example (target and draft samplers carry the user's grammar), to applications that
+  put the grammar sampler in a `llama_sampler` chain, and to any `grammar_first = true` caller.
+  **Correction (Phase 3 audit, [who_benefits.md](who_benefits.md)):** an earlier version of this section
+  said speculative-decoding draft sampling in general pays the full mask every step. The drafters in
+  `common/speculative.cpp` (used by `llama-server`) build their samplers without the grammar, so they do
+  not; only the `llama-speculative` example does.
 - **Latency spikes:** a rejection at a high-stack position costs a full mask at that position, which
   is 0.2-1.6 s on the worst grammars (baseline worst-10 p99..max). P2 targets exactly those steps.
 - Grammars with frequent rejections (cloudformation 64%, cluster 30%, Github_trivial o21828 36%)

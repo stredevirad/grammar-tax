@@ -1,0 +1,118 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: grammar-tax workbench <workbench@localhost>
+Date: Fri, 16 Oct 2026 04:05:27 +0000
+Subject: [PATCH] grammar : decode candidate pieces into one buffer
+
+llama_grammar_apply_impl decoded every vocab piece into its own
+std::vector<uint32_t> on every call (one heap allocation and one free per
+token, ~152k per step for a 152k vocab). Decode all pieces into a single
+buffer instead, reserved to an exact upper bound (each code point uses at
+least one byte, plus a terminating 0 per piece), and point the candidates
+into it. The per-piece decode_utf8 used by accept is unchanged (it now
+wraps the appending version). Nothing is kept across calls.
+---
+ src/llama-grammar.cpp | 48 ++++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 34 insertions(+), 14 deletions(-)
+
+diff --git a/src/llama-grammar.cpp b/src/llama-grammar.cpp
+index 0a8a61e..cf22eb1 100644
+--- a/src/llama-grammar.cpp
++++ b/src/llama-grammar.cpp
+@@ -31,15 +31,15 @@ static std::pair<uint32_t, const char *> decode_utf8(const char * src) {
+     return std::make_pair(value, pos);
+ }
+ 
+-static std::pair<std::vector<uint32_t>, llama_partial_utf8> decode_utf8(
++// appends the code points of src and a terminating 0 to code_points
++// adds at most src.size() + 1 elements
++static llama_partial_utf8 decode_utf8(
+         const std::string & src,
+-        llama_partial_utf8 partial_start) {
++        llama_partial_utf8 partial_start,
++        std::vector<uint32_t> & code_points) {
+     static const int      lookup[] = { 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 2, 3, 4 };
+     const char          * pos      = src.c_str();
+-    std::vector<uint32_t> code_points;
+-
+-    // common english strings have the same number of codepoints and bytes. `+ 1` for the terminating 0.
+-    code_points.reserve(src.size() + 1);
++    const size_t          start    = code_points.size();
+     uint32_t value    = partial_start.value;
+     int      n_remain = partial_start.n_remain;
+ 
+@@ -49,7 +49,7 @@ static std::pair<std::vector<uint32_t>, llama_partial_utf8> decode_utf8(
+         if ((next_byte >> 6) != 2) {
+             // invalid sequence, abort
+             code_points.push_back(0);
+-            return std::make_pair(std::move(code_points), llama_partial_utf8{ 0, -1 });
++            return llama_partial_utf8{ 0, -1 };
+         }
+         value = (value << 6) + (next_byte & 0x3F);
+         ++pos;
+@@ -68,9 +68,9 @@ static std::pair<std::vector<uint32_t>, llama_partial_utf8> decode_utf8(
+ 
+         if (n_remain < 0) {
+             // invalid sequence, abort
+-            code_points.clear();
++            code_points.resize(start);
+             code_points.push_back(0);
+-            return std::make_pair(std::move(code_points), llama_partial_utf8{ 0, n_remain });
++            return llama_partial_utf8{ 0, n_remain };
+         }
+ 
+         uint8_t mask  = (1 << (7 - n_remain)) - 1;
+@@ -88,7 +88,19 @@ static std::pair<std::vector<uint32_t>, llama_partial_utf8> decode_utf8(
+     }
+     code_points.push_back(0);
+ 
+-    return std::make_pair(std::move(code_points), llama_partial_utf8{ value, n_remain });
++    return llama_partial_utf8{ value, n_remain };
++}
++
++static std::pair<std::vector<uint32_t>, llama_partial_utf8> decode_utf8(
++        const std::string & src,
++        llama_partial_utf8 partial_start) {
++    std::vector<uint32_t> code_points;
++
++    // common english strings have the same number of codepoints and bytes. `+ 1` for the terminating 0.
++    code_points.reserve(src.size() + 1);
++    const llama_partial_utf8 partial = decode_utf8(src, partial_start, code_points);
++
++    return std::make_pair(std::move(code_points), partial);
+ }
+ 
+ static bool is_digit_char(char c) {
+@@ -1371,8 +1383,14 @@ void llama_grammar_apply_impl(const struct llama_grammar & grammar, llama_token_
+         }
+     }
+ 
+-    std::vector<std::pair<std::vector<uint32_t>, llama_partial_utf8>> candidates_decoded;
+-    candidates_decoded.reserve(cur_p->size);
++    // decode all pieces into one buffer; reserve the upper bound so the pointers below stay valid
++    size_t n_code_points = 0;
++    for (size_t i = 0; i < cur_p->size; ++i) {
++        n_code_points += grammar.vocab->token_to_piece(cur_p->data[i].id).size() + 1;
++    }
++    std::vector<uint32_t> code_points;
++    code_points.reserve(n_code_points);
++    const uint32_t * code_points_data = code_points.data();
+ 
+     llama_grammar_candidates candidates_grammar;
+     candidates_grammar.reserve(cur_p->size);
+@@ -1388,10 +1406,12 @@ void llama_grammar_apply_impl(const struct llama_grammar & grammar, llama_token_
+         } else if (piece.empty() || piece[0] == 0) {
+             cur_p->data[i].logit = -INFINITY;
+         } else {
+-            candidates_decoded.push_back(decode_utf8(piece, grammar.partial_utf8));
+-            candidates_grammar.push_back({ i, candidates_decoded.back().first.data(), candidates_decoded.back().second, id });
++            const size_t offset = code_points.size();
++            const llama_partial_utf8 partial_utf8 = decode_utf8(piece, grammar.partial_utf8, code_points);
++            candidates_grammar.push_back({ i, code_points.data() + offset, partial_utf8, id });
+         }
+     }
++    GGML_ASSERT(code_points.data() == code_points_data);
+ 
+     const auto rejects = llama_grammar_reject_candidates(grammar.rules, grammar.stacks, candidates_grammar);
+     for (const auto & reject : rejects) {
+-- 
+workbench

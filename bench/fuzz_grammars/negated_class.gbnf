@@ -1,0 +1,2 @@
+# negated classes, including a multibyte negated range, and escapes (JSON-like string)
+root ::= "\"" ( [^"\\\x7F\x00-\x1F] | "\\" ["\\bfnrt] | [^぀-ヿ"\\\x00-\x7F] )* "\""

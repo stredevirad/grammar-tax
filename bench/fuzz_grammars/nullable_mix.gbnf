@@ -1,0 +1,5 @@
+# nullable alternatives and nested optional rules (many stacks with the same top element)
+root ::= item ( "," ws item )* ws "."
+item ::= "k" [0-9]? opt opt opt
+opt  ::= ( "-" [a-c] )?
+ws   ::= | " " | "\n" [ \t]{0,4}

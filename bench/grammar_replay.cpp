@@ -30,6 +30,8 @@
 #include <string>
 #include <vector>
 
+#include <sys/resource.h>
+
 static std::string read_file(const std::string & path) {
     std::ifstream f(path);
     std::stringstream ss;
@@ -79,6 +81,12 @@ static std::string json_escape(const std::string & s) {
         else r += c;
     }
     return r;
+}
+
+static long max_rss_kb() {
+    struct rusage ru;
+    getrusage(RUSAGE_SELF, &ru);
+    return ru.ru_maxrss;
 }
 
 static void log_quiet(ggml_log_level level, const char * text, void * /*user*/) {
@@ -260,12 +268,12 @@ int main(int argc, char ** argv) {
                 "\"mask_us_total\":%.1f,\"accept_us_total\":%.1f,"
                 "\"tok_us_mean\":%.2f,\"tok_us_p50\":%.2f,\"tok_us_p99\":%.2f,\"tok_us_max\":%.2f,"
                 "\"mask_us_mean\":%.2f,\"mask_us_p50\":%.2f,\"mask_us_p99\":%.2f,"
-                "\"accept_us_mean\":%.2f,\"peak_stacks\":%zu}\n",
+                "\"accept_us_mean\":%.2f,\"peak_stacks\":%zu,\"max_rss_kb\":%ld}\n",
                 json_escape(name).c_str(), best.ok ? "true" : "false", json_escape(best.error).c_str(), n, best.total_us,
                 sum_mask, sum_acc,
                 n ? best.total_us / n : 0.0, percentile(tok_us, 0.5), percentile(tok_us, 0.99), n ? *std::max_element(tok_us.begin(), tok_us.end()) : 0.0,
                 n ? sum_mask / n : 0.0, percentile(best.mask_us, 0.5), percentile(best.mask_us, 0.99),
-                n ? sum_acc / n : 0.0, best.peak_stacks);
+                n ? sum_acc / n : 0.0, best.peak_stacks, max_rss_kb());
             fflush(fj);
         }
         if (ft) {

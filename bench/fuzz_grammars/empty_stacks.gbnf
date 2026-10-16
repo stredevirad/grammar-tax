@@ -1,0 +1,2 @@
+# the grammar may end after several prefixes, so completed (empty) stacks coexist with live ones
+root ::= "a" | "a" "b" | "a" "b" "c" ( "d" )* | "ab" [0-9]+

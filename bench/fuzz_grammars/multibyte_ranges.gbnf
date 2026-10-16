@@ -1,0 +1,2 @@
+# 2-, 3- and 4-byte UTF-8 ranges (Latin-1, kana, CJK, emoji), forcing partial UTF-8 across tokens
+root ::= ( [À-ÿ] | [ぁ-ゖ] | [ァ-ヺ] | [一-龯] | [\U0001F600-\U0001F64F] | " " )+ ( "。" | "!" )

@@ -15,8 +15,9 @@ inference:
    timed (`bench/grammar_replay.cpp`). Per-token cost = mask + accept.
 
 The full mask on every step is the slow path. In normal `common_sampler` use the full mask
-runs only when the sampled token is rejected; in speculative-decoding draft sampling
-(`grammar_first = true`) it runs every step. Section "End to end" measures how often it runs.
+runs only when the sampled token is rejected; with `grammar_first = true` (e.g. the `llama-speculative`
+example) or with the grammar sampler inside a `llama_sampler` chain it runs every step (full list with
+file:line in [who_benefits.md](who_benefits.md)). Section "End to end" measures how often it runs.
 
 ## Setup
 
@@ -69,14 +70,28 @@ similar everywhere; the subsets differ in their tails.
 ### Where the cost comes from: a fixed vocab sweep plus a per-stack sweep
 
 - At the median step the grammar allows only ~0.1% of the vocab (about 150 of 151,936 tokens), yet a
-  step with a single live stack still costs ~20 ms. That cost is paid for every vocab token on every
+  step with a single live stack still costs ~18 ms. That cost is paid for every vocab token on every
   step, whatever the grammar.
 - Live stacks per step: median 3, p90 7, p99 77, max 600.
-- A least-squares fit over steps with <= 10 stacks gives **cost ~= 25 ms + 4.0 ms x stacks**
-  (over all steps: 28 ms + 2.8 ms x stacks). The fixed term alone is ~57% of all replay time.
+- **Every live stack adds cost, from the first one.** Per-step medians (5 runs pooled, steps where at most
+  half the vocab is allowed): 18 ms at 1 stack, 27 ms at 4, 41 ms at ~11, 181 ms at ~75, 326 ms at ~128,
+  1,271 ms at ~556. **16 ms + 2.3 ms x stacks** fits every bucket within ~5%, so the marginal cost of a
+  stack is about the same at 3 stacks as at 300.
+- A second factor is how much of the vocab passes the first character. Steps inside a JSON string (char
+  class `[^"\\]`, more than half the vocab allowed) cost about twice as much at the same stack count
+  (3 stacks: 50 ms vs 25 ms), because the recursion then walks most tokens' full text. A least-squares
+  fit over all steps with both factors: **19.9 ms + 2.8 ms x stacks + 0.17 ms per 1,000 allowed tokens**.
 - Steps with >= 50 stacks are 1.6% of tokens but 16% of the time; tokens at or above the pooled p99
-  have a median of 156 stacks. **The median is driven by the fixed per-vocab work; the p99 is driven
-  by the stack count.**
+  have a median of 156 stacks. **The median is driven by the fixed per-vocab work (most steps have 1-4
+  stacks); the p99 is driven by the stack count.**
+- **Correction of an earlier reading.** The per-grammar scatter below (each grammar's *mean* cost vs its
+  *peak* stack count) looks flat until ~100 peak stacks, and an earlier summary of it said stack count
+  only matters above ~100. That is wrong as a statement about cost: a grammar's mean is dominated by
+  its ordinary steps, so a peak of 10-50 stacks on a few steps barely moves the mean, while the per-step
+  data show the same ~2.3 ms per stack everywhere. Peaks only separate the per-grammar means once they
+  reach hundreds of stacks.
+
+![per-step cost vs stacks](baseline-qwen05/charts/step_cost_vs_stacks.png)
 
 ![cost vs stacks](baseline-qwen05/charts/stacks_vs_cost.png)
 
