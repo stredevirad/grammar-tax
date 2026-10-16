@@ -28,3 +28,9 @@
 
 ## Phase 3: optimize - IN PROGRESS
 - Started 2026-10-16. Plan: tooling (bootstrap CIs, RSS, fuzz diff test) -> P1 -> P2 -> small ideas -> #28371 arm.
+- Tooling: ab_stats.py (paired per-grammar ratios, bootstrap 95% CI over grammars), replay max_rss_kb, grammar_fuzz (random walks + scripted edge cases, bench/fuzz_grammars/), check_masks.sh, run_fuzz.sh, make_patch.sh, build_cg.sh, run_callgrind_all.sh, run_e2e_ab.sh.
+- Correctness (tests + bit-exact masks on 23,448 + 21,202 trace steps + 17,167 fuzz steps + 87 scripted steps x 2 vocabs): PASS for p1, p2, skip, eog, pr28371c (#28371 at c29085b), comboc (ours + c29085b). FAIL for #28371 head f000de6 (mask diffs + segfaults; use-after-free confirmed by memcheck, D3.11).
+- P1 memory per apply (Qwen): 4.5 MB in 1 allocation vs baseline 11.6 MB in 151,659 allocations.
+- Callgrind (instructions, 40 steps/trace): median9 base 60.75G, p1 38.98G, p2 41.09G, skip 40.77G, eog 39.91G; worst10 base 193.12G, p1 168.94G, p2 180.47G, skip 176.99G, eog 179.15G. P2 adds instructions (memory-traffic optimization), so wall time decides.
+- Who-benefits audit: results/who_benefits.md (correction: server speculative drafters carry no grammar).
+- Running: main timed A/B (base/p1/p2/pr28371c/comboc, 3 interleaved runs) -> results/raw/ab-main. Next: small-ideas A/B (p2/skip/eog), callgrind for PR arms, keep/reject decisions, results/experiments.md.

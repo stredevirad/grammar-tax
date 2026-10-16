@@ -98,13 +98,13 @@ def main():
         "grammars_faster": int((per_g > 1.0).sum()), "grammars_slower": int((per_g < 1.0).sum()),
         "per_grammar_speedup_min": float(per_g.min()), "per_grammar_speedup_max": float(per_g.max()),
     }
-    with open(os.path.join(out, f"ab_{args.b}.json"), "w") as f:
+    with open(os.path.join(out, f"ab_{args.a}_vs_{args.b}.json"), "w") as f:
         json.dump(res, f, indent=1)
 
     pgt = pd.DataFrame({"name": names, "speedup_geomean": per_g, "speedup_min": ratio.min(axis=1),
                         "speedup_max": ratio.max(axis=1), "a_tok_us_median": np.median(A, axis=1),
                         "b_tok_us_median": np.median(B, axis=1)}).sort_values("speedup_geomean")
-    pgt.to_csv(os.path.join(out, f"ab_{args.b}_per_grammar.csv"), index=False)
+    pgt.to_csv(os.path.join(out, f"ab_{args.a}_vs_{args.b}_per_grammar.csv"), index=False)
 
     pct = lambda x: f"{100 * (x - 1):+.1f}%"
     md = [f"## Paired A/B: `{args.b}` vs `{args.a}` ({label})", "",
@@ -121,7 +121,7 @@ def main():
         md.append(f"- `{r['name']}`: {r.speedup_geomean:.3f}x [{r.speedup_min:.3f} .. {r.speedup_max:.3f}], "
                   f"{r.a_tok_us_median / 1000:.1f} -> {r.b_tok_us_median / 1000:.1f} ms/token")
     text = "\n".join(md) + "\n"
-    with open(os.path.join(out, f"ab_{args.b}.md"), "w") as f:
+    with open(os.path.join(out, f"ab_{args.a}_vs_{args.b}.md"), "w") as f:
         f.write(text)
     print(text)
     return 0

@@ -268,7 +268,11 @@ keeps nothing between calls, needs no locking, and lowers the transient memory o
 block instead of 11.6 MB in 152k blocks). It still decodes every step; the decode compute itself (~14% of
 time on the median set) is untouched.
 
-### Patch 0002: skip candidates whose first char cannot match the stack
+### Rejected experiment 0002: skip candidates whose first char cannot match the stack
+
+> **Status: rejected.** Correct (bit-identical masks) but 2.4% *slower* than P1 alone; see "Why it did not
+> work" at the end of this section and `results/experiments.md`. It is explained in full because the
+> correctness argument is the core of every "pre-filter" idea and is a likely interview topic.
 
 **Problem.** The old top level was
 
@@ -365,10 +369,12 @@ be true), and masks the complement. Same set. Only the *order* of the reject lis
 `apply_impl` only uses the set. `llama_grammar_reject_candidates_for_stack` itself is untouched, which
 matters because `tests/test-llama-grammar.cpp:375-393` checks the order of its output.
 
-**Why it is faster.** Per stack, the old code read ~152k candidate structs, dereferenced 152k code-point
-pointers and wrote ~152k structs. The new code reads the same structs and one code point each, but writes
-only the few candidates that pass, and skips the deep recursion for nothing extra. The per-stack cost goes
-from "copy the vocab" to "scan the vocab".
+**Why it did not work.** The idea was that each stack's sweep was expensive because it *wrote* a copy of
+~152k rejected candidates. Measured, the writes were not the problem: P2 still *reads*, for every stack, the
+whole 152k x 32-byte candidate array plus one code point per token (~9 MB), and those reads set the
+~2.3 ms per-stack cost. P2 removed the cheap sequential writes, kept the expensive reads, and added a second
+`llama_grammar_match_char` call for every candidate that passes. Lesson: the Phase 2 profile was of the
+*baseline*; after P1 changed the memory layout, the bottleneck had to be re-measured before designing P2.
 
 ## Part 3. Interview questions
 

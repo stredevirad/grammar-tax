@@ -1,0 +1,32 @@
+{
+ "label": "ab-main",
+ "a": "base",
+ "b": "p2",
+ "grammars": 206,
+ "runs": 3,
+ "bootstrap": 1000,
+ "geomean_speedup": 1.4234614941776076,
+ "geomean_speedup_ci": [
+  1.4023028967188564,
+  1.4448396642722392
+ ],
+ "median_cost_ratio": 0.7042487792177464,
+ "median_cost_ratio_ci": [
+  0.6845644427086048,
+  0.728993167906486
+ ],
+ "p99_ratio": 0.7882052043260559,
+ "p99_ratio_ci": [
+  0.6369808048653295,
+  0.9305815235037155
+ ],
+ "total_ratio": 0.7499964345594781,
+ "total_ratio_ci": [
+  0.73286051085963,
+  0.7660921800998942
+ ],
+ "grammars_faster": 206,
+ "grammars_slower": 0,
+ "per_grammar_speedup_min": 1.1191050579305037,
+ "per_grammar_speedup_max": 1.9635541740225964
+}

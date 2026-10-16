@@ -11,8 +11,10 @@ message.
 - [ ] Re-read `results/REPORT.md`. Is the win real on the path users hit? Remember PR #6811 was
       closed because the end-to-end gain was not measurable once the resample fast path
       (#7424) existed. Have numbers for the full-mask path *and* for end-to-end generation, and
-      say which users hit the full mask every step (speculative draft sampling,
-      `grammar_first`).
+      say which users hit the full mask every step (`results/who_benefits.md`: the
+      `llama-speculative` example, `grammar_first = true`, the grammar sampler inside a
+      `llama_sampler` chain; **not** llama-server's speculative drafters, which carry no grammar).
+      On the default path the throughput gain is about 2%; say so in the PR.
 - [ ] Can you explain every line of the patch without notes? CONTRIBUTING.md says to budget
       about one hour of review per 200-400 lines, and you must be able to answer maintainers
       without AI help. Work through `LEARNING.md` Part 2 until you can.
@@ -27,6 +29,14 @@ message.
       `src/llama-grammar.cpp`. If someone is on the same idea, comment on their PR to work
       together instead of opening a duplicate (CONTRIBUTING.md, AI policy point 2).
 - [ ] Look at issue #4218 (grammar speed umbrella issue) for recent maintainer direction.
+- [ ] **#28371 (open, memoization) overlaps with 0002 and has a correctness problem at its head.** At
+      commit f000de6 its cache keys keep raw pointers into per-call decode buffers across steps; on our
+      workload that gives wrong masks and crashes (valgrind memcheck: invalid reads in
+      `llama_grammar_candidates_hash`, DECISIONS.md D3.11). Its earlier commit c29085b (cache cleared every
+      call) is correct and is the version measured in results/REPORT.md. Whether and how to tell the
+      author is your decision; if you do, write the comment yourself, keep it short and factual, and offer
+      the reproduction (`scripts/check_masks.sh`, `valgrind --tool=memcheck` on `grammar_replay`). Do not
+      paste text from this repo as if it were your own words.
 
 ## 2. Open an issue first if needed
 
