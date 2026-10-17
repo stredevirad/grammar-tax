@@ -1,24 +1,25 @@
 # 20-grammar subset for scripts/quick_verify.sh.
-# 19 grammars at evenly spaced quantiles (i + 0.5) / 19 of the baseline per-token mask cost in
-# results/ab-final (Qwen2.5 vocab), plus jsb__Github_ultra__o46322 (the 600-stack worst case).
-# Expected from results/ab-final on this subset: geomean speedup ~1.43x (full workload: 1.470x).
-jsb__Github_trivial__o46562
-jsb__Glaiveai2K__calculate_area_82427f82
-jsb__Glaiveai2K__calculate_area_f9afae07
-jsb__Github_hard__o58761
-jsb__Github_easy__o6120
-jsb__JsonSchemaStore__jsbeautifyrc
-jsb__Github_medium__o47263
-jsb__Github_easy__o12214
-jsb__Github_hard__o21391
-jsb__Kubernetes__kb_929_Normalized
-gbnf__japanese
-jsb__Github_easy__o30305
-jsb__WashingtonPost__wp_7_Normalized
-jsb__Github_hard__o42253
-jsb__Github_trivial__o7488
-jsb__Github_medium__o4181
-jsb__Github_trivial__o45026
-jsb__Github_ultra__o65416
-jsb__Github_hard__o6347
+# The 206 grammars sorted by baseline per-token mask cost in results/ab-final (Qwen2.5 vocab), cut into 19
+# equal-count bins; from each bin the grammar with the cheapest trace that still has >= 32 tokens; plus
+# jsb__Github_ultra__o46322 (the 600-stack worst case). Expected from results/ab-final on this subset:
+# geomean speedup 1.49x (full workload: 1.470x).
+jsb__Github_hard__o41238
+jsb__Glaiveai2K__calculate_area_8cdcc04b
+jsb__Glaiveai2K__calculate_retirement_savings_11a46a10
+jsb__Glaiveai2K__calculate_area_8e760c24
+jsb__Kubernetes__kb_983_Normalized
+jsb__Glaiveai2K__calculate_area_f5284246
+jsb__Kubernetes__kb_373_Normalized
+jsb__JsonSchemaStore__task
+jsb__Snowplow__sp_286_Normalized
+jsb__WashingtonPost__wp_120_Normalized
+jsb__Github_easy__o53019
+jsb__Github_easy__o65361
+jsb__Glaiveai2K__search_hotels_7d83ff70
+jsb__Snowplow__sp_266_Normalized
+jsb__Github_trivial__o60137
+jsb__WashingtonPost__wp_95_Normalized
+jsb__WashingtonPost__wp_88_Normalized
+gbnf__json
+jsb__Github_ultra__o17072
 jsb__Github_ultra__o46322

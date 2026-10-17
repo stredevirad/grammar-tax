@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Quick independent check of the headline result (19 min 25 s on 4 vCPUs with no ccache, see README.md):
+# Quick independent check of the headline result (~25 min on 4 vCPUs with no ccache, see README.md):
 #   1. build upstream at the pinned SHA and the final series (patches 0001-0003), grammar_replay only
 #   2. bit-exact mask check on every step of every recorded trace, both vocabs (scripts/check_masks.sh)
 #   3. 3-run interleaved A/B on the 20-grammar subset in data/quick_subset.txt (includes o46322)
@@ -42,6 +42,6 @@ step "paired statistics"
 sed -n '/^| statistic/,$p' "$QV/ab_base_vs_final.md"
 echo
 echo "this machine: $(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2-)"
-echo "study machine (results/ab-final, 5 runs): ~1.43x on this subset, 1.470x on all 206 grammars;"
-echo "a different CPU gave 1.545x on this subset (results/quick-verify). Ratios depend on the CPU."
+echo "results/ab-final (5 runs, 2026-10-16): ~1.49x on this subset, 1.470x on all 206 grammars."
+echo "Paired ratios move between sessions on a cloud VM by ~5-10% (results/quick-verify/README.md)."
 step "done"

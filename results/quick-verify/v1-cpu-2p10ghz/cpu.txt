@@ -3,3 +3,4 @@ Model name:                              Intel(R) Xeon(R) Processor @ 2.10GHz
 L1d cache:                               192 KiB (4 instances)
 L2 cache:                                8 MiB (4 instances)
 L3 cache:                                260 MiB (1 instance)
+model		: 207

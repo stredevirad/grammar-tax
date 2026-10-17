@@ -1,0 +1,5 @@
+date=2026-10-17T03:57:54+00:00 host=vm kernel=6.18.44-fc-v139 nproc=4 runs=3 jobs=1 model=qwen05 filter= names=data/quick_subset.txt
+model name	: Intel(R) Xeon(R) Processor @ 2.80GHz
+build build/qv/bench-base: 620d2225cc436ab0b001e3200e590e3b286ef9ab 
+build build/qv/bench-final: 620d2225cc436ab0b001e3200e590e3b286ef9ab  1 file changed, 72 insertions(+), 23 deletions(-)
+MASKS IDENTICAL: base vs final (2863 steps)
