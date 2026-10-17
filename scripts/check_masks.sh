@@ -12,11 +12,13 @@ for TAG in ${VOCABS:-qwen05 tinyllama}; do
     esac
     grep -v '^#' data/workload.tsv | sed "s/{model}/$TAG/" > "$OUT/manifest.$TAG.tsv"
     split -n l/4 -d "$OUT/manifest.$TAG.tsv" "$OUT/shard.$TAG."
+    # list the shards now: later files (shard.*.<build>.masks/.err) must not be replayed as manifests
+    shards=("$OUT"/shard.$TAG.??)
     for X in "$A" "$B"; do
         nx=$(basename "$X"); nx=${nx#bench-}
         if [ "$X" = "$A" ] && [ -s "$OUT/../masks.$nx.$TAG.tsv.gz" ]; then continue; fi
         pids=()
-        for s in "$OUT"/shard.$TAG.*; do
+        for s in "${shards[@]}"; do
             "$X/bin/grammar_replay" --vocab "$VOCAB" --manifest "$s" --check "$s.$nx.masks" > /dev/null 2> "$s.$nx.err" & pids+=($!)
         done
         for p in "${pids[@]}"; do wait "$p" || { echo "replay exited nonzero ($nx $TAG)"; rc=1; }; done
