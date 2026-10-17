@@ -46,3 +46,11 @@
 
 ## Phase 5: write-up - DONE
 - README.md, results/REPORT.md, results/experiments.md, results/who_benefits.md, LEARNING.md (parts 1-3), UPSTREAM.md, RESUME.md, LICENSE (MIT), third-party credits in README.
+
+## Final polish (2026-10-17) - DONE
+- VM restarted again, now on a different host CPU ("Xeon @ 2.10GHz", model 207; the study ran on "@ 2.80GHz").
+- `scripts/quick_verify.sh` (+ `data/quick_subset.txt`, `run_bench.sh -s/-o`, `build_variant.sh` TARGETS, ccache optional): 19 min 25 s from scratch without ccache; masks bit-identical on 23,448 + 21,202 steps; subset A/B 1.545x [1.490, 1.606] on the new CPU (~1.43x for the same subset on the study host). D3.18.
+- Bugs found by it: `check_masks.sh` shard glob replayed the first build's output files (explains D3.8's rc=1; verdicts unaffected); `apply_patches.sh` now prunes stale worktrees.
+- `results/baseline.md`: note that its 31.3 ms is the pre-reboot (fc-v114) baseline and the 27.3 ms headline is `ab-final`.
+- Cross-check of every number in README/REPORT/RESUME/LEARNING (workflow, 528 claims): 15 fixes, D3.19. New evidence committed: `results/cold-faults/` (single-run page faults, re-run), `results/pr28371/` (memcheck logs), `results/quick-verify/`.
+- `UPSTREAM.md` section 4a: CONTRIBUTING.md steps not done (full `ci/` run, non-glibc platform, perplexity, other compilers/CPUs).

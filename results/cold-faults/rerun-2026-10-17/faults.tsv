@@ -3,3 +3,6 @@ base	alone	215.1	3410178
 base	tunables	189.0	24862
 base	after-json	189.4	69930
 p1	alone	290.0	20890554
+p1	tunables	155.8	17908
+p1	after-json	150.8	43934
+p1ascii	alone	261.3	20888157
