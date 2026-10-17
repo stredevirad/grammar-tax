@@ -40,8 +40,8 @@ Raw data: `results/raw/ab-main/` (base, p1, p2, pr28371c, comboc; 3 interleaved 
   cost 0.684x of base [0.668, 0.701]; pooled p99 0.785x [0.722, 0.854]; total replay 0.721x [0.702, 0.735].
 - Instructions: median9 60.75G -> 38.98G (-35.8%); worst10 193.12G -> 168.94G (-12.5%).
 - Memory: per apply call (Qwen vocab) 4.5 MB in one allocation instead of 11.6 MB in 151,659 allocations
-  (TinyLlama: 0.83 MB vs 2.3 MB in 31,999). Peak RSS of the replay process (vocab + workload): base 142 MB,
-  P1 133 MB (run 1).
+  (TinyLlama: 0.83 MB vs 2.3 MB in 31,999). Peak RSS of the replay process (vocab + workload): base 142 MiB,
+  P1 133 MiB (run 1).
 - Why it matched the prediction: the profile put malloc/free at 25.6% of time on the median set; the
   measured median gain (31.6%) is a bit larger because contiguous code points also speed up every later
   pass that reads them.

@@ -40,4 +40,4 @@ throughput roughly one-for-one only on the "every step" paths above. On the defa
 `llama-server` and `llama-completion`, grammar is ~5% of generation time with this model (6% of decode time), so the
 end-to-end throughput gain there is about 2% (measured in Phase 4). The default path still benefits
 on rejected steps, which are the latency spikes: a rejection at a high-stack position costs a full mask
-(0.2-1.6 s per step at baseline on the worst grammars).
+(0.2-1.6 s per step in the Phase 1 baseline on the worst grammars; up to ~1.4 s in the final A/B).

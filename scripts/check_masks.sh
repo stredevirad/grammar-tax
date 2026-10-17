@@ -31,7 +31,7 @@ for TAG in ${VOCABS:-qwen05 tinyllama}; do
         echo "MASKS IDENTICAL $TAG: $na vs $nb, $n steps" | tee -a "$OUT/result.txt"
     else
         echo "MASKS DIFFER $TAG: $na vs $nb" | tee -a "$OUT/result.txt"; rc=1
-        diff <(zcat "$OUT/../masks.$na.$TAG.tsv.gz") <(zcat "$OUT/../masks.$nb.$TAG.tsv.gz") | head -5
+        diff <(zcat "$OUT/../masks.$na.$TAG.tsv.gz") <(zcat "$OUT/../masks.$nb.$TAG.tsv.gz") | head -5 || true
     fi
     rm -f "$OUT"/shard.$TAG.*
 done

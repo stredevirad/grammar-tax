@@ -156,7 +156,7 @@ Details and numbers: [experiments.md](experiments.md).
 | **P2b:** P2 over compact first-code-point arrays | correct; 0.965x / 0.950x vs 0001 (two kernels) | the scan was not the bottleneck either; many candidates pass the first char (space-prefixed tokens at whitespace positions) and still need the full check. Its only advantage (no per-stack lists) was later obtained by 0003 |
 | skip advance/recursion when nothing matched | correct; 0.999x [0.990, 1.008] vs 0001 | `advance_stack` (self) was under 1% of time even at 600 stacks |
 | cheaper `is_eog` (scan of eog ids) | correct; 1.002x [0.993, 1.012] vs 0001 | the `std::set` lookup was 1.7% of time; also needed a new vocab accessor |
-| cheaper stack de-dup (recover #18604's ~13%) | not implemented | profile: `advance_stack` is 0.7% of instructions self and 2.4% including the `std::set` de-dup and its allocations, on the 600-stack grammars |
+| cheaper stack de-dup (recover #18604's ~13%) | not implemented | profile: `advance_stack` is 0.7% of instructions self and 2.4% including the `std::set` de-dup and its allocations, over the worst-10 grammars (first 40 steps each, up to 600 stacks) |
 | persistent code-point cache (#6811 idea) | not implemented | memory, locking, and the documented lack of end-to-end gain |
 
 Instruction counts for every arm (callgrind, same method as section 1):

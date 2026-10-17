@@ -104,7 +104,7 @@ explanations: [LEARNING.md](LEARNING.md). Rejected ideas (with numbers): [result
 
 ## Reproduce
 
-Needs Linux x86-64, CMake >= 3.14, a C++17 compiler, Python 3, ~2 GB free disk; ccache and valgrind optional.
+Needs Linux x86-64, CMake >= 3.15, a C++17 compiler, Python 3, ~2 GB free disk; ccache and valgrind optional.
 
 ```sh
 git clone --recurse-submodules https://github.com/stredevirad/grammar-tax && cd grammar-tax

@@ -9,7 +9,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT=$1; shift
 mkdir -p "$OUT"
-PERF=${PERF:-$(ls /usr/lib/linux-tools/*/perf 2> /dev/null | head -1)}    # /usr/bin/perf rejects unknown kernels
+PERF=${PERF:-$(ls /usr/lib/linux-tools/*/perf 2> /dev/null | head -1 || true)}    # /usr/bin/perf rejects unknown kernels
 [ -x "$PERF" ] || { echo "perf not found (set PERF=)" >&2; exit 1; }
 VOCAB=models/qwen2.5-0.5b-instruct-q4_k_m.gguf
 TUNABLES=glibc.malloc.mmap_threshold=67108864:glibc.malloc.trim_threshold=268435456
@@ -27,6 +27,6 @@ for b in "$@"; do
             "$b/bin/grammar_replay" --vocab "$VOCAB" --manifest "$OUT/$m.tsv" --json "$OUT/$n.$c.jsonl" > /dev/null
         ms=$(grep o46322 "$OUT/$n.$c.jsonl" | sed 's/.*"tok_us_mean":\([0-9.]*\).*/\1/')
         pf=$(grep page-faults "$OUT/$n.$c.perf.txt" | cut -d, -f1)
-        printf '%s\t%s\t%.1f\t%s\n' "$n" "$c" "$(echo "$ms / 1000" | bc -l)" "$pf" | tee -a "$OUT/faults.tsv"
+        printf '%s\t%s\t%.1f\t%s\n' "$n" "$c" "$(awk -v x="$ms" 'BEGIN { print x / 1000 }')" "$pf" | tee -a "$OUT/faults.tsv"
     done
 done
