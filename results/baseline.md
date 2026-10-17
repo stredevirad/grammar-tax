@@ -2,6 +2,13 @@
 
 Status: final for Phase 1/2.
 
+> **Which baseline number to quote.** Everything in this file was measured on 2026-10-15, before the VM
+> rebooted onto a different guest kernel (`6.18.44-fc-v114` here, `fc-v139` afterwards; DECISIONS D3.12).
+> Its **31.3 ms** median per-token cost is that pre-reboot, Phase 1 baseline (5 runs, baseline alone).
+> The **27.3 ms** baseline quoted in [README.md](../README.md) and [REPORT.md](REPORT.md) is the baseline arm
+> of the final same-session A/B (`results/ab-final`, fc-v139, 5 runs interleaved with the final patches).
+> Only the paired A/B ratios are comparable across the two; the absolute numbers differ by VM state.
+
 ## What is measured
 
 The cost of llama.cpp's built-in GBNF grammar engine per generated token, isolated from model

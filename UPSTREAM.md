@@ -25,7 +25,8 @@ message.
       independent and small (+3.5%); decide whether it is worth a reviewer's time on its own.
 - [ ] Measure the cold case yourself: replay a stack-heavy schema alone in a fresh process
       (`scripts/cold_ab.sh`), and run one end-to-end generation per process. Reviewers on other platforms
-      (macOS, Windows, musl, other allocators) may see different allocator behavior; say what you tested.
+      (macOS, Windows, musl, other allocators) may see different allocator behavior; say what you tested
+      (section 4a: this study tested glibc only).
 
 ## 1. Check for duplicates (again, right before submitting)
 
@@ -73,7 +74,39 @@ message.
       4-vCPU VM; yours will differ. Report median, spread and run count.
 - [ ] Run `llama-bench` without a grammar to show no regression, and an end-to-end generation
       with a JSON schema (`--json-schema`) to show the user-visible effect.
-- [ ] CONTRIBUTING.md asks to run the full CI locally (`ci/README.md`) before publishing.
+- [ ] Do the CONTRIBUTING.md steps in section 4a, which this study did not do.
+
+## 4a. CONTRIBUTING.md steps NOT done in this study
+
+Everything in this repo was measured on one machine: Linux x86-64 (4-vCPU VM), GCC 13.3, **glibc 2.39
+malloc**. These CONTRIBUTING.md steps were not run and are yours to do before publishing:
+
+- [ ] **Run the full CI locally** (CONTRIBUTING.md: "Execute the full CI locally on your machine before
+      publishing", see `ci/README.md`): CPU-only is `mkdir tmp && bash ./ci/run.sh ./tmp/results ./tmp/mnt`
+      from the upstream checkout. It builds Debug and Release, runs the whole `ctest` suite in both, and
+      downloads a small model (Qwen3-0.6B) plus wikitext for quantize / generation / perplexity checks; this
+      repo ran only the four grammar tests (`scripts/run_tests.sh`). Not done here.
+- [ ] **Test on a non-glibc platform: macOS (libmalloc) or Windows (MSVC / UCRT heap).** Not done here.
+      This matters for this series specifically, because part of the result depends on the allocator:
+      - 0003's main benefit is a fix for a **glibc-specific** cold-start effect (glibc's dynamic mmap
+        threshold turns each ~4.8 MB per-stack `reserve` into mmap + page faults + munmap; DECISIONS.md
+        D3.13, D3.15). On another allocator, 0001 alone may not regress cold, and 0003 may give little.
+        Measure both: warm (`scripts/run_bench.sh`) and cold (`scripts/cold_ab.sh` on a stack-heavy
+        schema such as o46322, and one end-to-end generation per fresh process).
+      - 0001's warm gain comes from removing ~152k small `malloc`/`free` pairs per mask; how much that
+        saves depends on the allocator's small-block cost, so 0001's ~1.46x (and the series' 1.47x) may be
+        larger or smaller there.
+      - WSL2 does **not** count: it runs a Linux kernel with glibc, the same allocator as this study.
+        musl (e.g. Alpine) is a third allocator worth a run if you have it.
+      - The scripts here assume bash and GNU coreutils (`split -n l/N`, `date -Is`); on macOS install
+        coreutils or port the few commands; on Windows build `grammar_replay` with MSVC and drive it by hand.
+- [ ] **`llama-perplexity`** (CONTRIBUTING.md asks for perplexity and `llama-bench`): only `llama-bench`
+      was run here (no change, `results/REPORT.md`). Perplexity does not use the grammar code, so no
+      change is expected, but say whether you ran it.
+- [ ] **Other compilers and CPUs**: only GCC 13.3 on an AVX-512 Xeon was tested. Clang and MSVC builds,
+      and an ARM machine (e.g. Apple Silicon, which also covers the macOS item), are not covered.
+- `test-backend-ops` (CONTRIBUTING.md, for `ggml` changes) does not apply: the series touches only
+  `src/llama-grammar.cpp`.
 
 ## 5. Write the PR yourself
 
