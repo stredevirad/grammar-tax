@@ -39,8 +39,8 @@ message.
 - [ ] Look at issue #4218 (grammar speed umbrella issue) for recent maintainer direction.
 - [ ] **#28371 (open, memoization) overlaps with 0002 and has a correctness problem at its head.** At
       commit f000de6 its cache keys keep raw pointers into per-call decode buffers across steps; on our
-      workload that gives wrong masks and crashes (valgrind memcheck: invalid reads in
-      `llama_grammar_candidates_hash`, DECISIONS.md D3.11). Its earlier commit c29085b (cache cleared every
+      workload that gives wrong masks and crashes (valgrind memcheck: invalid reads and uninitialised values in
+      the cache's hashing and lookup, `llama_grammar_candidates_hash`, DECISIONS.md D3.11). Its earlier commit c29085b (cache cleared every
       call) is correct and is the version measured in results/REPORT.md. Whether and how to tell the
       author is your decision; if you do, write the comment yourself, keep it short and factual, and offer
       the reproduction (`scripts/check_masks.sh`, `valgrind --tool=memcheck` on `grammar_replay`). Do not

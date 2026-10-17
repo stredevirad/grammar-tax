@@ -138,7 +138,7 @@ quiet machine. Details: [`e2e/base/qwen05_summary.md`](e2e/base/qwen05_summary.m
 | steps needing the full mask on the default path | 5.1% (181 / 3544) | per grammar 0-64% |
 
 With this small model and large vocab, **the full mask costs more than the model's forward pass**;
-on the default path it is needed on ~5% of steps, so grammar is ~6% of generation time there.
+on the default path it is needed on ~5% of steps, so grammar is ~5% of generation time there (6% of the model's decode time).
 
 ## Smaller vocab: TinyLlama (32,000 tokens)
 

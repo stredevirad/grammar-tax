@@ -1,0 +1,32 @@
+== build base and final (1 s elapsed)
+build/qv/src-final at 620d2225cc436ab0b001e3200e590e3b286ef9ab with 3 patch(es)
+built build/qv/bench-base from third_party/llama.cpp
+built build/qv/bench-final from build/qv/src-final
+== bit-exact mask check, all traces, both vocabs (131 s elapsed)
+MASKS IDENTICAL qwen05: base vs final, 23448 steps
+MASKS IDENTICAL tinyllama: base vs final, 21202 steps
+== 3-run interleaved A/B on data/quick_subset.txt (630 s elapsed)
+grammars: 20, builds: build/qv/bench-base build/qv/bench-final, runs: 3, jobs: 1, out: build/qv/raw
+  run 1 base done (rc=0) 02:40:32
+  run 1 final done (rc=0) 02:41:46
+  run 2 final done (rc=0) 02:43:00
+  run 2 base done (rc=0) 02:44:45
+  run 3 base done (rc=0) 02:46:29
+  run 3 final done (rc=0) 02:47:40
+MASKS IDENTICAL: base vs final (2863 steps)
+== paired statistics (1163 s elapsed)
+| statistic | value | 95% CI |
+|---|---|---|
+| geometric-mean per-grammar speedup (base / final) | **1.545x** | 1.490 .. 1.606 |
+| median per-token cost, final / base | **0.645** (-35.5%) | 0.598 .. 0.705 |
+| pooled p99, final / base | **0.746** (-25.4%) | 0.663 .. 0.778 |
+| total replay time, final / base | 0.698 (-30.2%) | 0.650 .. 0.720 |
+
+Per-grammar speedup: 20 faster, 0 slower; range 1.342x .. 1.814x. Slowest 5 / fastest 5 (geomean over runs [min .. max]):
+(results/ab-final, 5 runs on the study machine: ~1.43x on this subset, 1.470x on all 206 grammars)
+== done (1165 s elapsed)
+
+real	19m24.812s
+user	35m13.314s
+sys	1m9.717s
+exit=0

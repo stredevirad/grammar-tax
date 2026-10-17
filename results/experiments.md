@@ -74,7 +74,7 @@ Raw data: `results/raw/ab-main/` (base, p1, p2, pr28371c, comboc; 3 interleaved 
 
 - Applies cleanly to the pinned SHA (D3.9). At its head f000de6 it fails the correctness gate: mask
   differences and crashes, caused by cache keys that keep raw pointers into per-call buffers across steps
-  (memcheck: 8,829 invalid reads; baseline 0) (D3.11).
+  (memcheck: 8,829 errors, invalid reads and uninitialised values, in the memo cache's hash lookup; baseline 0) (D3.11).
 - Its previous commit c29085b clears the cache every call and passes every gate. On this workload it is
   slightly slower than baseline (0.963x per grammar, total +2.2%): the memo only engages for candidate
   lists of at most 8 entries, which are rare here, and building content-hashed keys costs time. Combined with
@@ -157,6 +157,6 @@ days, so only within-run comparisons are used for decisions.
 | final vs base, 5 interleaved runs, 206 grammars (Qwen vocab) | **1.470x** [1.455, 1.486] per grammar; median -32.7% [-34.0, -31.2]; pooled p99 -17.9% [-24.5, -14.8]; total -28.8%; 206/206 faster |
 | 0001+0002 vs base in the same session | 1.497x [1.480, 1.514]; median -32.4%; p99 -22.8% |
 | final vs base, TinyLlama vocab, 3 runs | 1.258x [1.223, 1.298] per grammar; median -5.9% [-12.7, -1.4]; p99 +1.6% (n.s.); total -3.4% |
-| end to end (28 grammars, 2 interleaved rounds) | default path +1.5% pooled tok/s (+3.1% [1.2, 5.0] per grammar); full mask every step +24.2% (+23.9% [22.3, 25.6]); identical token sequences |
+| end to end (28 grammars, 2 interleaved rounds) | default path +1.5% pooled tok/s (+3.1% per grammar, range over rounds 1.2 .. 5.0); full mask every step +24.2% (+23.9%, 22.3 .. 25.6); identical token sequences |
 | llama-bench, no grammar | pp512 282.1 / 264.2 vs 279.4 / 280.8 t/s; tg128 43.4 / 43.1 vs 42.1 / 42.8 t/s; per-test stddev 13-19 (pp) and 1.0-2.4 (tg) t/s: no difference beyond noise (the grammar code is not executed) |
 | tests, masks, fuzz | 4/4 tests pass; masks bit-identical on 23,448 + 21,202 steps; fuzz 13,499 + 3,668 steps and 87 x 2 scripted steps identical |
