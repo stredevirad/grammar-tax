@@ -210,10 +210,11 @@ cold/contended slow mode, not P2b's scan. Only interleaved A/B runs are used for
 - **The CPU matters for the ratio, not only the absolute numbers.** The study's runs record the CPU as
   "Intel Xeon @ 2.80GHz" (`results/raw/*/meta.txt`). After a second VM restart (2026-10-17) the VM came back on
   a different host CPU ("Intel Xeon @ 2.10GHz", family 6 model 207, 2 MiB L2 per core). There,
-  `scripts/quick_verify.sh` measured the 20-grammar subset at **1.545x** [1.490, 1.606] (3 runs), where
+  `scripts/quick_verify.sh` measured its first 20-grammar subset at **1.545x** [1.490, 1.606] (3 runs), where
   `ab-final` had given ~1.43x for the same 20 grammars; per-token costs were 25% (baseline) and 29% (final)
-  lower than in `ab-final`, and the weakest grammar (`gbnf__japanese`) went from 1.03x to 1.34x. Masks were again bit-identical on all 44,650 steps. Results:
-  [quick-verify/](quick-verify/).
+  lower than in `ab-final`, and the weakest grammar (`gbnf__japanese`) went from 1.03x to 1.34x. Masks were again bit-identical on all 44,650 steps.
+  The current subset (~1.49x expected from `ab-final`) gave **1.590x** [1.556, 1.626] on a laptop (Intel Core
+  Ultra 5 125H under WSL2, 2026-10-26), masks again bit-identical. Results: [quick-verify/](quick-verify/).
 - **Workload.** JSON-schema grammars dominate (198 of 206). Highly ambiguous hand-written grammars (the case
   #28371 targets) are not represented.
 - **TinyLlama runs were noisier** (some grammars vary +-30% across 3 runs); the per-grammar speedup CI is wide

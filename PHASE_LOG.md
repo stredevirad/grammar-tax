@@ -54,3 +54,7 @@
 - `results/baseline.md`: note that its 31.3 ms is the pre-reboot (fc-v114) baseline and the 27.3 ms headline is `ab-final`.
 - Cross-check of every number in README/REPORT/RESUME/LEARNING (workflow, 528 claims): 15 confirmed findings + 2 from the verifiers; 13 fixed, 4 kept and labelled as single runs; D3.19. A second review of the polish diff itself (205 claims) found 17 more, all fixed. New evidence committed: `results/cold-faults/` (single-run page faults, re-run), `results/pr28371/` (memcheck logs), `results/quick-verify/`.
 - `UPSTREAM.md` section 4a: CONTRIBUTING.md steps not done (full `ci/` run, non-glibc platform, perplexity, other compilers/CPUs).
+
+## Independent quick-verify on a laptop (2026-10-26) - DONE
+- `scripts/quick_verify.sh` with the v2 subset (4d4a21d) on an Intel Core Ultra 5 125H, Debian 12 under WSL2 (18 logical CPUs, builds -j4, no ccache, on AC power): 17 min 29 s from scratch; masks bit-identical on 23,448 + 21,202 steps and on the 1,259 subset steps; subset A/B 1.590x [1.556, 1.626], 20/20 faster (~1.49x expected from `ab-final`).
+- Python 3.11 there, so numpy 2.4.6 instead of the pinned 2.5.4. Results and environment: `results/quick-verify/v2-core-ultra-5-125h-wsl2/`; new index `results/quick-verify/README.md` (the path `quick_verify.sh` already cites).

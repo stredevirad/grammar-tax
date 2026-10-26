@@ -29,15 +29,15 @@ scripts/quick_verify.sh
 1. builds upstream at the pinned SHA and the final series (0001-0003), `grammar_replay` only;
 2. checks that the masks are **bit-identical on every step of every recorded trace**: 23,448 Qwen + 21,202
    TinyLlama steps;
-3. runs a **3-run interleaved A/B** on 20 grammars ([`data/quick_subset.txt`](data/quick_subset.txt): 19 spread
-   evenly over the baseline cost distribution, plus o46322, the 600-stack worst case);
+3. runs a **3-run interleaved A/B** on 20 grammars ([`data/quick_subset.txt`](data/quick_subset.txt): one from
+   each of 19 equal-count bins of the baseline cost distribution, plus o46322, the 600-stack worst case);
 4. prints the per-grammar geomean speedup with a bootstrap 95% CI, median, p99 and total.
 
-It exits nonzero if any mask differs. Measured on a 4-vCPU VM with no ccache: **19 min 25 s** in total (builds
-2.2 min, mask check 8.3 min, A/B 8.9 min). That run printed **1.545x [1.490, 1.606]**, 20 of 20 grammars faster
-([results/quick-verify/](results/quick-verify/)). It ran on a different host CPU than the study ("Xeon @ 2.10GHz"
-vs "@ 2.80GHz"). On the study machine the same 20 grammars gave ~1.43x in the 5-run A/B below, so expect the
-ratio to vary with the CPU.
+It exits nonzero if any mask differs. Measured on a laptop (Intel Core Ultra 5 125H, Debian 12 under WSL2, no
+ccache): **17 min 29 s** in total (builds 2.2 min, mask check 9.4 min, A/B 5.9 min). That run printed
+**1.590x [1.556, 1.626]**, 20 of 20 grammars faster, where the 5-run A/B below gives ~1.49x for the same 20
+grammars. An earlier subset ran at 1.545x and 1.566x on two cloud-VM host CPUs against ~1.43x expected, so expect
+the ratio to vary with the CPU ([results/quick-verify/](results/quick-verify/)).
 
 ## Results
 

@@ -1,0 +1,5 @@
+date=2026-10-26T14:38:18+05:30 host=Stredevirad kernel=6.18.33.2-microsoft-standard-WSL2 nproc=18 runs=3 jobs=1 model=qwen05 filter= names=data/quick_subset.txt
+model name	: Intel(R) Core(TM) Ultra 5 125H
+build build/qv/bench-base: 620d2225cc436ab0b001e3200e590e3b286ef9ab 
+build build/qv/bench-final: 620d2225cc436ab0b001e3200e590e3b286ef9ab  1 file changed, 72 insertions(+), 23 deletions(-)
+MASKS IDENTICAL: base vs final (1259 steps)
