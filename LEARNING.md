@@ -274,7 +274,7 @@ time on the median set) is untouched.
 
 **Problem.** After 0001, `llama_grammar_match_char` is the next biggest piece (about 18% of time on the
 worst grammars). For every candidate, for every stack, it walks the char class at the top of the stack
-(`[^"\\\x7F\x00-\x1F]` is four elements) to decide whether the candidate's first code point matches.
+(`[^"\\\x7F\x00-\x1F]` is five elements) to decide whether the candidate's first code point matches.
 
 **Change** (inside `llama_grammar_reject_candidates_for_stack`, before the per-candidate loop):
 
@@ -307,7 +307,8 @@ for (const auto & tok : candidates) {
 ### Patch 0003: reuse the reject lists across stacks
 
 **Problem (found by measuring, not by reading).** Replaying the 600-stack schema *alone in a fresh process*,
-0001+0002 was ~60% slower than the baseline, with 20.9 million page faults (baseline 3.4 million). The cause
+0001+0002 was ~60% slower than the baseline, with 20.9 million page faults (baseline 3.4 million; single
+`perf stat` runs, `results/cold-faults/`). The cause
 is pre-existing code:
 
 ```cpp
@@ -357,14 +358,18 @@ return rejects;
   capacity, so `reserve()` is a no-op once the vector has been big enough once.
 - The per-stack loop alternates two vectors (input of stack *i* is the output of stack *i-1*; they must not
   be the same vector, hence two). `std::swap` of two vectors swaps three pointers, no copying.
-- Result: two big allocations per apply call instead of two per stack.
+- Result: the reject lists cost two big allocations per apply call instead of one per stack. The other
+  per-stack list, `next_candidates` (the survivors passed to the recursive call, also reserved to
+  `candidates.size()`), is unchanged; with the reject lists no longer freed per stack, the cold-process faults
+  drop anyway (measured below, not derived).
 - The public `llama_grammar_reject_candidates_for_stack` (declared in `llama-grammar.h` and called by
   `test-llama-grammar`) becomes a 3-line wrapper with the same output in the same order.
 
 **Correctness.** The body is unchanged except where the output lives; the caller reads the same elements in
 the same order. Bit-identical masks on all traces and in the random-walk test.
 
-**Measured.** Cold 600-stack schema: page faults 20.9M -> 0.6M, 377.6 -> 180.3 ms per token (baseline 235 ms).
+**Measured.** Cold 600-stack schema, single `perf stat` runs: page faults 20.9M -> 0.6M, 377.6 -> 180.3 ms per
+token (baseline 235 ms); in the paired cold A/B, base 258.2 vs final 194.0 ms per token.
 Full numbers in `results/REPORT.md`.
 
 ## Rejected experiments
@@ -529,7 +534,8 @@ allowed tokens next to each hash, so a difference would have to collide in both.
 **4. Why is the mask so expensive?**
 Every step it walks the whole vocab: it decodes every token's text to code points and runs every token through
 every live parse stack. Cost per step is roughly 16 ms + 2.3 ms per live stack at baseline. Most steps have 1-4
-stacks; JSON objects with many optional properties create hundreds (one stack per remaining property).
+stacks; JSON objects with many optional properties create hundreds (about three stacks per remaining property: o46322 has
+201 optional properties and peaks at 600 stacks).
 
 **5. Walk me through patch 0001.**
 The baseline built one `std::vector<uint32_t>` per token per step (152k allocations + frees). I changed the
@@ -545,7 +551,7 @@ block instead of 11.6 MB in 152k blocks).
 
 **7. You say end-to-end gains are ~2%. So why does this matter?**
 On the default path (`common_sampler_sample`) the full mask only runs when the chain's sampled token is
-rejected (5% of steps in my runs, 0-64% per grammar). There grammar is ~6% of generation time, so even a much
+rejected (5% of steps in my runs, 0-64% per grammar). There grammar is ~5% of generation time (6% of the model's decode time), so even a much
 faster mask gives ~2%. But the full mask runs every step for `grammar_first = true` (the `llama-speculative`
 example) and for any application that puts the grammar sampler in a `llama_sampler` chain; there it was 131%
 of the model's decode time with this 0.5B model, so the mask speedup translates almost directly. Also, each
@@ -592,7 +598,8 @@ it is 12 added lines with an obvious correctness argument (a pure function, tabu
 
 **14. What did you learn about the upstream PR #28371?**
 I applied it read-only as a third arm. At its head, its cache keys keep raw pointers into buffers that are freed
-after each step; valgrind showed thousands of invalid reads and my mask check showed wrong masks and crashes.
+after each step; valgrind showed thousands of memory errors (invalid reads, uninitialised values) and my mask check showed wrong
+masks and crashes.
 Its previous commit, which clears the cache every step, is correct but ~4% slower than baseline on this
 workload, because its memo only engages for candidate lists of at most 8 entries, which are rare here. I
 didn't post anything upstream; whether to tell the author is a human decision.

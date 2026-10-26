@@ -16,6 +16,7 @@ if [ -d "$DEST" ]; then
     git -C "$DEST" reset -q --hard "$PIN"
     git -C "$DEST" clean -qfd
 else
+    git -C "$SUB" worktree prune    # forget worktrees whose directory was deleted (e.g. rm -rf build)
     git -C "$SUB" worktree add -q --detach "$(realpath -m "$DEST")" "$PIN"
 fi
 

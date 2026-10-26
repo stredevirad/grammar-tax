@@ -1,0 +1,24 @@
+# 20-grammar subset for scripts/quick_verify.sh.
+# 19 grammars at evenly spaced quantiles (i + 0.5) / 19 of the baseline per-token mask cost in
+# results/ab-final (Qwen2.5 vocab), plus jsb__Github_ultra__o46322 (the 600-stack worst case).
+# Expected from results/ab-final on this subset: geomean speedup ~1.43x (full workload: 1.470x).
+jsb__Github_trivial__o46562
+jsb__Glaiveai2K__calculate_area_82427f82
+jsb__Glaiveai2K__calculate_area_f9afae07
+jsb__Github_hard__o58761
+jsb__Github_easy__o6120
+jsb__JsonSchemaStore__jsbeautifyrc
+jsb__Github_medium__o47263
+jsb__Github_easy__o12214
+jsb__Github_hard__o21391
+jsb__Kubernetes__kb_929_Normalized
+gbnf__japanese
+jsb__Github_easy__o30305
+jsb__WashingtonPost__wp_7_Normalized
+jsb__Github_hard__o42253
+jsb__Github_trivial__o7488
+jsb__Github_medium__o4181
+jsb__Github_trivial__o45026
+jsb__Github_ultra__o65416
+jsb__Github_hard__o6347
+jsb__Github_ultra__o46322

@@ -1,0 +1,39 @@
+Independent run of scripts/quick_verify.sh with the v2 subset (data/quick_subset.txt), 2026-10-26.
+
+Host:      laptop, Intel Core Ultra 5 125H (hybrid: performance + efficiency cores). WSL2 shows 18 logical CPUs
+           as 9 cores x 2 threads, so the single-threaded replay is not pinned to one core type.
+OS:        Windows 11 10.0.26200, Debian 12 under WSL2, kernel 6.18.33.2-microsoft-standard-WSL2
+Memory:    WSL VM 10951 MiB total, 10359 MiB available before the run, 4096 MiB swap
+Toolchain: cmake 3.25.1, g++ 12.2.0 (Debian 12.2.0-14+deb12u1), Python 3.11.2, Unix Makefiles, -j4
+           (build_variant.sh), no ccache
+Repo:      claude/nice-bardeen-at3kfm at 4d4a21d, third_party/llama.cpp at 620d2225
+Power:     on AC the whole run (Win32_Battery BatteryStatus 2), charge 49% at start, 65% at end,
+           Windows power plan Balanced. Battery read every ~2 min during the run (powershell.exe started from
+           WSL, a short burst on one core outside the VM).
+
+Stage times (quick_verify.log prints cumulative seconds; per stage here):
+  builds 130 s, mask check 561 s, A/B 355 s, statistics 2 s
+  real 17m28.584s, user 36m13.642s, sys 1m12.139s, exit=0
+
+Deviations from README.md:
+- numpy==2.4.6 instead of 2.5.4 (2.5.4 needs Python >= 3.12; Debian 12 ships 3.11). Other pins unchanged.
+- huggingface.co dropped the HTTP/2 stream twice (curl error 92). The partial Qwen file was deleted and fetched
+  again; the partial TinyLlama file was resumed with curl -C - from the same URL. scripts/fetch_models.sh then
+  verified both sha256 sums: OK.
+
+pip freeze (build/venv):
+contourpy==1.3.3
+cycler==0.12.1
+fonttools==4.67.0
+kiwisolver==1.5.1
+matplotlib==3.11.2
+numpy==2.4.6
+packaging==26.3
+pandas==3.0.6
+pillow==13.0.0
+pyarrow==26.0.0
+pyparsing==3.3.3
+python-dateutil==3.0.0
+PyYAML==6.0.3
+six==1.17.0
+tzdata==2026.5

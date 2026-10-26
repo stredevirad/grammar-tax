@@ -2,6 +2,13 @@
 
 Status: final for Phase 1/2.
 
+> **Which baseline number to quote.** Everything in this file was measured on 2026-10-15, before the VM
+> rebooted onto a different guest kernel (`6.18.44-fc-v114` here, `fc-v139` afterwards; DECISIONS D3.12).
+> Its **31.3 ms** median per-token cost is that pre-reboot, Phase 1 baseline (5 runs, baseline alone).
+> The **27.3 ms** baseline quoted in [README.md](../README.md) and [REPORT.md](REPORT.md) is the baseline arm
+> of the final same-session A/B (`results/ab-final`, fc-v139, 5 runs interleaved with the final patches).
+> Only the paired A/B ratios are comparable across the two; the absolute numbers differ by VM state.
+
 ## What is measured
 
 The cost of llama.cpp's built-in GBNF grammar engine per generated token, isolated from model
@@ -131,7 +138,7 @@ quiet machine. Details: [`e2e/base/qwen05_summary.md`](e2e/base/qwen05_summary.m
 | steps needing the full mask on the default path | 5.1% (181 / 3544) | per grammar 0-64% |
 
 With this small model and large vocab, **the full mask costs more than the model's forward pass**;
-on the default path it is needed on ~5% of steps, so grammar is ~6% of generation time there.
+on the default path it is needed on ~5% of steps, so grammar is ~5% of generation time there (6% of the model's decode time).
 
 ## Smaller vocab: TinyLlama (32,000 tokens)
 

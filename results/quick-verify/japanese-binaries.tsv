@@ -1,0 +1,13 @@
+round	binary	japanese_us_per_token (after its 4 ab-final predecessors)
+1	bench-base      	47717.36
+1	bench-reuse     	32682.58
+1	qv/bench-base   	41670.08
+1	qv/bench-final  	31796.18
+2	bench-base      	42443.96
+2	bench-reuse     	29199.40
+2	qv/bench-base   	39492.15
+2	qv/bench-final  	30698.74
+3	bench-base      	39467.88
+3	bench-reuse     	30164.63
+3	qv/bench-base   	40210.61
+3	qv/bench-final  	30495.61

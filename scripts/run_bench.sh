@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 # Run the replay workload N times over one or more builds, interleaved A/B in the same session.
 #
-# usage: scripts/run_bench.sh [-n RUNS] [-l LABEL] [-m MODEL_TAG] [-f FILTER] [-j JOBS] BUILD_DIR [BUILD_DIR...]
+# usage: scripts/run_bench.sh [-n RUNS] [-l LABEL] [-m MODEL_TAG] [-f FILTER] [-s NAMES_FILE] [-o OUT_DIR] [-j JOBS]
+#                             BUILD_DIR [BUILD_DIR...]
 #   -n  runs per build (default 5). Run order alternates A,B / B,A to cancel drift.
 #   -l  label for results/raw/<label>/ (default: date-time)
 #   -m  trace/vocab tag: qwen05 (default) or tinyllama
 #   -f  only grammars whose name contains FILTER
+#   -s  only grammars listed in NAMES_FILE (one name per line, # comments allowed)
+#   -o  write to OUT_DIR instead of results/raw/<label>
 #   -j  grammars replayed in parallel (default 1 = quietest timing; >1 shards the manifest)
 # Each build is named after its dir (build/bench-base -> base). Outputs per build and run:
 #   results/raw/<label>/<name>/run<i>.jsonl         per-grammar stats (grammar_replay --json)
@@ -14,10 +17,11 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-RUNS=5; LABEL=$(date +%Y%m%d-%H%M%S); TAG=qwen05; FILTER=""; JOBS=1
-while getopts "n:l:m:f:j:" o; do
+RUNS=5; LABEL=$(date +%Y%m%d-%H%M%S); TAG=qwen05; FILTER=""; NAMES=""; OUT=""; JOBS=1
+while getopts "n:l:m:f:s:o:j:" o; do
     case $o in
         n) RUNS=$OPTARG ;; l) LABEL=$OPTARG ;; m) TAG=$OPTARG ;; f) FILTER=$OPTARG ;; j) JOBS=$OPTARG ;;
+        s) NAMES=$OPTARG ;; o) OUT=$OPTARG ;;
         *) exit 2 ;;
     esac
 done
@@ -31,19 +35,21 @@ case $TAG in
     *) echo "unknown model tag $TAG" >&2; exit 2 ;;
 esac
 
-OUT=results/raw/$LABEL
+OUT=${OUT:-results/raw/$LABEL}
 TMP=build/tmp-bench-$LABEL
 mkdir -p "$OUT" "$TMP"
+if [ -n "$NAMES" ]; then grep -v '^#' "$NAMES" | awk 'NF { print $1 }' > "$TMP/names.txt"; fi
 
 # manifest for this model: only grammars whose trace exists
 grep -v '^#' data/workload.tsv | sed "s/{model}/$TAG/" | while IFS=$'\t' read -r n g t; do
-    if [ -s "$t" ] && { [ -z "$FILTER" ] || [[ $n == *"$FILTER"* ]]; }; then printf '%s\t%s\t%s\n' "$n" "$g" "$t"; fi
+    if [ -s "$t" ] && { [ -z "$FILTER" ] || [[ $n == *"$FILTER"* ]]; } \
+        && { [ -z "$NAMES" ] || grep -qxF "$n" "$TMP/names.txt"; }; then printf '%s\t%s\t%s\n' "$n" "$g" "$t"; fi
 done > "$TMP/manifest.tsv"
 echo "grammars: $(wc -l < "$TMP/manifest.tsv"), builds: ${BUILDS[*]}, runs: $RUNS, jobs: $JOBS, out: $OUT"
 split -n l/"$JOBS" -d "$TMP/manifest.tsv" "$TMP/shard."
 
 {
-    echo "date=$(date -Is) host=$(hostname) kernel=$(uname -r) nproc=$(nproc) runs=$RUNS jobs=$JOBS model=$TAG filter=$FILTER"
+    echo "date=$(date -Is) host=$(hostname) kernel=$(uname -r) nproc=$(nproc) runs=$RUNS jobs=$JOBS model=$TAG filter=$FILTER names=$NAMES"
     grep -m1 "model name" /proc/cpuinfo
     for b in "${BUILDS[@]}"; do echo "build $b: $(git -C "$(grep LLAMA_SRC:PATH "$b/CMakeCache.txt" | cut -d= -f2)" rev-parse HEAD 2>/dev/null) $(git -C "$(grep LLAMA_SRC:PATH "$b/CMakeCache.txt" | cut -d= -f2)" diff --stat HEAD 2>/dev/null | tail -1)"; done
 } > "$OUT/meta.txt"

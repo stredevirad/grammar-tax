@@ -1,0 +1,9 @@
+CPU(s):                                  18
+Model name:                              Intel(R) Core(TM) Ultra 5 125H
+Thread(s) per core:                      2
+Core(s) per socket:                      9
+Hypervisor vendor:                       Microsoft
+L1d cache:                               432 KiB (9 instances)
+L2 cache:                                18 MiB (9 instances)
+L3 cache:                                18 MiB (1 instance)
+model		: 170
