@@ -33,11 +33,13 @@ scripts/quick_verify.sh
    each of 19 equal-count bins of the baseline cost distribution, plus o46322, the 600-stack worst case);
 4. prints the per-grammar geomean speedup with a bootstrap 95% CI, median, p99 and total.
 
-It exits nonzero if any mask differs. Measured on a laptop (Intel Core Ultra 5 125H, Debian 12 under WSL2, no
-ccache): **17 min 29 s** in total (builds 2.2 min, mask check 9.4 min, A/B 5.9 min). That run printed
-**1.590x [1.556, 1.626]**, 20 of 20 grammars faster, where the 5-run A/B below gives ~1.49x for the same 20
-grammars. An earlier subset ran at 1.545x and 1.566x on two cloud-VM host CPUs against ~1.43x expected, so expect
-the ratio to vary with the CPU ([results/quick-verify/](results/quick-verify/)).
+It exits nonzero if any mask differs. Last run (2026-10-26) on a laptop, Intel Core Ultra 5 125H under WSL2
+(Debian 12, GCC 12.2), no ccache: **17 min 29 s** in total (builds 2.2 min, mask check 9.4 min, A/B 5.9 min),
+masks bit-identical, **1.590x [1.556, 1.626]**, 20 of 20 grammars faster. The 5-run A/B below gives 1.488x for
+the same 20 grammars. All three quick_verify runs so far (two Xeon VMs with an earlier subset, and this laptop)
+came out 7-9% above `ab-final` for their subset, so read the printed ratio as "the speedup reproduces", not as a
+sharper number than the table below ([results/quick-verify/](results/quick-verify/)). On Python 3.11 (e.g. Debian
+12) the pinned numpy 2.5.4 does not install (it needs Python >= 3.12); numpy 2.4.6 with the other pins works.
 
 ## Results
 

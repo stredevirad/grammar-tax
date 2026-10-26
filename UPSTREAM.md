@@ -78,10 +78,12 @@ message.
 
 ## 4a. CONTRIBUTING.md steps NOT done in this study
 
-Everything in this repo was measured on one 4-vCPU Linux x86-64 VM, GCC 13.3, **glibc 2.39 malloc**. The study
-ran on a "Xeon @ 2.80GHz" host; `results/quick-verify/`, the cold-fault re-run and the baseline memcheck re-run ran
-on a second host after a VM restart ("Xeon @ 2.10GHz", also AVX-512; REPORT section 7). These CONTRIBUTING.md
-steps were not run and are yours to do before publishing:
+Everything in this repo except the latest quick-verify run was measured on one 4-vCPU Linux x86-64 VM, GCC 13.3,
+**glibc 2.39 malloc**. The study ran on a "Xeon @ 2.80GHz" host; the cold-fault re-run, the baseline memcheck
+re-run and the first `results/quick-verify/` run ran on a second host after a VM restart ("Xeon @ 2.10GHz", also
+AVX-512; REPORT section 7). The latest quick-verify run (2026-10-26) used a laptop: Core Ultra 5 125H (AVX2, no
+AVX-512) under WSL2 with Debian 12's GCC 12.2 and glibc 2.36. These CONTRIBUTING.md steps were not run and are
+yours to do before publishing:
 
 - [ ] **Run the full CI locally** (CONTRIBUTING.md: "Execute the full CI locally on your machine before
       publishing", see `ci/README.md`): CPU-only is `mkdir tmp && bash ./ci/run.sh ./tmp/results ./tmp/mnt`
@@ -105,9 +107,11 @@ steps were not run and are yours to do before publishing:
 - [ ] **`llama-perplexity`** (CONTRIBUTING.md asks for perplexity and `llama-bench`): only `llama-bench`
       was run here (no change, `results/REPORT.md`). Perplexity does not use the grammar code, so no
       change is expected, but say whether you ran it.
-- [ ] **Other compilers and CPUs**: only GCC 13.3 on two AVX-512 Xeon hosts was tested, and the ratio moved
-      between them (20-grammar subset ~1.43x vs 1.545x, REPORT section 7). Clang and MSVC builds,
-      and an ARM machine (e.g. Apple Silicon, which also covers the macOS item), are not covered.
+- [ ] **Other compilers and CPUs**: the study used GCC 13.3 on two AVX-512 Xeon hosts; only
+      `scripts/quick_verify.sh` also ran with GCC 12.2 on an AVX2 laptop CPU (masks identical, 1.590x on its
+      20-grammar subset). Its ratios came out 7-9% above `ab-final` on all three CPUs (REPORT section 7).
+      Clang and MSVC builds, and an ARM machine (e.g. Apple Silicon, which also covers the macOS item), are
+      not covered.
 - `test-backend-ops` (CONTRIBUTING.md, for `ggml` changes) does not apply: the series touches only
   `src/llama-grammar.cpp`.
 
